@@ -128,7 +128,7 @@ export default function StorySideMenu({
                 {studyInfo.isAvailableSpeaking && (
                   <>
                     <div
-                      style={{ cursor: 'not-allowed' }}
+                      // style={{ cursor: 'not-allowed' }}
                       className={sideMenuCSS.ebook_more_activity_item}
                       onClick={() => {
                         handler.changeView('speaking')

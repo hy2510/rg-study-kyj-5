@@ -22,7 +22,7 @@ type ResultSpeakProps = {
 };
 
 export default function ResultSpeak({ isPass }: ResultSpeakProps) {
-  const { handler } = useContext(AppContext) as AppContextProps;
+  const { handler, bookInfo } = useContext(AppContext) as AppContextProps;
 
   useEffect(() => {
     if (isPass) {
@@ -33,7 +33,7 @@ export default function ResultSpeak({ isPass }: ResultSpeakProps) {
   }, []);
 
   return (
-    <div className={`${SpeakCSS.wrapperResult} ${isMobile ? "mobile" : ""}`}>
+    <div className={`${SpeakCSS.wrapperResult} ${isMobile ? "mobile" : ""}`} style={{backgroundImage: `url(${bookInfo.BackgroundImage})`}}>
       <div className={SpeakCSS.resultMark}>
         {isPass ? (
           <>
@@ -41,7 +41,7 @@ export default function ResultSpeak({ isPass }: ResultSpeakProps) {
               width={isMobile ? 300 : 450}
               height={isMobile ? 300 : 450}
             />
-            <div className={SpeakCSS.txt}>Good Effort</div>
+            <div className={SpeakCSS.txt}>Good Job!</div>
           </>
         ) : (
           <>

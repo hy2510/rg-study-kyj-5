@@ -159,12 +159,12 @@ export default function ResultRecord({
         <div className={SpeakCSS.row2}>
           <div className={SpeakCSS.graph}>
             {/* 원어민 그래프 */}
-            <Visualizer src={nativeAudio} color={'gray'} />
+            <Visualizer src={nativeAudio} color={'#d2d2d2'} />
 
             {/* 학생 그래프 */}
             <Visualizer
               src={userAudio}
-              color={sentenceScore.total_score > 40 ? 'skyblue' : 'magenta'}
+              color={sentenceScore.total_score > 40 ? '#3ab6ff' : '#ff2424'}
             />
 
             <div className={SpeakCSS.wrapperProgress}>
@@ -176,7 +176,7 @@ export default function ResultRecord({
               </div>
               <div
                 style={{ left: `${userCur * 100}%` }}
-                className={`${SpeakCSS.progressBar} ${SpeakCSS.student}`}
+                className={`${SpeakCSS.progressBar} ${SpeakCSS.student} ${sentenceScore.total_score > 40 ? SpeakCSS.passed : null}`}
               >
                 <div className={SpeakCSS.progressArrow}></div>
               </div>

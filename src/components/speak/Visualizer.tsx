@@ -1,4 +1,10 @@
 import { useEffect, useRef } from 'react'
+import SpeakCSS from '@stylesheets/speak.module.scss'
+
+import MobileDetect from 'mobile-detect'
+
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 type VisualizerProps = {
   src: string
@@ -71,21 +77,23 @@ export default function Visualizer({ src, color }: VisualizerProps) {
   const drawGraph = (normalizedData: number[]) => {
     if (canvasRef.current) {
       const ctx = canvasRef.current.getContext('2d')
-      const dpr = window.devicePixelRatio || 1
+      // const dpr = window.devicePixelRatio || 1
+      const dpr = 800 / window.innerWidth || 1
 
       if (ctx) {
         canvasRef.current.style.width = '100%'
         canvasRef.current.style.height = '100%'
         canvasRef.current.width = canvasRef.current.offsetWidth
         canvasRef.current.height = canvasRef.current.offsetHeight
-        ctx.scale(dpr, dpr)
+        ctx.scale(dpr, 1)
         ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
-        ctx.lineWidth = 2
+        ctx.lineWidth = isMobile ? 1 : 3
         ctx.strokeStyle = color
         ctx.beginPath()
 
         let sliceWidth =
-          (canvasRef.current.width * 1.0) / (normalizedData.length - 1)
+          // (canvasRef.current.width * 1.0) / (normalizedData.length - 1)
+          (canvasRef.current.width * (window.innerWidth / 800) / (normalizedData.length - 1))
         let x = 0
         ctx.moveTo(x - 1, canvasRef.current.height)
 
@@ -121,13 +129,13 @@ export default function Visualizer({ src, color }: VisualizerProps) {
   }
 
   return (
-    <div
-      style={{
-        position: 'absolute',
-        display: 'block',
-        width: '100%',
-        height: 'auto',
-      }}
+    <div className={SpeakCSS.visualizer}
+      // style={{
+      //   position: 'absolute',
+      //   display: 'block',
+      //   width: '100%',
+      //   height: 'auto',
+      // }}
     >
       <canvas ref={canvasRef} style={{ position: 'relative' }}></canvas>
     </div>
