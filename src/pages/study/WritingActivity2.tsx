@@ -35,6 +35,7 @@ import TextQuestion from '@components/study/writing-activity-02/TextQuestion'
 import WritingArea from '@components/study/writing-activity-02/WritingArea'
 import GoNextStepBox from '@components/study/writing-activity-02/GoNextStepBox'
 import StepOutro from '@components/study/writing-activity-02/StepOutro'
+import RevisionReport from '@components/study/writing-activity-02/RevisionReport'
 
 const STEP_TYPE = 'Writing Activity'
 
@@ -392,16 +393,19 @@ export default function WritingActivity2(props: IStudyData) {
                   containerCSS={style.container}
                 >
                   {/* 탭 */}
-                  <WrapperTab
+                  {/* <WrapperTab
                     currentTabIndex={currentTabIndex}
                     questionData={quizData.Writing.Question}
                     changeTabNo={changeTabNo}
-                  />
+                  /> */}
 
                   {/* 탭에 따른 질문 */}
-                  <TextQuestion
+                  {/* <TextQuestion
                     question={quizData.Writing.Question[currentTabIndex]}
-                  />
+                  /> */}
+
+                  {/* 첨삭 결과 */}
+                  <RevisionReport revisionReportImageUrl={'https://fservice6.readinggate.com/uploadfile/revision/000172/000172_000172c2403469128_000172c2020104717_record.png'} />
 
                   {/* 글쓰기 영역 */}
                   <WritingArea

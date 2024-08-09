@@ -514,11 +514,19 @@
     100% - 60px - env(safe-area-inset-bottom) - env(safe-area-inset-top)
   );
   display: flex;
-  flex-direction: column;
+  // flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
   overflow: hidden;
+  @media only screen and (orientation: landscape) {
+    height: calc(
+      100dvh - env(safe-area-inset-bottom) - env(safe-area-inset-top)
+    );
+    .container {
+      display: flex;
+    }
+  }
 }
 
 // eBook 단어장 > 단어 리스트

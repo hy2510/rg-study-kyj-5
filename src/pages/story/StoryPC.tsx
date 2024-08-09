@@ -84,7 +84,7 @@ export default function StoryPC({
       !handler.isReadingComplete &&
       Number(bookInfo.BookLevel.substring(0, 1)) > 1
     ) {
-      const isMarkedRead = confirm('책갈피된 곳부터 읽으시겠습니까?')
+      const isMarkedRead = confirm('마지막으로 읽은 곳부터 시작할까요?')
 
       if (isMarkedRead) {
         changePageNumber(
@@ -220,7 +220,7 @@ export default function StoryPC({
         }
       } else {
         alert(
-          '책갈피 저장에 실패했습니다. 본사로 문의해주시기 바랍니다 1599-0533',
+          '책갈피 저장에 실패했습니다.',
         )
 
         try {

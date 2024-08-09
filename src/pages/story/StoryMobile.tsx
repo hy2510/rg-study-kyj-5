@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
 
 import { saveBookMark } from '@services/storyApi'
-import { StoryMobileProps } from '@interfaces/IStory'
+import { StoryMobileProps, PageState } from '@interfaces/IStory'
 
 import useStoryAudioMobile from '@hooks/story/useStoryAudioMobile'
 
@@ -11,6 +11,8 @@ import StoryBodyMobile from '@components/story/mobile/StoryBodyMobile'
 import StoryPage from '@components/story/common/StoryPage'
 import StoryBottomMenuMobile from '@components/story/mobile/StoryBottomMenuMobile'
 import EBookVocaNote from '@components/story/EBookVocaNote'
+import { flatMap } from 'lodash'
+import { useOrientation } from '@hooks/story/useOrientation'
 
 export default function StoryMoblie({
   isRatingShow,
@@ -56,6 +58,8 @@ export default function StoryMoblie({
     changeReadingComplete: handler.changeReadingComplete,
   })
 
+  const [pageState, setPageState] = useState<PageState>('')
+
   // 좌측 하단 드랍다운 메뉴
   const [isAutoNextPage, setAutoNextPage] = useState(true)
   const [isTextShow, setIsText] = useState<boolean>(true)
@@ -72,6 +76,9 @@ export default function StoryMoblie({
   const [touchStart, setTouchStart] = useState(0)
   const [touchEnd, setTouchEnd] = useState(0)
 
+  // 가로, 세로 구분
+  const isLandscape = useOrientation();
+
   const progressWidth =
     (pageNumber / storyData[storyData.length - 1].Page) * 100
 
@@ -83,7 +90,7 @@ export default function StoryMoblie({
       !handler.isReadingComplete &&
       Number(bookInfo.BookLevel.substring(0, 1)) > 1
     ) {
-      const isMarkedRead = confirm('책갈피된 곳부터 읽으시겠습니까?')
+      const isMarkedRead = confirm('마지막으로 읽은 곳부터 시작할까요?')
 
       if (isMarkedRead) {
         changePageNumber(
@@ -118,7 +125,9 @@ export default function StoryMoblie({
   const turnPageLeft = () => {
     if (pageNumber > 1) {
       setTimeout(() => {
-        if (handler.storyMode === 'Story') changePageNumber(pageNumber - 1)
+        if (handler.storyMode === 'Story') {
+          changePageNumber(pageNumber - (isLandscape ? 2 : 1))
+        }
       }, 160)
     }
   }
@@ -133,7 +142,9 @@ export default function StoryMoblie({
   const turnPageRight = () => {
     if (pageNumber + 1 <= storyData[storyData.length - 1].Page) {
       setTimeout(() => {
-        if (handler.storyMode === 'Story') changePageNumber(pageNumber + 1)
+        if (handler.storyMode === 'Story') {
+          changePageNumber(pageNumber + (isLandscape ? 2 : 1))
+        }
       }, 160)
     }
   }
@@ -210,7 +221,7 @@ export default function StoryMoblie({
         }
       } else {
         alert(
-          '책갈피 저장에 실패했습니다. 본사로 문의해주시기 바랍니다 1599-0533',
+          '책갈피 저장에 실패했습니다.',
         )
 
         try {
@@ -234,16 +245,44 @@ export default function StoryMoblie({
         onTouchStartHandler={onTouchStartHandler}
         onTouchEndHandler={onTouchEndHandler}
       >
-        <StoryPage
-          isTextShow={isTextShow}
-          pageSeq={pageSeq}
-          pageNumber={pageNumber}
-          storyData={storyData}
-          currentTime={currentTime}
-          readCnt={readCnt}
-          isHighlight={isHighlight}
-          clickSentence={clickSentence}
-        />
+        <>
+          {isLandscape ? 
+            <>
+              <StoryPage
+                isTextShow={isTextShow}
+                pageSeq={pageSeq}
+                pageNumber={pageNumber % 2 === 1 ? pageNumber : pageNumber - 1}
+                storyData={storyData}
+                currentTime={currentTime}
+                readCnt={readCnt}
+                isHighlight={isHighlight}
+                clickSentence={clickSentence}
+                
+              />
+              <StoryPage
+                isTextShow={isTextShow}
+                pageSeq={pageSeq}
+                pageNumber={pageNumber % 2 === 1 ? pageNumber + 1 : pageNumber}
+                storyData={storyData}
+                currentTime={currentTime}
+                readCnt={readCnt}
+                isHighlight={isHighlight}
+                clickSentence={clickSentence}
+              />
+            </>
+            : 
+            <StoryPage
+              isTextShow={isTextShow}
+              pageSeq={pageSeq}
+              pageNumber={pageNumber}
+              storyData={storyData}
+              currentTime={currentTime}
+              readCnt={readCnt}
+              isHighlight={isHighlight}
+              clickSentence={clickSentence}
+            />
+          }
+        </>
       </StoryBodyMobile>
 
       {/* 모바일 하단 메뉴 */}

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { submitReadFirstPage, submitReadLastPage } from '@services/storyApi'
 
 import { PageProps, PageSequenceProps, PlayState } from '@interfaces/IStory'
+import { useOrientation } from './useOrientation'
 
 type StoryAudioMobileProps = {
   studyId: string
@@ -40,6 +41,9 @@ export default function useStoryAudioMobile({
   })
 
   const [readCnt, setReadCnt] = useState<number>(0)
+
+  // 가로, 세로 구분
+  const isLandscape = useOrientation();
 
   // 페이지가 바뀌면
   useEffect(() => {
@@ -86,7 +90,7 @@ export default function useStoryAudioMobile({
     // 오디오가 재생 중 end
 
     // 오디오가 일시 중지
-    const handlerPause = () => {}
+    const handlerPause = () => { }
 
     player.addEventListener('pause', handlerPause)
     // 오디오가 일시 중지 end
@@ -96,26 +100,34 @@ export default function useStoryAudioMobile({
       if (!isFirst.current) {
         const isAutoNextPage = isAutoRef.current
 
-        // 오른쪽 페이지일 경우
-        if (isAutoNextPage) {
-          // 자동으로 넘기는 경우
-          const isNextPage = pageData.find(
-            //(data) => data.Page === pageNumber + 2,
-            (data) => data.Page === pageNumber + 1,
-          )
+        if (pageSeq.playPage % 2 === 1) {
+          // 왼쪽 페이지일 경우
+          setPageSeq({
+            playPage: pageSeq.playPage + 1,
+            sequnce: 0,
+          })
+        } else {
+          // 오른쪽 페이지일 경우
+          if (isAutoNextPage) {
+            // 자동으로 넘기는 경우
+            const isNextPage = pageData.find(
+              //(data) => data.Page === pageNumber + 2,
+              (data) => data.Page === pageNumber + (isLandscape ? 2 : 1),
+            )
 
-          if (isNextPage) {
-            // 다음 페이지가 있는 경우
-            //setPageNumber(pageNumber + 2)
-            setPageNumber(pageNumber + 1)
+            if (isNextPage) {
+              // 다음 페이지가 있는 경우
+              //setPageNumber(pageNumber + 2)
+              setPageNumber(pageNumber + (isLandscape ? 2 : 1))
+            } else {
+              // 다음 페이지가 없는 경우
+              setReadCnt(readCnt + 1)
+              setPlayState('')
+            }
           } else {
-            // 다음 페이지가 없는 경우
-            setReadCnt(readCnt + 1)
+            // 자동으로 넘기지 않는 경우
             setPlayState('')
           }
-        } else {
-          // 자동으로 넘기지 않는 경우
-          setPlayState('')
         }
         // }
       } else {
