@@ -126,7 +126,8 @@ export default function StoryMoblie({
     if (pageNumber > 1) {
       setTimeout(() => {
         if (handler.storyMode === 'Story') {
-          changePageNumber(pageNumber - (isLandscape ? 2 : 1))
+          // changePageNumber(pageNumber - (isLandscape ? 2 : 1))
+          changePageNumber(pageNumber - 1)
         }
       }, 160)
     }
@@ -143,7 +144,8 @@ export default function StoryMoblie({
     if (pageNumber + 1 <= storyData[storyData.length - 1].Page) {
       setTimeout(() => {
         if (handler.storyMode === 'Story') {
-          changePageNumber(pageNumber + (isLandscape ? 2 : 1))
+          // changePageNumber(pageNumber + (isLandscape ? 2 : 1))
+          changePageNumber(pageNumber + 1)
         }
       }, 160)
     }
@@ -245,7 +247,17 @@ export default function StoryMoblie({
         onTouchStartHandler={onTouchStartHandler}
         onTouchEndHandler={onTouchEndHandler}
       >
-        <>
+        <StoryPage
+          isTextShow={isTextShow}
+          pageSeq={pageSeq}
+          pageNumber={pageNumber}
+          storyData={storyData}
+          currentTime={currentTime}
+          readCnt={readCnt}
+          isHighlight={isHighlight}
+          clickSentence={clickSentence}
+        />
+        {/* <>
           {isLandscape ? 
             <>
               <StoryPage
@@ -282,7 +294,7 @@ export default function StoryMoblie({
               clickSentence={clickSentence}
             />
           }
-        </>
+        </> */}
       </StoryBodyMobile>
 
       {/* 모바일 하단 메뉴 */}
