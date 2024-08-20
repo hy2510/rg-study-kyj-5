@@ -85,13 +85,13 @@ export default function WrapperCardSpeak({
               <LottieRecordAni />
             ) : (
               <div className={style.recIcon}>
-                <img src={ico_rec} alt="" width={14} height={26} />
+                {/* <img src={ico_rec} alt="" width={14} height={26} /> */}
               </div>
             )}
           </div>
         ) : (
           <div className={style.enterButton} onClick={() => checkAnswer()}>
-            <div className={style.enterIcon}>X</div>
+            <div className={style.enterIcon}></div>
           </div>
         )}
       </div>
