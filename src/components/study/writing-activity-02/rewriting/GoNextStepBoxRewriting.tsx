@@ -3,15 +3,13 @@ import writingActivityCSSMobile from '@stylesheets/mobile/writing-activity.modul
 
 import useDeviceDetection from '@hooks/common/useDeviceDetection'
 
-import BtnSave from './BtnSave'
-import BtnSubmit from './BtnSubmit'
+import BtnSubmit from '../BtnSubmit'
 
 type GoNextStepBoxProps = {
   isSubmit: boolean
   wordMinCount: number
   wordMaxCount: number
   answerLength: number
-  saveAnswer: () => Promise<void>
   submitAnswer: () => void
 }
 
@@ -24,7 +22,6 @@ export default function GoNextStepBox({
   wordMinCount,
   wordMaxCount,
   answerLength,
-  saveAnswer,
   submitAnswer,
 }: GoNextStepBoxProps) {
   return (
@@ -35,8 +32,6 @@ export default function GoNextStepBox({
         </div>
         <div className={style.words}>• The number of words: {answerLength}</div>
       </div>
-
-      <BtnSave saveAnswer={saveAnswer} />
 
       <BtnSubmit isSubmit={isSubmit} submitAnswer={submitAnswer} />
     </div>

@@ -100,6 +100,14 @@ interface IUserAnswerWriting {
   isFinishStudy?: boolean
 }
 
+// 유저 답안 정보 - Writing Activity 2 Re-writing
+interface IUserAnswerRewriting {
+  readonly bookType: BookType
+  readonly studyId: string
+  readonly studentHistoryId: string
+  writeText: string
+}
+
 interface IVocabularyPractice {
   readonly mobile: Mobile
   readonly bookType: BookType
@@ -179,6 +187,7 @@ export type {
   IUserAnswerWord,
   IUserAnswerPartial,
   IUserAnswerWriting,
+  IUserAnswerRewriting,
   IResultType,
   IRecordAnswerType,
   IDeletePenaltyType,

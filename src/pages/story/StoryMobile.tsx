@@ -5,14 +5,14 @@ import { saveBookMark } from '@services/storyApi'
 import { StoryMobileProps, PageState } from '@interfaces/IStory'
 
 import useStoryAudioMobile from '@hooks/story/useStoryAudioMobile'
+import { useOrientation } from '@hooks/story/useOrientation'
+import { isIOS } from 'react-device-detect'
 
 import StorySideMenu from '@components/story/common/StorySideMenu'
 import StoryBodyMobile from '@components/story/mobile/StoryBodyMobile'
 import StoryPage from '@components/story/common/StoryPage'
 import StoryBottomMenuMobile from '@components/story/mobile/StoryBottomMenuMobile'
 import EBookVocaNote from '@components/story/EBookVocaNote'
-import { flatMap } from 'lodash'
-import { useOrientation } from '@hooks/story/useOrientation'
 
 export default function StoryMoblie({
   isRatingShow,
@@ -77,10 +77,10 @@ export default function StoryMoblie({
   const [touchEnd, setTouchEnd] = useState(0)
 
   // 가로, 세로 구분
-  const isLandscape = useOrientation();
+  const isLandscape = useOrientation()
 
   const progressWidth =
-    (pageNumber / storyData[storyData.length - 1].Page) * 100
+    (pageSeq.playPage / storyData[storyData.length - 1].Page) * 100
 
   useEffect(() => {
     if (
@@ -126,10 +126,49 @@ export default function StoryMoblie({
     if (pageNumber > 1) {
       setTimeout(() => {
         if (handler.storyMode === 'Story') {
-          // changePageNumber(pageNumber - (isLandscape ? 2 : 1))
-          changePageNumber(pageNumber - 1)
+          let prevPage
+
+          if (isLandscape) {
+            prevPage =
+              pageSeq.playPage % 2 === 0
+                ? pageSeq.playPage - 3
+                : pageSeq.playPage - 2
+          } else {
+            prevPage = pageSeq.playPage - 1
+          }
+
+          changePageNumber(prevPage)
         }
       }, 160)
+    }
+  }
+
+  const turnPageRight = () => {
+    let nextPage
+
+    if (isLandscape) {
+      if (pageNumber + 2 <= storyData[storyData.length - 1].Page) {
+        setTimeout(() => {
+          if (handler.storyMode === 'Story') {
+            nextPage =
+              pageSeq.playPage % 2 === 0
+                ? pageSeq.playPage + 1
+                : pageSeq.playPage + 2
+
+            changePageNumber(nextPage)
+          }
+        }, 160)
+      }
+    } else {
+      if (pageNumber + 1 <= storyData[storyData.length - 1].Page) {
+        setTimeout(() => {
+          if (handler.storyMode === 'Story') {
+            nextPage = pageSeq.playPage + 1
+
+            changePageNumber(nextPage)
+          }
+        }, 160)
+      }
     }
   }
 
@@ -139,17 +178,6 @@ export default function StoryMoblie({
   useEffect(() => {
     changeVolume(isMute ? 0 : 1)
   }, [isMute])
-
-  const turnPageRight = () => {
-    if (pageNumber + 1 <= storyData[storyData.length - 1].Page) {
-      setTimeout(() => {
-        if (handler.storyMode === 'Story') {
-          // changePageNumber(pageNumber + (isLandscape ? 2 : 1))
-          changePageNumber(pageNumber + 1)
-        }
-      }, 160)
-    }
-  }
 
   const onTouchStartHandler = (e: React.TouchEvent<HTMLDivElement>) => {
     const x = e.changedTouches[0].pageX
@@ -222,9 +250,7 @@ export default function StoryMoblie({
           location.replace('/')
         }
       } else {
-        alert(
-          '책갈피 저장에 실패했습니다.',
-        )
+        alert('책갈피 저장에 실패했습니다.')
 
         try {
           window.onExitStudy()
@@ -247,34 +273,31 @@ export default function StoryMoblie({
         onTouchStartHandler={onTouchStartHandler}
         onTouchEndHandler={onTouchEndHandler}
       >
-        <StoryPage
-          isTextShow={isTextShow}
-          pageSeq={pageSeq}
-          pageNumber={pageNumber}
-          storyData={storyData}
-          currentTime={currentTime}
-          readCnt={readCnt}
-          isHighlight={isHighlight}
-          clickSentence={clickSentence}
-        />
-        {/* <>
-          {isLandscape ? 
+        <>
+          {isLandscape && !isIOS ? (
             <>
               <StoryPage
                 isTextShow={isTextShow}
                 pageSeq={pageSeq}
-                pageNumber={pageNumber % 2 === 1 ? pageNumber : pageNumber - 1}
+                pageNumber={
+                  pageSeq.playPage % 2 === 1
+                    ? pageSeq.playPage
+                    : pageSeq.playPage - 1
+                }
                 storyData={storyData}
                 currentTime={currentTime}
                 readCnt={readCnt}
                 isHighlight={isHighlight}
                 clickSentence={clickSentence}
-                
               />
               <StoryPage
                 isTextShow={isTextShow}
                 pageSeq={pageSeq}
-                pageNumber={pageNumber % 2 === 1 ? pageNumber + 1 : pageNumber}
+                pageNumber={
+                  pageSeq.playPage % 2 === 1
+                    ? pageSeq.playPage + 1
+                    : pageSeq.playPage
+                }
                 storyData={storyData}
                 currentTime={currentTime}
                 readCnt={readCnt}
@@ -282,19 +305,19 @@ export default function StoryMoblie({
                 clickSentence={clickSentence}
               />
             </>
-            : 
+          ) : (
             <StoryPage
               isTextShow={isTextShow}
               pageSeq={pageSeq}
-              pageNumber={pageNumber}
+              pageNumber={pageSeq.playPage}
               storyData={storyData}
               currentTime={currentTime}
               readCnt={readCnt}
               isHighlight={isHighlight}
               clickSentence={clickSentence}
             />
-          }
-        </> */}
+          )}
+        </>
       </StoryBodyMobile>
 
       {/* 모바일 하단 메뉴 */}

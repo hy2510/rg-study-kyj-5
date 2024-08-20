@@ -219,9 +219,7 @@ export default function StoryPC({
           location.replace('/')
         }
       } else {
-        alert(
-          '책갈피 저장에 실패했습니다.',
-        )
+        alert('책갈피 저장에 실패했습니다.')
 
         try {
           window.onExitStudy()

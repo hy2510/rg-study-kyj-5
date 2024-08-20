@@ -42,6 +42,7 @@ export default function SpeakContainer() {
     studentHistoryId: studyInfo.studentHistoryId,
     studyId: studyInfo.studyId,
   })
+  const [isRetry, setIsRetry] = useState(false)
   const [tryCount, setTryCount] = useState(0)
   const [quizIndex, setQuizIndex] = useState(0)
   const [playBarState, setPlayBarState] = useState<PlayBarState>('')
@@ -129,8 +130,16 @@ export default function SpeakContainer() {
     setTryCount(0)
   }
 
+  const changeTryCount = (value: number) => {
+    setTryCount(value)
+  }
+
   const closeStepIntro = () => {
     setStepIntro(false)
+  }
+
+  const changeRetry = (state: boolean) => {
+    setIsRetry(state)
   }
 
   if (!speakData) return <>Loading...</>
@@ -188,11 +197,14 @@ export default function SpeakContainer() {
                   playBarState={playBarState}
                   tryCount={tryCount}
                   speakData={speakData}
+                  isRetry={isRetry}
                   quizIndex={quizIndex}
                   changeQuizIndex={changeQuizIndex}
                   changePlayBarState={changePlayBarState}
                   increaseTryCount={increaseTryCount}
                   resetTryCount={resetTryCount}
+                  changeTryCount={changeTryCount}
+                  changeRetry={changeRetry}
                 />
               </div>
               <div className={SpeakCSS.speackBodyBgColor}></div>
@@ -207,11 +219,14 @@ export default function SpeakContainer() {
                   playBarState={playBarState}
                   tryCount={tryCount}
                   speakData={speakData}
+                  isRetry={isRetry}
                   quizIndex={quizIndex}
                   changeQuizIndex={changeQuizIndex}
                   changePlayBarState={changePlayBarState}
                   increaseTryCount={increaseTryCount}
                   resetTryCount={resetTryCount}
+                  changeTryCount={changeTryCount}
+                  changeRetry={changeRetry}
                 />
               </div>
               <div className={SpeakCSS.speackBodyBgColor}></div>

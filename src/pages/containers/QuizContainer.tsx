@@ -49,6 +49,8 @@ import WritingActivity2 from '@pages/study/WritingActivity2'
 import '@stylesheets/theme.scss'
 import quizTemplateCSS from '@stylesheets/quiz-template.module.scss'
 import quizTemplateCSSMobile from '@stylesheets/mobile/quiz-template.module.scss'
+import WritingActivity2Review from '@pages/study/WritingActivity2Review'
+import WritingActivity2Rewriting from '@pages/study/WritingActivity2Rewriting'
 
 const md = new MobileDetect(navigator.userAgent)
 
@@ -85,9 +87,20 @@ const QuizContainer: React.FC<{}> = (props) => {
     }
   }, [])
 
-  const [currentStepId, setCurrentStepId] = useState<number>(
-    studyInfo.startStep,
-  )
+  let startStep = studyInfo.startStep
+
+  if (bookInfo.RevisionStatusCode === '028010') {
+    // 첨삭 대응
+    console.log(bookInfo.RevisionStatusCode)
+    console.log(studyInfo)
+    const isOpenStep5 = studyInfo.openSteps.find((step) => step === 5)
+
+    if (isOpenStep5) {
+      startStep = 5
+    }
+  }
+
+  const [currentStepId, setCurrentStepId] = useState<number>(startStep)
 
   useEffect(() => {
     studyInfo.startStep = currentStepId
@@ -98,6 +111,7 @@ const QuizContainer: React.FC<{}> = (props) => {
   )
 
   const currentActivity = studyInfo.mappedStepActivity[currentStepId - 1]
+
   const getNextStepId = (): number | undefined => {
     const idx = studyInfo.openSteps.findIndex(
       (value) => value === currentStepId,
@@ -271,7 +285,19 @@ const QuizContainer: React.FC<{}> = (props) => {
       component = <WritingActivity1 {...datas} />
       break
     case ACTIVITY.WRITING_2:
-      component = <WritingActivity2 {...datas} />
+      if (studyInfo.isReview) {
+        if (
+          bookInfo.RevisionStatusCode === '028010' ||
+          bookInfo.RevisionStatusCode === '028009'
+        ) {
+          // Re-Writing / 완료
+          component = <WritingActivity2Rewriting {...datas} />
+        } else {
+          component = <WritingActivity2Review {...datas} />
+        }
+      } else {
+        component = <WritingActivity2 {...datas} />
+      }
       break
   }
 

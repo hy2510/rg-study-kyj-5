@@ -8,6 +8,7 @@ import {
   IStudyData,
   IUserAnswerWriting,
   IDeletePenaltyType,
+  IUserAnswerRewriting,
 } from '@interfaces/Common'
 
 import { IStudyInfo } from '@interfaces/IStudyInfo'
@@ -17,6 +18,7 @@ import {
   DELETE_PENALTY_PATH,
   GET_RECORD_DATA_PATH,
   GET_STUDY_INFO_PATH,
+  SAVE_RE_WRITING_PATH,
   SAVE_STUDENT_ANSWER_PATH,
   SAVE_STUDENT_PARTIAL_ANSWER_PATH,
   SAVE_WRITING_PATH,
@@ -102,6 +104,21 @@ const saveWritingActivity = async (
   return result
 }
 
+/**
+ * Writing Activity2 Re-writing 저장
+ * save type에 의하여 동작이 결정된다.
+ * S:첨삭용 제출, E:첨삭안하고 글 제출, R:글 안쓰고 마침, X:임시저장
+ */
+const saveRewriting = async (
+  userAnswerData: IUserAnswerRewriting,
+): Promise<IResultType> => {
+  const result = await axios
+    .post(`/${SAVE_RE_WRITING_PATH}`, userAnswerData)
+    .then((res) => res.data)
+
+  return result
+}
+
 /** [ 기록된 학습 데이터를 가지고오는 함수 ]
  * @param path api 서버로 보낼 path값
  * return
@@ -115,7 +132,22 @@ const loadRecordedData = async (
     .get(
       `/${GET_RECORD_DATA_PATH}/${step}?studyId=${props.studyId}&studentHistoryId=${props.studentHistoryId}`,
     )
-    .then((res) => res.data)
+    .then(async (res) => {
+      if (step === '7') {
+        // Re Writing이 완료된 경우 답안이 Step 7로 저장됨
+        if (res.data.length > 0) {
+          return res.data
+        } else {
+          return await axios
+            .get(
+              `/${GET_RECORD_DATA_PATH}/5?studyId=${props.studyId}&studentHistoryId=${props.studentHistoryId}`,
+            )
+            .then((res) => res.data)
+        }
+      } else {
+        return res.data
+      }
+    })
 
   return recordedData
 }
@@ -275,6 +307,7 @@ export {
   saveVocaPractice,
   deletePenalty,
   saveWritingActivity,
+  saveRewriting,
   savePenalty,
   getQuizData,
   getHint,

@@ -13,6 +13,7 @@ import {
   IScoreBoardData as IScoreBoard,
   IUserAnswer,
 } from '@interfaces/Common'
+import { IRecordResultData } from '@interfaces/ISpeak'
 // ] Types
 
 // utils & hooks
@@ -34,9 +35,9 @@ import StudySideMenu from '@components/study/common-study/StudySideMenu'
 import Gap from '@components/study/common-study/Gap'
 
 // components - vocabulary practice 3
-import WrapperCard from '@components/study/vocabulary-practice-03/WrapperCard'
-import TabStudyModeSelect from '@components/study/vocabulary-practice-03/TabStudyModeSelect'
 import TestResultVP3 from '@components/study/vocabulary-practice-03/TestResultVP3'
+import useRecorderVoca3P from '@hooks/study/useRecorderVoca3P'
+import WrapperCard from '@components/study/vocabulary-practice-03/WrapperCard'
 
 const STEP_TYPE = 'Vocabulary Practice'
 
@@ -44,9 +45,13 @@ const isMobile = useDeviceDetection()
 
 const style = isMobile ? vocabularyCSSMobile : vocabularyCSS
 
+export type PlayBarState = '' | 'reset' | 'recording'
+
 export default function VocabularyPractice3(props: IStudyData) {
   const { handler, studyInfo } = useContext(AppContext) as AppContextProps
   const STEP = props.currentStep
+
+  const { startRecording } = useRecorderVoca3P()
 
   const timer = useQuizTimer(() => {
     // timer가 0에 도달하면 호출되는 콜백함수 구현
@@ -90,8 +95,9 @@ export default function VocabularyPractice3(props: IStudyData) {
   const [isRetry, setRetry] = useState(false)
 
   // 스피킹모드
-  const [isSpeakMode, setIsSpeakMode] = useState(true)
-  const [isRecord, setIsRecord] = useState(false)
+  const [playBarState, setPlayBarState] = useState<PlayBarState>('')
+  const [sentenceScore, setSentenceScore] = useState<IRecordResultData>()
+  const [isSpeakResult, setIsSpeakResult] = useState(false)
 
   // 인트로가 없어지면
   useEffect(() => {
@@ -150,6 +156,34 @@ export default function VocabularyPractice3(props: IStudyData) {
       changeResultShow(false)
     }
   }, [isRetry])
+
+  /**
+   * use effect - sentence score
+   * 문장 점수가 바뀌면 녹음이 된 것으로 판단
+   */
+  useEffect(() => {
+    if (sentenceScore) {
+      setIsSpeakResult(true)
+    }
+  }, [sentenceScore])
+
+  /**
+   * use effect - play bar state
+   */
+  useEffect(() => {
+    if (playBarState === '' && sentenceScore) {
+      isWorking.current = false
+
+      setSentenceScore(undefined)
+      setIsSpeakResult(false)
+
+      if (sentenceScore.total_score >= 40) {
+        checkAnswer('speaking correctly')
+      }
+    } else if (playBarState === 'reset') {
+      changePlayBarState('')
+    }
+  }, [playBarState])
 
   // 로딩
   if (!quizData) return <>Loading...</>
@@ -256,7 +290,7 @@ export default function VocabularyPractice3(props: IStudyData) {
                 quizNo: quizNo,
                 maxCount: quizData.QuizAnswerCount,
                 answerCount: tryCount + 1,
-                ox: isCorrect,
+                ox: skipType === 'speaking correctly' ? true : isCorrect,
               }
 
               let res
@@ -272,7 +306,10 @@ export default function VocabularyPractice3(props: IStudyData) {
                 quizNo: quizData.Quiz[quizNo - 1].QuizNo,
                 currentQuizNo: quizNo,
                 correct: quizData.Quiz[quizNo - 1].Question.Text,
-                selectedAnswer: inputVal,
+                selectedAnswer:
+                  skipType === 'speaking correctly'
+                    ? quizData.Quiz[quizNo - 1].Question.Text
+                    : inputVal,
                 tryCount:
                   skipType === 'user press skip'
                     ? quizData.QuizAnswerCount
@@ -312,9 +349,33 @@ export default function VocabularyPractice3(props: IStudyData) {
                 addStudentAnswer(answerData)
 
                 if (quizNo + 1 > quizData.Quiz.length) {
-                  changeResultShow(true)
+                  if (skipType === 'user press skip') {
+                    changeResultShow(true)
+                  } else if (skipType === 'speaking correctly') {
+                    if (tryCount + 1 >= quizData.QuizAnswerCount) {
+                      changeResultShow(true)
+                    } else {
+                      setTryCount(tryCount + 1)
+                      setInputVal('')
+                      playWord()
+
+                      isWorking.current = false
+                    }
+                  }
                 } else {
-                  setQuizNo(quizNo + 1)
+                  if (skipType === 'user press skip') {
+                    setQuizNo(quizNo + 1)
+                  } else if (skipType === 'speaking correctly') {
+                    if (tryCount + 1 >= quizData.QuizAnswerCount) {
+                      setQuizNo(quizNo + 1)
+                    } else {
+                      setTryCount(tryCount + 1)
+                      setInputVal('')
+                      playWord()
+
+                      isWorking.current = false
+                    }
+                  }
                 }
               }
             } else {
@@ -404,7 +465,7 @@ export default function VocabularyPractice3(props: IStudyData) {
    * 단어 재생
    */
   const playWord = () => {
-    if (playState === '') {
+    if (playState === '' && playBarState === '') {
       playAudio(quizData.Quiz[quizNo - 1].Question.Sound)
     } else {
       stopAudio()
@@ -431,6 +492,39 @@ export default function VocabularyPractice3(props: IStudyData) {
    */
   const changeRetry = (state: boolean) => {
     setRetry(state)
+  }
+
+  /**
+   * 녹음 시작
+   */
+  const startRecord = () => {
+    if (!isWorking.current) {
+      isWorking.current = true
+      stopAudio()
+
+      startRecording(
+        quizData.Quiz[quizNo - 1].Question.Text,
+        quizData.Quiz[quizNo - 1].Question.Sound,
+        changePlayBarState,
+        changeSentenceScore,
+      )
+    }
+  }
+
+  /**
+   * 하단 play bar 상태 변경
+   * @param state
+   */
+  const changePlayBarState = (state: PlayBarState) => {
+    setPlayBarState(state)
+  }
+
+  /**
+   * 녹음 후 문장 점수 바꾸기 위한 함수
+   * @param data
+   */
+  const changeSentenceScore = (data: any) => {
+    setSentenceScore(data)
   }
 
   return (
@@ -474,12 +568,9 @@ export default function VocabularyPractice3(props: IStudyData) {
                 {STEP_TYPE}
               </div>
 
-              <TabStudyModeSelect
-                isSpeakMode={isSpeakMode}
-                setIsSpeakMode={setIsSpeakMode}
-              />
-
               <QuizBody>
+                <Gap height={10} />
+
                 <Container
                   typeCSS={style.vocabularyPractice3}
                   containerCSS={style.container}
@@ -487,18 +578,20 @@ export default function VocabularyPractice3(props: IStudyData) {
                   <Gap height={20} />
 
                   <WrapperCard
-                    isSpeakMode={isSpeakMode}
-                    isRecord={isRecord}
                     isSideOpen={isSideOpen}
-                    playState={playState}
                     quizData={quizData}
                     quizNo={quizNo}
                     tryCount={tryCount}
                     inputVal={inputVal}
+                    playBarState={playBarState}
+                    playState={playState}
+                    isSpeakResult={isSpeakResult}
+                    sentenceScore={sentenceScore}
                     playWord={playWord}
                     changeInputVal={changeInputVal}
+                    startRecord={startRecord}
                     checkAnswer={checkAnswer}
-                    setIsRecord={setIsRecord}
+                    changePlayBarState={changePlayBarState}
                   />
                 </Container>
               </QuizBody>

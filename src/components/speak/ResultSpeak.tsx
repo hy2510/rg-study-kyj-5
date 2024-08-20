@@ -1,39 +1,42 @@
-import { useContext, useEffect } from "react";
-import { AppContext, AppContextProps } from "@contexts/AppContext";
+import { useContext, useEffect } from 'react'
+import { AppContext, AppContextProps } from '@contexts/AppContext'
 
-import MobileDetect from "mobile-detect";
-import { playAudio } from "@utils/common";
+import MobileDetect from 'mobile-detect'
+import { playAudio } from '@utils/common'
 
-import SpeakCSS from "@stylesheets/speak.module.scss";
+import SpeakCSS from '@stylesheets/speak.module.scss'
 
 import {
   LottieExcellentAni,
   LottieGoodEffortAni,
-} from "@components/common/LottieAnims";
+} from '@components/common/LottieAnims'
 
-import SndExellent from "@assets/sounds/good_job.mp3";
-import SndGoodEffort from "@assets/sounds/good_effort.mp3";
+import SndExellent from '@assets/sounds/good_job.mp3'
+import SndGoodEffort from '@assets/sounds/good_effort.mp3'
 
-const md = new MobileDetect(navigator.userAgent);
-const isMobile = md.phone();
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 type ResultSpeakProps = {
-  isPass: boolean;
-};
+  isPass: boolean
+}
 
 export default function ResultSpeak({ isPass }: ResultSpeakProps) {
-  const { handler, bookInfo } = useContext(AppContext) as AppContextProps;
+  const { handler, bookInfo } = useContext(AppContext) as AppContextProps
 
   useEffect(() => {
     if (isPass) {
-      playAudio(SndExellent);
+      playAudio(SndExellent)
     } else {
-      playAudio(SndGoodEffort);
+      playAudio(SndGoodEffort)
     }
-  }, []);
+  }, [])
 
   return (
-    <div className={`${SpeakCSS.wrapperResult} ${isMobile ? "mobile" : ""}`} style={{backgroundImage: `url(${bookInfo.BackgroundImage})`}}>
+    <div
+      className={`${SpeakCSS.wrapperResult} ${isMobile ? 'mobile' : ''}`}
+      style={{ backgroundImage: `url(${bookInfo.BackgroundImage})` }}
+    >
       <div className={SpeakCSS.resultMark}>
         {isPass ? (
           <>
@@ -54,12 +57,12 @@ export default function ResultSpeak({ isPass }: ResultSpeakProps) {
         )}
 
         <button
-          className={`${SpeakCSS.btnExitResult} ${isMobile ? "mobile" : ""}`}
+          className={`${SpeakCSS.btnExitResult} ${isMobile ? 'mobile' : ''}`}
           onClick={() => {
-            handler.changeView("story");
+            handler.changeView('story')
           }}
         />
       </div>
     </div>
-  );
+  )
 }

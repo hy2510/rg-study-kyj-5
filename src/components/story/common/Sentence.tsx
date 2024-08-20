@@ -25,9 +25,17 @@ export default function Sentence({
 
     if (sequence !== 999) {
       const clickStr = / id=\"t/g
+
       convertedSentence = convertedSentence.replace(
         clickStr,
         ` style='margin-top: ${marginTop}px; margin-left: ${marginLeft}px; cursor:pointer;' id="t`,
+      )
+    } else if (sequence === 999) {
+      const seqStr = / id=\"t/g
+
+      convertedSentence = convertedSentence.replace(
+        seqStr,
+        ` style='margin-top: ${marginTop}px; margin-left: ${marginLeft}px;' id="t`,
       )
     }
 

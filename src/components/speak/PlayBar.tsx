@@ -96,7 +96,6 @@ export default function PlayBar({
               <div
                 ref={recordProgressRef}
                 className={SpeakCSS.recProgress}
-                // style={{ width: '5%' }}
               ></div>
             </>
           )}

@@ -34,7 +34,7 @@ interface IWritingActivity2Writing {
 }
 
 interface IWritingActivity2ReWriting {
-  IsReWritingOn: boolean
+  IsReWriting: boolean
   ReWritingImage1: string
   ReWritingImage2: string
   ReWritingComment: string
@@ -46,7 +46,7 @@ interface IWritingActivity2 {
   readonly Title: string
   readonly Author: string
   Writing: IWritingActivity2Writing
-  ReWriting: IWritingActivity2ReWriting
+  Rewriting: IWritingActivity2ReWriting
 }
 
 interface IGECResult {

@@ -27,22 +27,28 @@ type SpeakMobileProps = {
   playBarState: PlayBarState
   tryCount: number
   speakData: SpeakPageProps[]
+  isRetry: boolean
   quizIndex: number
   changeQuizIndex: (index: number) => void
   changePlayBarState: (state: PlayBarState) => void
   increaseTryCount: () => void
   resetTryCount: () => void
+  changeTryCount: (value: number) => void
+  changeRetry: (state: boolean) => void
 }
 
 export default function SpeakMobile({
   playBarState,
   tryCount,
   speakData,
+  isRetry,
   quizIndex,
   changeQuizIndex,
   changePlayBarState,
   increaseTryCount,
   resetTryCount,
+  changeTryCount,
+  changeRetry,
 }: SpeakMobileProps) {
   const { studyInfo } = useContext(AppContext) as AppContextProps
 
@@ -116,30 +122,47 @@ export default function SpeakMobile({
       if (!isResultRecord) {
         // 녹음 결과창을 닫으면
         const lastQuiz = speakData.filter(
-          (data, i) => data.Sentence !== null && i > quizIndex,
+          (data, i) =>
+            data.Sentence !== null && i > quizIndex && data.QuizNo > 0,
         )
 
         const isLastQuiz = lastQuiz.length > 0 ? false : true
 
-        if (sentenceScore.total_score >= 40) {
-          // 통과
-          if (isLastQuiz) {
-            setFinishSpeak(true)
-          } else {
-            changeQuizIndex(quizIndex + 1)
-          }
+        if (isRetry) {
+          isWorking.current = false
+          changeTryCount(-1)
+          changePlayBarState('')
+          playSentence()
+          setSentenceScore(undefined)
         } else {
-          // 실패
-          if (tryCount + 1 >= 3) {
-            // 기회가 초과된 경우 다음 문제로
+          if (sentenceScore.total_score >= 40) {
             if (isLastQuiz) {
               setFinishSpeak(true)
             } else {
               changeQuizIndex(quizIndex + 1)
             }
           } else {
-            // 기회가 남아있는 경우
-            increaseTryCount()
+            // 실패
+            if (tryCount + 1 >= 3) {
+              // 기회가 초과된 경우 다음 문제로
+              if (isLastQuiz) {
+                setFinishSpeak(true)
+              } else {
+                changeQuizIndex(quizIndex + 1)
+              }
+            } else {
+              if (tryCount === -1) {
+                // 기회가 초과된 경우 다음 문제로
+                if (isLastQuiz) {
+                  setFinishSpeak(true)
+                } else {
+                  changeQuizIndex(quizIndex + 1)
+                }
+              } else {
+                // 기회가 남아있는 경우
+                increaseTryCount()
+              }
+            }
           }
         }
       }
@@ -147,22 +170,39 @@ export default function SpeakMobile({
   }, [isResultRecord])
 
   /**
+   * 통과한 문장 다시
+   */
+  useEffect(() => {
+    if (isRetry) {
+      changeRecordResult(false)
+    } else {
+      if (sentenceScore) {
+        changeRecordResult(false)
+      }
+    }
+  }, [isRetry])
+
+  /**
    * use effect - quiz index
    * quiz index가 변경되면 다음 문제로 넘어간 것으로 판단
    */
   useEffect(() => {
-    changePageSeq(speakData[quizIndex].Page, speakData[quizIndex].Sequence)
-
     setSentenceScore(undefined)
     resetTryCount()
 
     isWorking.current = false
   }, [quizIndex])
 
+  /**
+   * 도전 횟수
+   */
   useEffect(() => {
     if (tryCount >= 3) {
-      changeQuizIndex(quizIndex + 1)
+      setRecordResult(true)
     } else {
+      isWorking.current = false
+
+      playSentence()
       changePlayBarState('')
     }
   }, [tryCount])
@@ -237,7 +277,16 @@ export default function SpeakMobile({
       isLastQuiz: isLastQuiz,
     }
 
-    const res = await saveSpeakResult(userAnswer)
+    let res
+
+    if (!isRetry) {
+      res = await saveSpeakResult(userAnswer)
+    } else {
+      res = {
+        result: 0,
+        resultMessage: '',
+      }
+    }
 
     if (Number(res.result) === 0) {
       setRecordResult(true)
@@ -292,11 +341,14 @@ export default function SpeakMobile({
               <>
                 {sentenceScore && (
                   <ResultRecord
+                    isRetry={isRetry}
+                    sentence={speakData[quizIndex].Sentence}
                     sentenceScore={sentenceScore}
                     tryCount={tryCount}
                     nativeAudio={speakData[quizIndex].SoundPath}
                     userAudio={userAudio}
                     changeRecordResult={changeRecordResult}
+                    changeRetry={changeRetry}
                   />
                 )}
               </>

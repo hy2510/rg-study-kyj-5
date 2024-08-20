@@ -14,6 +14,7 @@ type InputProps = {
   quizNo: number
   tryCount: number
   inputVal: string
+  disabled: boolean
   changeInputVal: (value: string) => void
   checkAnswer: (skipType?: string) => Promise<void>
 }
@@ -29,6 +30,7 @@ export default function Input({
   quizNo,
   tryCount,
   inputVal,
+  disabled,
   changeInputVal,
   checkAnswer,
 }: InputProps) {
@@ -106,7 +108,7 @@ export default function Input({
         onKeyUp={(e) => onKeyUpHandler(e)}
         onCopy={(e) => e.preventDefault()}
         onPaste={(e) => e.preventDefault()}
-        disabled={!isEnabledTyping}
+        disabled={!isEnabledTyping || disabled}
         autoFocus
         tabIndex={-1}
       />

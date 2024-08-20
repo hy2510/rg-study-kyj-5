@@ -60,7 +60,7 @@ async function getWritingActivity2(
       Title: raw.Title,
       Author: raw.Author,
       Writing: raw.Writing,
-      ReWriting: raw.ReWriting,
+      Rewriting: raw.Rewriting,
     }
   }
   return getQuizData<IWritingActivity2>(path, transformObject)

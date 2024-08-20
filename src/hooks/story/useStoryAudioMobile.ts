@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+
+import { useOrientation } from './useOrientation'
 import { submitReadFirstPage, submitReadLastPage } from '@services/storyApi'
 
 import { PageProps, PageSequenceProps, PlayState } from '@interfaces/IStory'
-import { useOrientation } from './useOrientation'
 
 type StoryAudioMobileProps = {
   studyId: string
@@ -43,7 +44,7 @@ export default function useStoryAudioMobile({
   const [readCnt, setReadCnt] = useState<number>(0)
 
   // 가로, 세로 구분
-  const isLandscape = useOrientation();
+  const isLandscape = useOrientation()
 
   // 페이지가 바뀌면
   useEffect(() => {
@@ -90,7 +91,7 @@ export default function useStoryAudioMobile({
     // 오디오가 재생 중 end
 
     // 오디오가 일시 중지
-    const handlerPause = () => { }
+    const handlerPause = () => {}
 
     player.addEventListener('pause', handlerPause)
     // 오디오가 일시 중지 end
@@ -98,61 +99,54 @@ export default function useStoryAudioMobile({
     // 오디오가 재생 완료
     const handlerEnded = () => {
       if (!isFirst.current) {
+        // 페이지 자동 넘김 여부
         const isAutoNextPage = isAutoRef.current
 
-        if (isAutoNextPage) {
-          // 자동으로 넘기는 경우
-          const isNextPage = pageData.find(
-            //(data) => data.Page === pageNumber + 2,
-            // (data) => data.Page === pageNumber + (isLandscape ? 2 : 1),
-            (data) => data.Page === pageNumber + 1,
-          )
+        // 다음 페이지 존재 여부
+        const isNextPage = pageData.find(
+          (data) => data.Page === pageSeq.playPage + 1,
+        )
 
-          if (isNextPage) {
-            // 다음 페이지가 있는 경우
-            // setPageNumber(pageNumber + 2)
-            // setPageNumber(pageNumber + (isLandscape ? 2 : 1))
-            setPageNumber(pageNumber + 1)
-          } else {
-            // 다음 페이지가 없는 경우
-            setReadCnt(readCnt + 1)
-            setPlayState('')
+        if (!isLandscape) {
+          // 화면 - 한쪽 페이지
+          if (isAutoNextPage) {
+            if (isNextPage) {
+              // 다음 페이지가 존재하면
+              setPageSeq({
+                playPage: pageSeq.playPage + 1,
+                sequnce: 0,
+              })
+            } else {
+              // 다음 페이지가 없는 경우
+              setReadCnt(readCnt + 1)
+              setPlayState('')
+            }
           }
         } else {
-          // 자동으로 넘기지 않는 경우
-          setPlayState('')
+          // 화면 - 양쪽 페이지
+          if (isAutoNextPage) {
+            // 자동으로 넘기는 경우
+            if (isNextPage) {
+              // 다음 페이지가 존재하는 경우
+              if (pageSeq.playPage % 2 === 1) {
+                // 왼쪽 페이지일 경우
+                setPageSeq({
+                  playPage: pageSeq.playPage + 1,
+                  sequnce: 0,
+                })
+              } else {
+                setPageNumber(pageNumber + 2)
+              }
+            } else {
+              // 다음 페이지가 존재하지 않는 경우
+              setReadCnt(readCnt + 1)
+              setPlayState('')
+            }
+          } else {
+            // 자동으로 넘기지 않는 경우
+            setPlayState('')
+          }
         }
-
-        // if (pageSeq.playPage % 2 === 1) {
-        //   // 왼쪽 페이지일 경우
-        //   setPageSeq({
-        //     playPage: pageSeq.playPage + 1,
-        //     sequnce: 0,
-        //   })
-        // } else {
-        //   // 오른쪽 페이지일 경우
-        //   if (isAutoNextPage) {
-        //     // 자동으로 넘기는 경우
-        //     const isNextPage = pageData.find(
-        //       //(data) => data.Page === pageNumber + 2,
-        //       (data) => data.Page === pageNumber + (isLandscape ? 2 : 1),
-        //     )
-
-        //     if (isNextPage) {
-        //       // 다음 페이지가 있는 경우
-        //       // setPageNumber(pageNumber + 2)
-        //       setPageNumber(pageNumber + (isLandscape ? 2 : 1))
-        //     } else {
-        //       // 다음 페이지가 없는 경우
-        //       setReadCnt(readCnt + 1)
-        //       setPlayState('')
-        //     }
-        //   } else {
-        //     // 자동으로 넘기지 않는 경우
-        //     setPlayState('')
-        //   }
-        // }
-        // }
       } else {
         isFirst.current = false
       }

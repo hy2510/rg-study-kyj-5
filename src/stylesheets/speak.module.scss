@@ -200,8 +200,7 @@ button {
     left: 0;
     bottom: 0;
     z-index: -1;
-    background-color: rgba($color: #2ccd70, $alpha: 0.3);
-    // transition: all 0.2s;
+    background-color: rgba($color: #2ccd70, $alpha: 0.5);
   }
 }
 
@@ -366,7 +365,6 @@ button {
 
 .popUp {
   width: calc(100% - 30px);
-  // width: 100%; <- 반드시 지워주세요.
   max-width: 800px;
   height: 70vh;
   max-height: 550px;
@@ -401,11 +399,25 @@ button {
         background-color: #3ab6ff;
         color: #fff;
       }
+      &.retry {
+        position: absolute;
+        right: 15px;
+        border: 1px dotted #333;
+        padding: 5px;
+      }
 
       .iconSpeaker {
         width: 20px;
         height: 20px;
         background-image: url('/src/assets/images/speak/volume.svg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 20px 20px;
+      }
+      .iconRetry {
+        width: 20px;
+        height: 20px;
+        background-image: url('/src/assets/images/speak/icon_retry.svg');
         background-position: center;
         background-repeat: no-repeat;
         background-size: 20px 20px;
@@ -454,10 +466,7 @@ button {
             }
           }
           &.student {
-            background-color: #ff2424;
-            &.passed {
-              background-color: #3ab6ff;
-            }
+            background-color: #333333;
 
             .progressArrow {
               position: absolute;
@@ -645,7 +654,7 @@ button {
   align-items: center;
   justify-content: center;
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;

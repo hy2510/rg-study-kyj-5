@@ -77,7 +77,6 @@ export default function Visualizer({ src, color }: VisualizerProps) {
   const drawGraph = (normalizedData: number[]) => {
     if (canvasRef.current) {
       const ctx = canvasRef.current.getContext('2d')
-      // const dpr = window.devicePixelRatio || 1
       const dpr = 800 / window.innerWidth || 1
 
       if (ctx) {
@@ -92,8 +91,8 @@ export default function Visualizer({ src, color }: VisualizerProps) {
         ctx.beginPath()
 
         let sliceWidth =
-          // (canvasRef.current.width * 1.0) / (normalizedData.length - 1)
-          (canvasRef.current.width * (window.innerWidth / 800) / (normalizedData.length - 1))
+          (canvasRef.current.width * (window.innerWidth / 800)) /
+          (normalizedData.length - 1)
         let x = 0
         ctx.moveTo(x - 1, canvasRef.current.height)
 
@@ -129,14 +128,7 @@ export default function Visualizer({ src, color }: VisualizerProps) {
   }
 
   return (
-    <div className={SpeakCSS.visualizer}
-      // style={{
-      //   position: 'absolute',
-      //   display: 'block',
-      //   width: '100%',
-      //   height: 'auto',
-      // }}
-    >
+    <div className={SpeakCSS.visualizer}>
       <canvas ref={canvasRef} style={{ position: 'relative' }}></canvas>
     </div>
   )

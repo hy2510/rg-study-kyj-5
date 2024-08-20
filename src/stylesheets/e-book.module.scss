@@ -514,7 +514,6 @@
     100% - 60px - env(safe-area-inset-bottom) - env(safe-area-inset-top)
   );
   display: flex;
-  // flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;

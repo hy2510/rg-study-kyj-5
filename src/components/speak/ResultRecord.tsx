@@ -8,19 +8,25 @@ import { IRecordResultData } from '@interfaces/ISpeak'
 import Visualizer from './Visualizer'
 
 type ResultRecordProps = {
+  isRetry: boolean
+  sentence: string
   sentenceScore: IRecordResultData
   tryCount: number
   nativeAudio: string
   userAudio: string
   changeRecordResult: (state: boolean) => void
+  changeRetry: (state: boolean) => void
 }
 
 export default function ResultRecord({
+  isRetry,
+  sentence,
   sentenceScore,
   tryCount,
   nativeAudio,
   userAudio,
   changeRecordResult,
+  changeRetry,
 }: ResultRecordProps) {
   const nativeAudioRef = useRef(new Audio(nativeAudio))
   const userAudioRef = useRef(new Audio(userAudio))
@@ -154,6 +160,23 @@ export default function ResultRecord({
             <span>My</span>
             <span className={SpeakCSS.iconSpeaker}></span>
           </div>
+
+          {(sentenceScore.total_score >= 40 || isRetry) && (
+            <>
+              <div
+                className={`${SpeakCSS.btn} ${SpeakCSS.retry}`}
+                onClick={() => {
+                  if (isRetry) {
+                    closeResultRecord()
+                  } else {
+                    changeRetry(true)
+                  }
+                }}
+              >
+                <span className={SpeakCSS.iconRetry}></span>
+              </div>
+            </>
+          )}
         </div>
 
         <div className={SpeakCSS.row2}>
@@ -176,7 +199,9 @@ export default function ResultRecord({
               </div>
               <div
                 style={{ left: `${userCur * 100}%` }}
-                className={`${SpeakCSS.progressBar} ${SpeakCSS.student} ${sentenceScore.total_score > 40 ? SpeakCSS.passed : null}`}
+                className={`${SpeakCSS.progressBar} ${SpeakCSS.student} ${
+                  sentenceScore.total_score > 40 ? SpeakCSS.passed : null
+                }`}
               >
                 <div className={SpeakCSS.progressArrow}></div>
               </div>
@@ -184,17 +209,19 @@ export default function ResultRecord({
           </div>
 
           <div className={SpeakCSS.sentence}>
-            {sentenceScore.phoneme_result.words.map((word) => {
+            {sentenceScore.phoneme_result.words.map((word, i) => {
               const avg =
                 word.phonemes.reduce((cur, acc) => {
                   return cur + acc.score
                 }, 0) / word.phonemes.length
 
+              const sentenceWord = sentence.split(' ')
+
               return (
                 <div
                   className={`${SpeakCSS.word} ${avg < 30 ? SpeakCSS.red : ''}`}
                 >
-                  {word.word}
+                  {sentenceWord[i]}
                 </div>
               )
             })}
@@ -259,12 +286,30 @@ export default function ResultRecord({
               ? SpeakCSS.goodJob
               : SpeakCSS.tryAgain
           }`}
-          onClick={() => closeResultRecord()}
+          onClick={() => {
+            if (isRetry) {
+              changeRetry(false)
+            } else {
+              closeResultRecord()
+            }
+          }}
         >
           {sentenceScore.total_score >= 40 ? (
             <div className={SpeakCSS.txt}>Good Job!</div>
           ) : (
-            <div className={SpeakCSS.txt}>Try Again ({tryCount + 1} / 3)</div>
+            <>
+              {isRetry ? (
+                <>
+                  <div className={SpeakCSS.txt}>Try Again</div>
+                </>
+              ) : (
+                <>
+                  <div className={SpeakCSS.txt}>
+                    Try Again ({tryCount + 1} / 3)
+                  </div>
+                </>
+              )}
+            </>
           )}
           <div className={SpeakCSS.iconArrow}></div>
         </div>

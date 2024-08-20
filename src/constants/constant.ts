@@ -71,6 +71,8 @@ export const SAVE_STUDENT_PARTIAL_ANSWER_PATH =
 
 // 글쓰기 저장
 export const SAVE_WRITING_PATH = 'api/study/book-reading/quiz/save/writing'
+export const SAVE_RE_WRITING_PATH =
+  'api/study/book-reading/quiz/save/re-writing'
 
 // 학습 단어 연습 저장
 export const SAVE_VOCA_PRACTICE_PATH =
