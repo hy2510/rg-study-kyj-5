@@ -204,12 +204,18 @@
       .btnRec {
         width: 40px;
         height: 60px;
+        margin-left: 20px;
+        margin-bottom: 3px;
         padding-right: 20px;
         .recIcon {
           background-color: transparent;
+          border: 1.8px dotted rgba($color: #ff0000, $alpha: 0.3);
+          @media (prefers-color-scheme: dark) {
+            border: 1.8px solid #999;
+          }
           &::after {
             opacity: 0.5;
-            background-image: url('src/assets/images/icons/icon_rec_black.svg') !important;
+            background-image: url('src/assets/images/icons/icon_rec_red.svg') !important;
             @media (prefers-color-scheme: dark) {
               background-image: url('src/assets/images/icons/icon_rec.svg') !important;
             }
@@ -431,12 +437,18 @@
       .btnRec {
         width: 40px;
         height: 60px;
+        margin-left: 20px;
+        margin-bottom: 3px;
         padding-right: 20px;
         .recIcon {
           background-color: transparent;
+          border: 1.8px dotted rgba($color: #ff0000, $alpha: 0.3);
+          @media (prefers-color-scheme: dark) {
+            border: 1.8px solid #999;
+          }
           &::after {
             opacity: 0.5;
-            background-image: url('src/assets/images/icons/icon_rec_black.svg') !important;
+            background-image: url('src/assets/images/icons/icon_rec_red.svg') !important;
             @media (prefers-color-scheme: dark) {
               background-image: url('src/assets/images/icons/icon_rec.svg') !important;
             }
