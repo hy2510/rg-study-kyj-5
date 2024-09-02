@@ -180,8 +180,27 @@
     .wordText {
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: center;
+      // gap: 10px;
       margin-top: 15px;
+      padding-left: 20px;
+      width: 100%;
+      .btnRec {
+        width: 40px;
+        height: 40px;
+        padding-right: 20px;
+        .recIcon {
+          background-color: transparent;
+          &::after {
+            opacity: 0.5;
+            position: static;
+            background-image: url('src/assets/images/icons/icon_rec_black.svg') !important;
+            @media (prefers-color-scheme: dark) {
+              background-image: url('src/assets/images/icons/icon_rec.svg') !important;
+            }
+          }
+        }
+      }
     }
   }
   .indicator {
@@ -240,6 +259,99 @@
         &:active {
           transform: scale(0.7);
         }
+      }
+    }
+  }
+  .speakResultVoca1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    z-index: 1;
+    @media (prefers-color-scheme: dark) {
+      background-color: #333;
+      color: #fff;
+    }
+    .container {
+      width: 100%;
+      height: calc(100% - 80px);
+      overflow-y: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .wordText {
+        font-family: 'Rg-B', sans-serif;
+        font-size: 3em;
+      }
+      .phonemes {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        gap: 3px;
+        transition: all 0.2s;
+        .phonemeItem {
+          .phoneme {
+            font-size: 0.8em;
+            font-weight: 500;
+            background-color: #333;
+            color: #fff;
+            border-radius: 5px;
+            padding: 2px 5px;
+            &.red {
+              background-color: #ff274f;
+            }
+            &.orange {
+              background-color: #ffc148;
+            }
+            &.green {
+              background-color: #2ccd70;
+            }
+          }
+          .phonemeScore {
+            font-size: 0.5em;
+            color: #999;
+            width: 100%;
+            text-align: center;
+            margin-top: 3px;
+          }
+        }
+      }
+    }
+    .signBox {
+      cursor: pointer;
+      width: calc(100% - 60px);
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+      position: absolute;
+      bottom: 0;
+      &.goodJob {
+        background-color: #3ab6ff;
+      }
+      &.tryAgain {
+        background-color: #ff2424;
+      }
+      .txt {
+        color: #fff;
+        font-family: 'Rg-B', sans-serif;
+        font-size: 1.25em;
+        font-weight: 600;
+      }
+      .iconArrow {
+        width: 24px;
+        height: 24px;
+        background-image: url('/src/assets/images/speak/chev_right.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 24px 24px;
       }
     }
   }
@@ -283,8 +395,29 @@
     .wordText {
       display: flex;
       align-items: center;
-      gap: 10px;
+      // gap: 10px;
+      justify-content: center;
       margin-top: 5px;
+      width: 100%;
+      &.word{
+        padding-left: 20px;
+      }
+      .btnRec {
+        width: 40px;
+        height: 40px;
+        padding-right: 20px;
+        .recIcon {
+          background-color: transparent;
+          &::after {
+            opacity: 0.5;
+            position: static;
+            background-image: url('src/assets/images/icons/icon_rec_black.svg') !important;
+            @media (prefers-color-scheme: dark) {
+              background-image: url('src/assets/images/icons/icon_rec.svg') !important;
+            }
+          }
+        }
+      }
     }
   }
   .indicator {
@@ -337,6 +470,99 @@
         &:active {
           transform: scale(0.7);
         }
+      }
+    }
+  }
+  .speakResultVoca2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    z-index: 1;
+    @media (prefers-color-scheme: dark) {
+      background-color: #333;
+      color: #fff;
+    }
+    .container {
+      width: 100%;
+      height: calc(100% - 80px);
+      overflow-y: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .wordText {
+        font-family: 'Rg-B', sans-serif;
+        font-size: 3em;
+      }
+      .phonemes {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        gap: 3px;
+        transition: all 0.2s;
+        .phonemeItem {
+          .phoneme {
+            font-size: 0.8em;
+            font-weight: 500;
+            background-color: #333;
+            color: #fff;
+            border-radius: 5px;
+            padding: 2px 5px;
+            &.red {
+              background-color: #ff274f;
+            }
+            &.orange {
+              background-color: #ffc148;
+            }
+            &.green {
+              background-color: #2ccd70;
+            }
+          }
+          .phonemeScore {
+            font-size: 0.5em;
+            color: #999;
+            width: 100%;
+            text-align: center;
+            margin-top: 3px;
+          }
+        }
+      }
+    }
+    .signBox {
+      cursor: pointer;
+      width: calc(100% - 60px);
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+      position: absolute;
+      bottom: 0;
+      &.goodJob {
+        background-color: #3ab6ff;
+      }
+      &.tryAgain {
+        background-color: #ff2424;
+      }
+      .txt {
+        color: #fff;
+        font-family: 'Rg-B', sans-serif;
+        font-size: 1.25em;
+        font-weight: 600;
+      }
+      .iconArrow {
+        width: 24px;
+        height: 24px;
+        background-image: url('/src/assets/images/speak/chev_right.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 24px 24px;
       }
     }
   }

@@ -24,7 +24,7 @@ export default function BtnPlayWord({ playState, playHint }: BtnPlayWordProps) {
       ) : (
         <IcoPlay isColor width={40} height={40} />
       )}
-      <span className={style.txtL}>Playback</span>
+      <span className={style.txtL}>Play Sound</span>
     </div>
   )
 }

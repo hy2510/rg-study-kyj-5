@@ -17,7 +17,7 @@ export default function PlayBarDefault({
     >
       <BtnPlaySentence playSentence={playSentence} />
 
-      <div className={SpeakCSS.txtSome}>&</div>
+      <div className={SpeakCSS.txtSome}>•</div>
 
       <BtnRecord startRecord={startRecord} />
     </div>

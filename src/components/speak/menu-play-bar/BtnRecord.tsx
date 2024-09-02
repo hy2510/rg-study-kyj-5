@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import SpeakCSS from '@stylesheets/speak.module.scss'
+import { useMicrophonePermissionChecker } from '@hooks/speak/useMicrophonePermissionChecker'
 
 type BtnRecordProps = {
   startRecord: () => void
@@ -15,16 +16,19 @@ export default function BtnRecord({ startRecord }: BtnRecordProps) {
     }, 3000)
   }, [])
 
+  const micCheck = useMicrophonePermissionChecker()
+
   return (
     <button
       className={`${SpeakCSS.btnSpeakPlay} ${isDelay && 'heartbeat'}`}
       onClick={() => {
+        micCheck.micPermission === 'denied' && alert(micCheck.alertMessage)
         setIsDelay(false)
         startRecord()
       }}
     >
       <div className={`${SpeakCSS.icon} ${SpeakCSS.record}`}></div>
-      <div className={SpeakCSS.txtWord}>Speak!</div>
+      <div className={SpeakCSS.txtWord}>Speak</div>
     </button>
   )
 }

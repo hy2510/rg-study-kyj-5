@@ -23,7 +23,7 @@ export default function BtnPlayWord({ playState, onPlay }: BtnPlayWordProps) {
       ) : (
         <IcoStop isColor width={34} height={34} />
       )}
-      <span className={style.txtL}>Playback</span>
+      <span className={style.txtL}>Listen</span>
     </div>
   )
 }

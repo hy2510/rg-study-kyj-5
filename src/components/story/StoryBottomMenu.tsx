@@ -27,6 +27,7 @@ import icon_full_screen from '@assets/images/ebook/icon_full_screen.svg'
 import icon_full_screen_out from '@assets/images/ebook/icon_full_screen_out.svg'
 
 import icon_menu from '@assets/images/ebook/icon_menu.svg'
+import StoryDropdownRepeat from './StoryDropdownRepeat'
 
 // 디바이스 정보 (여기서는 태블릿을 구분하는 용도로 사용)
 const md = new MobileDetect(navigator.userAgent)
@@ -102,6 +103,17 @@ export default function StoryBottomMenu({
             menuItems={[
               { name: 'Auto', selected: 'on' },
               { name: 'Manually', selected: '' },
+            ]}
+            changeAutoNextPage={changeAutoNextPage}
+          />
+
+          {/* 전체 반복 (3회) */}
+          <StoryDropdownRepeat
+            menuName="반복 읽기"
+            menuItems={[
+              { name: 'Repeat 1', selected: 'on' },
+              { name: 'Repeat 2', selected: '' },
+              { name: 'Repeat 3', selected: '' },
             ]}
             changeAutoNextPage={changeAutoNextPage}
           />

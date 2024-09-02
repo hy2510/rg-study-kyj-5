@@ -26,7 +26,7 @@ export default function BtnPlaySentence({
       ) : (
         <IcoPlay isColor width={34} height={34} />
       )}
-      <div className={style.txtL}>Playback</div>
+      <div className={style.txtL}>Listen</div>
     </div>
   )
 }
