@@ -454,6 +454,8 @@
       background-color: transparent !important;
       z-index: 0;
       transition: all 0.2s;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
     }
   }
   .left_arrow {
@@ -559,13 +561,13 @@
   position: absolute;
   top: 0;
   right: 0;
-  left: calc(100% - 390px);
+  left: calc(100% - 300px);
   bottom: 0;
   z-index: 999;
   .ebook_vocabulary_note_container {
     color: #333;
     font-weight: 600;
-    width: 100%;
+    width: calc(100% - 40px);
     max-width: 320px;
     height: calc(
       100% - 25px - env(safe-area-inset-top) - env(safe-area-inset-bottom)

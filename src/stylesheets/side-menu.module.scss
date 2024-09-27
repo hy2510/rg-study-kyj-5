@@ -15,7 +15,7 @@
     z-index: 2;
     color: #ffffff;
     font-weight: 600;
-    width: 100%;
+    width: calc(100% - 40px);
     max-width: 320px;
     height: calc(100% - 30px - env(safe-area-inset-top));
     background-color: #1f2428;
