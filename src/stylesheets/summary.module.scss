@@ -5,7 +5,7 @@
   padding: 10px 15px;
   animation-duration: 1s !important;
   position: fixed;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     color: rgba($color: #fff, $alpha: 0.4);
   }
 }
@@ -33,7 +33,7 @@
     font-family: 'Rg-B', sans-serif;
     font-size: 1.2em;
     color: rgba($color: #000, $alpha: 0.4);
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       color: rgba($color: #fff, $alpha: 0.4);
     }
   }
@@ -66,7 +66,7 @@
   border-radius: 100px;
   transition: all 0.2s;
   margin: auto;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     background-color: rgba($color: #000, $alpha: 0.3);
   }
   &:active {
@@ -156,7 +156,7 @@
     padding: 0 2px;
     color: #111;
     background-color: transparent;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       color: #fff;
     }
   }
@@ -165,7 +165,7 @@
     padding: 0 2px;
     color: #111;
     background-color: transparent;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       color: #fff;
     }
   }
@@ -248,7 +248,7 @@
   background-size: 24px;
   background-position: center;
   background-repeat: no-repeat;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     background-image: url('/src/assets/images/icons/icon_arrow_up_white.svg');
   }
 }
@@ -278,7 +278,7 @@
     -webkit-tap-highlight-color: transparent;
     background-color: #fff;
     box-shadow: #ddd 0 3px;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: rgba($color: #000000, $alpha: 0.3);
       border: 2px solid rgba($color: #000000, $alpha: 0.3);
       box-shadow: rgba($color: #000000, $alpha: 0.3) 0 3px;
@@ -331,7 +331,7 @@
           color: rgba($color: #000, $alpha: 1);
         }
       }
-      @media (prefers-color-scheme: dark) {
+      @media (prefers-color-scheme: no-preference) {
         @keyframes blink1 {
           0% {
             color: rgba($color: #fff, $alpha: 0.3);
@@ -360,7 +360,7 @@
         border-bottom: 5px solid transparent;
         border-left: 5px solid rgba($color: #000, $alpha: 0.3);
         font-size: 0.5em;
-        @media (prefers-color-scheme: dark) {
+        @media (prefers-color-scheme: no-preference) {
           border-left: 5px solid rgba($color: #fff, $alpha: 0.5);
         }
       }
@@ -375,7 +375,7 @@
     .incorrectAnswer {
       @include answerStyle;
       color: rgba($color: #000, $alpha: 0.35);
-      @media (prefers-color-scheme: dark) {
+      @media (prefers-color-scheme: no-preference) {
         color: rgba($color: #fff, $alpha: 0.35);
       }
     }
@@ -394,7 +394,7 @@
     z-index: 1;
     max-height: 45vh;
     box-shadow: 0 3px 10px rgba($color: #000000, $alpha: 0.3);
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: #1a1a1a;
     }
     &::-webkit-scrollbar {
@@ -417,7 +417,7 @@
       background-size: 24px;
       background-position: center;
       background-repeat: no-repeat;
-      @media (prefers-color-scheme: dark) {
+      @media (prefers-color-scheme: no-preference) {
         background-image: url('/src/assets/images/icons/icon_arrow_up_white.svg');
       }
     }
@@ -448,7 +448,7 @@
     -webkit-tap-highlight-color: transparent;
     background-color: #fff;
     box-shadow: #ddd 0 3px;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       border: 2px solid rgba($color: #000000, $alpha: 0.3);
       background-color: rgba($color: #000000, $alpha: 0.3);
       box-shadow: rgba($color: #000000, $alpha: 0.3) 0 3px;
@@ -508,7 +508,7 @@
     max-height: 45vh;
     overflow-y: scroll;
     overflow-x: hidden;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: rgba($color: #000, $alpha: 0.3);
     }
     &::-webkit-scrollbar {

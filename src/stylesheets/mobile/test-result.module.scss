@@ -11,7 +11,7 @@
     display: grid;
     gap: 10px;
     font-family: 'Rg-b', sans-serif;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       color: #fff;
     }
     .score {
@@ -32,7 +32,7 @@
         padding: 5px 0;
         -webkit-backdrop-filter: blur(5px);
         backdrop-filter: blur(5px);
-        @media (prefers-color-scheme: dark) {
+        @media (prefers-color-scheme: no-preference) {
           background-color: rgba($color: #eee, $alpha: 0.1);
         }
       }
@@ -49,7 +49,7 @@
       padding-top: 8px;
       padding-bottom: 5px;
       color: rgba($color: #000, $alpha: 0.4);
-      @media (prefers-color-scheme: dark) {
+      @media (prefers-color-scheme: no-preference) {
         color: #fff;
       }
     }
@@ -148,7 +148,7 @@
       color: #1a1a1a;
       font-size: 1.5em;
       background-color: transparent;
-      @media (prefers-color-scheme: dark) {
+      @media (prefers-color-scheme: no-preference) {
         color: #fff;
       }
     }
@@ -160,7 +160,7 @@
     justify-content: center;
     gap: 10px;
     border-radius: 15px;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       color: #fff;
     }
     .txtL {
@@ -184,7 +184,7 @@
     gap: 15px;
     margin-bottom: 20px;
     border-bottom: 1.5px dotted rgba($color: #000, $alpha: 0.3);
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       border-bottom: 1.5px dotted rgba($color: #fff, $alpha: 0.3);
     }
     &.borderNone {
@@ -202,7 +202,7 @@
     .passmark {
       font-family: 'RG-b', sans-serif;
       font-size: 1.2em;
-      @media (prefers-color-scheme: dark) {
+      @media (prefers-color-scheme: no-preference) {
         color: #fff;
       }
     }
@@ -323,7 +323,7 @@
     transform: scale(1);
     transition: all 0.2s;
     -webkit-tap-highlight-color: transparent;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       color: rgba($color: #fff, $alpha: 0.5);
     }
     &:active {
@@ -361,7 +361,7 @@
       font-family: 'Rg-b', sans-serif;
       font-size: 2.2em;
       margin-top: 10px;
-      @media (prefers-color-scheme: dark) {
+      @media (prefers-color-scheme: no-preference) {
         color: #fff;
       }
     }
@@ -370,7 +370,7 @@
       font-size: 1.2em;
       // font-weight: 600;
       color: rgba($color: #000, $alpha: 0.4);
-      @media (prefers-color-scheme: dark) {
+      @media (prefers-color-scheme: no-preference) {
         color: rgba($color: #fff, $alpha: 0.4);
       }
     }
@@ -381,7 +381,7 @@
       border-top: 2px solid rgba($color: #000, $alpha: 0.2);
       margin: 15px 0 20px;
       // aspect-ratio: 16 / 9;
-      @media (prefers-color-scheme: dark) {
+      @media (prefers-color-scheme: no-preference) {
         color: #fff;
         border-top: 2px solid rgba($color: #fff, $alpha: 0.2);
       }
@@ -391,7 +391,7 @@
         font-size: 1.2em;
         font-weight: 500;
         text-align: center;
-        @media (prefers-color-scheme: dark) {
+        @media (prefers-color-scheme: no-preference) {
           border-bottom: 2px solid rgba($color: #fff, $alpha: 0.2);
         }
       }

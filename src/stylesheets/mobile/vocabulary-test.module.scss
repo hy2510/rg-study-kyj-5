@@ -5,7 +5,7 @@
   padding: 10px 15px;
   animation-duration: 1s !important;
   position: fixed;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     color: rgba($color: #fff, $alpha: 0.4);
   }
 }
@@ -34,7 +34,7 @@
     font-size: 1.4em;
     font-weight: 600;
     color: rgba($color: #000, $alpha: 0.4);
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       color: rgba($color: #fff, $alpha: 0.4);
     }
   }
@@ -68,7 +68,7 @@
   transition: all 0.2s;
   position: relative;
   z-index: 100;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     background-color: rgba($color: #000, $alpha: 0.3);
   }
   &:active {
@@ -92,7 +92,7 @@
   justify-content: center;
   border-radius: 15px;
   margin-top: 15px;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     background-color: #0e0f18;
   }
   &::before {
@@ -103,7 +103,7 @@
     border-right: 10px solid transparent;
     border-left: 10px solid transparent;
     border-bottom: 10px solid transparent;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       border-top: 10px solid #0e0f18;
     }
   }
@@ -255,7 +255,7 @@
     color: #000;
     border: 2px solid transparent;
     background-color: rgba($color: #3ab6ff, $alpha: 0.5);
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       color: #fff;
     }
   }
@@ -279,7 +279,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: rgba($color: #000, $alpha: 0.3);
     }
     .wordImage {
@@ -316,7 +316,7 @@
     -webkit-tap-highlight-color: transparent;
     background-color: #fff;
     box-shadow: #ddd 0 3px;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: rgba($color: #000, $alpha: 0.3);
       border: 2px solid rgba($color: #000, $alpha: 0.3);
       box-shadow: rgba($color: #000, $alpha: 0.3) 0 3px;
@@ -367,7 +367,7 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: rgba($color: #000, $alpha: 0.3);
     }
     .wordImage {
@@ -438,7 +438,7 @@
     -webkit-tap-highlight-color: transparent;
     background-color: #fff;
     box-shadow: #ddd 0 3px;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: rgba($color: #000000, $alpha: 0.3);
       border: 2px solid rgba($color: #000000, $alpha: 0.3);
       box-shadow: rgba($color: #000000, $alpha: 0.3) 0 3px;
@@ -554,7 +554,7 @@
           top: 0;
           left: 0;
           z-index: 1;
-          @media (prefers-color-scheme: dark) {
+          @media (prefers-color-scheme: no-preference) {
             color: #fff;
           }
         }
@@ -626,7 +626,7 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: rgba($color: #000, $alpha: 0.3);
     }
     .meaning {
@@ -659,7 +659,7 @@
     -webkit-tap-highlight-color: transparent;
     background-color: #fff;
     box-shadow: #ddd 0 3px;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: rgba($color: #000000, $alpha: 0.3);
       border: 2px solid rgba($color: #000000, $alpha: 0.3);
       box-shadow: rgba($color: #000000, $alpha: 0.3) 0 3px;

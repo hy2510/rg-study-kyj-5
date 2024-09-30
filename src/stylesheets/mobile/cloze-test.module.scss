@@ -32,7 +32,7 @@
     font-family: 'Rg-B', sans-serif;
     font-size: 1.2em;
     color: rgba($color: #000, $alpha: 0.4);
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       color: rgba($color: #fff, $alpha: 0.4);
     }
   }
@@ -189,7 +189,7 @@
     -webkit-tap-highlight-color: transparent;
     background-color: #fff;
     box-shadow: #ddd 0 3px;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: rgba($color: #000, $alpha: 0.3);
       border: 2px solid rgba($color: #000, $alpha: 0.3);
       box-shadow: rgba($color: #000, $alpha: 0.3) 0 3px;
@@ -257,7 +257,7 @@
     min-width: 80px;
     height: 34px;
     text-align: center;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: rgba($color: #fff, $alpha: 0.8);
     }
     &.correctAnswer {

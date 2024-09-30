@@ -305,7 +305,7 @@ input:focus {
     right: 0;
     color: #1a1a1a;
     font-size: 0.8em;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       color: #ffffff;
     }
   }

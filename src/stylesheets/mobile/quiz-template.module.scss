@@ -5,7 +5,7 @@
 }
 
 @mixin darkMode {
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     @content;
   }
 }
@@ -53,7 +53,7 @@ $quizHeaderHeight: 60px;
   margin: 0 20px;
   position: relative;
   -webkit-tap-highlight-color: transparent;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     color: #ffffff;
   }
   .quizHeaderCol1 {
@@ -115,7 +115,7 @@ $quizHeaderHeight: 60px;
         background-repeat: no-repeat;
         background-size: $size;
         background-position: center -0.5px;
-        @media (prefers-color-scheme: dark) {
+        @media (prefers-color-scheme: no-preference) {
           background-image: url('/src/assets/images/icons/icon_timer_white.svg');
         }
       }
@@ -136,7 +136,7 @@ $quizHeaderHeight: 60px;
       background-repeat: no-repeat;
       background-size: 22px;
       background-position: bottom 12px right 2px;
-      @media (prefers-color-scheme: dark) {
+      @media (prefers-color-scheme: no-preference) {
         background-image: url('/src/assets/images/icons/icon_hbg_menu_white.svg');
       }
     }

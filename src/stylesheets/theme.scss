@@ -10,7 +10,7 @@ $tabletMaxWidth: 1440px;
     url('../assets/themes/jungle/theme-jungle-day-bottom.svg');
   background-position: left 0 bottom 0, right 0 bottom 0, top 0 center;
   background-repeat: no-repeat, no-repeat, repeat-x;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     background-color: #405b64;
     background-image: url('../assets/themes/jungle/theme-jungle-night-left.svg'),
       url('../assets/themes/jungle/theme-jungle-night-right.svg'),
@@ -38,7 +38,7 @@ $tabletMaxWidth: 1440px;
   background-position: top -55px right -200px, top left, left -100px bottom,
     right -150px bottom;
   background-size: auto, auto;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     background-color: #002754;
     background-image: url('../assets/themes/antarctica/theme-antarctica-night-top.svg'),
       url('../assets/themes/antarctica/theme-antarctica-night-sky.svg'),
@@ -49,7 +49,7 @@ $tabletMaxWidth: 1440px;
     background-size: auto 200px, auto 105px, 220px auto, auto 250px;
     background-position: top left 50px, top left, left -50px bottom,
       right -100px bottom;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-size: auto 200px, auto 105px, 220px auto, auto 250px;
       background-position: top left 50px, top -15px left, left -50px bottom,
         right -100px bottom;
@@ -59,7 +59,7 @@ $tabletMaxWidth: 1440px;
     background-size: auto 200px, auto 105px, 300px auto, auto 350px;
     background-position: top right 50px, top left, left -50px bottom,
       right -100px bottom;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-size: auto 200px, auto 105px, 220px auto, auto 250px;
       background-position: top right 50px, top -15px left, left -50px bottom,
         right -100px bottom;
@@ -77,7 +77,7 @@ $tabletMaxWidth: 1440px;
   background-repeat: no-repeat, no-repeat, repeat-x, repeat-x;
   background-position: bottom left -100px, bottom right -100px, bottom center,
     bottom 20px center;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     background-color: #465a27;
     background-image: url('../assets/themes/zoo1/theme-zoo-night-left.svg'),
       url('../assets/themes/zoo1/theme-zoo-night-right.svg'),
@@ -109,7 +109,7 @@ $tabletMaxWidth: 1440px;
   background-position: bottom center, top 20% left -10px, top 10% right -10px,
     top 60% right 30px, left 0 bottom 15px, right 0 bottom 15px;
   background-size: auto, 300px, 250px, 200px, 250px, 300px;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     background-color: #0e0f20;
     background-image: url('../assets/themes/zoo2/zoo_bg_d.svg'),
       url('../assets/themes/img_star.svg'),
@@ -124,7 +124,7 @@ $tabletMaxWidth: 1440px;
     background-size: auto, 150px, 180px, 100px, 200px, 250px;
     background-position: bottom center, top 20% left -10px, top 10% right -10px,
       top 60% right 30px, left -50px bottom 15px, right -50px bottom 15px;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-position: bottom center, top, left -50px bottom 15px,
         right -50px bottom 15px;
       background-size: auto, auto, 200px, 250px;
@@ -134,7 +134,7 @@ $tabletMaxWidth: 1440px;
     background-size: auto, 200px, 220px, 150px, 250px, 300px;
     background-position: bottom center, top 20% left -10px, top 10% right -10px,
       top 60% right 30px, left 0 bottom 15px, right 0 bottom 15px;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-position: bottom center, top, left 0 bottom 15px,
         right 0 bottom 15px;
       background-size: auto, auto, 250px, 300px;
@@ -150,7 +150,7 @@ $tabletMaxWidth: 1440px;
     url('../assets/themes/forest/theme-forest-day-pattern.svg');
   background-repeat: no-repeat, no-repeat, repeat-x;
   background-position: left 5% bottom 20px, right 5% bottom 20px, bottom;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     background-color: #495b2d;
     background-image: url('../assets/themes/forest/theme-forest-night-left.svg'),
       url('../assets/themes/forest/theme-forest-night-right.svg'),
@@ -160,7 +160,7 @@ $tabletMaxWidth: 1440px;
   @media screen and (max-width: $mobileMaxWidth) {
     background-size: 200px auto, 180px auto, auto;
     background-position: left -20px bottom 20px, right -5px bottom 10px, bottom;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-position: left -50px bottom 100px, right -50px bottom 20px,
         bottom;
       background-size: 150px, 150px, auto;
@@ -169,7 +169,7 @@ $tabletMaxWidth: 1440px;
   @media (min-width: $tabletMinWidth) and (max-width: $tabletMaxWidth) {
     background-size: 300px auto, 280px auto, auto;
     background-position: left -10px bottom 20px, right -5px bottom 10px, bottom;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-position: left -20px bottom 120px, right -50px bottom 20px,
         bottom;
       background-size: 250px, 250px, auto;
@@ -187,7 +187,7 @@ $tabletMaxWidth: 1440px;
   background-position: left -20px bottom 15px, right -50px bottom 15px,
     bottom center;
   background-size: 280px, 250px, auto;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     background-color: #343e75;
     background-image: url('../assets/themes/kids_room/theme-kids-room-night-left.svg'),
       url('../assets/themes/kids_room/theme-kids-room-night-right.svg'),
@@ -217,7 +217,7 @@ $tabletMaxWidth: 1440px;
   background-position: top 20% left -10px, top 10% right -10px,
     top 60% right 30px, left 0 bottom 35px, right 0 bottom 35px, bottom center;
   background-size: 300px, 250px, 200px, 200px, 150px, auto;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     background-color: #07004d;
     background-image: url('../assets/themes/space/img_planet_l.svg'),
       url('../assets/themes/space/img_planet_r.svg'),
@@ -233,7 +233,7 @@ $tabletMaxWidth: 1440px;
     background-position: top 20% left -10px, top 10% right -10px,
       top 60% right 30px, left 0 bottom 35px, right 0 bottom 35px, bottom center;
     background-size: 180px, 120px, 150px, 150px, 100px, auto;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-position: left -20px bottom 25px, right -20px bottom 25px,
         bottom center, bottom center, top center;
       background-size: 175px, 185px, auto, auto, auto;
@@ -243,7 +243,7 @@ $tabletMaxWidth: 1440px;
     background-position: top 20% left -10px, top 10% right -10px,
       top 60% right 30px, left 0 bottom 35px, right 0 bottom 35px, bottom center;
     background-size: 300px, 250px, 200px, 200px, 150px, auto;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-position: left 0 bottom 5px, right 0 bottom 5px, bottom center,
         bottom center, top center;
       background-size: 350px, 370px, auto, auto, auto;
@@ -261,7 +261,7 @@ $tabletMaxWidth: 1440px;
   background-position: right 10px bottom 15px, left 10px bottom 15px,
     bottom center;
   background-size: 300px, 300px, auto;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     background-color: #0e0f20;
     background-image: url('../assets/themes/farm/theme-farm-night-left.svg'),
       url('../assets/themes/farm/theme-farm-night-right.svg'),
@@ -294,7 +294,7 @@ $tabletMaxWidth: 1440px;
   background-position: top 20% left -10px, top 10% right -10px,
     top 60% right 30px, left 0 bottom 5px, right 0 bottom 5px, bottom center;
   background-size: 300px, 250px, 200px, 350px, 350px, auto;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     background-color: #0e0f20;
     background-image: url('../assets/themes/img_moon.svg'),
       url('../assets/themes/img_star.svg'),
@@ -311,7 +311,7 @@ $tabletMaxWidth: 1440px;
       top 60% right 30px, left -80px bottom 5px, right -80px bottom 5px,
       bottom center;
     background-size: 150px, 125px, 100px, auto 135px, auto 135px, auto;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-position: top 20% right 50px, top center, left -80px bottom 5px,
         right -80px bottom 5px, bottom center;
       background-size: 0, auto, auto 135px, auto 135px, auto;
@@ -321,7 +321,7 @@ $tabletMaxWidth: 1440px;
     background-position: top 20% left -10px, top 10% right -10px,
       top 60% right 30px, left 0 bottom 5px, right 0 bottom 5px, bottom center;
     background-size: 300px, 250px, 200px, 350px, 350px, auto;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-position: top 20% right 50px, top center, left 0 bottom 5px,
         right 0 bottom 5px, bottom center;
       background-size: 150px, auto, 350px, 350px, auto;
@@ -344,7 +344,7 @@ $tabletMaxWidth: 1440px;
     top 60% right 30px, left -20px bottom 5px, right -80px bottom 5px,
     bottom center;
   background-size: 300px, 250px, 200px, 450px, 400px, auto;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     background-color: #0e0f20;
     background-image: url('../assets/themes/img_moon.svg'),
       url('../assets/themes/img_star.svg'),
@@ -361,7 +361,7 @@ $tabletMaxWidth: 1440px;
       top 60% right 30px, left -60px bottom 25px, right -100px bottom 40px,
       bottom center;
     background-size: 150px, 125px, 100px, auto 100px, auto 100px, auto;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-position: top 20% right 50px, top center,
         left -60px bottom 25px, right -100px bottom 40px, bottom center;
       background-size: 0, auto, auto 100px, auto 100px, auto;
@@ -372,7 +372,7 @@ $tabletMaxWidth: 1440px;
       top 60% right 30px, left -50px bottom 25px, right -80px bottom 35px,
       bottom center;
     background-size: 300px, 250px, 200px, 450px, 450px, auto;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-position: top 20% right 50px, top center,
         left -20px bottom 25px, right -80px bottom 30px, bottom center;
       background-size: 150px, auto, 450px, 450px, auto;
@@ -390,7 +390,7 @@ $tabletMaxWidth: 1440px;
   background-position: left -20px bottom 20px, right -20px bottom 10px,
     bottom center;
   background-size: 400px, 400px, auto;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     background-color: #0e0f20;
     background-image: url('../assets/themes/img_moon.svg'),
       url('../assets/themes/img_star.svg'),
@@ -406,7 +406,7 @@ $tabletMaxWidth: 1440px;
     background-position: left -180px bottom 20px, right -250px bottom 10px,
       bottom center;
     background-size: auto 160px, auto 120px, auto;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-position: top 20% right 50px, top center,
         left -180px bottom 20px, right -250px bottom 10px, bottom center;
       background-size: 0, auto, auto 125px, auto 95px, auto;
@@ -416,7 +416,7 @@ $tabletMaxWidth: 1440px;
     background-position: left -20px bottom 20px, right -20px bottom 10px,
       bottom center;
     background-size: 400px, 400px, auto;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-position: top 20% right 50px, top center,
         left -20px bottom 20px, right -20px bottom 10px, bottom center;
       background-size: 150px, auto, 400px, 400px, auto;
@@ -434,7 +434,7 @@ $tabletMaxWidth: 1440px;
   background-position: left -20px bottom 40px, right -20px bottom 40px,
     bottom center;
   background-size: 400px, 400px, auto;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     background-color: #0e0f20;
     background-image: url('../assets/themes/img_moon.svg'),
       url('../assets/themes/img_star.svg'),
@@ -450,7 +450,7 @@ $tabletMaxWidth: 1440px;
     background-position: left -20px bottom 40px, right -180px bottom 40px,
       bottom center;
     background-size: auto 130px, auto 130px, auto;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-position: top 20% right 50px, top center,
         left -20px bottom 40px, right -180px bottom 40px, bottom center;
       background-size: 0, auto, auto 130px, auto 130px, auto;
@@ -460,7 +460,7 @@ $tabletMaxWidth: 1440px;
     background-position: left -20px bottom 40px, right -20px bottom 40px,
       bottom center;
     background-size: 400px, 400px, auto;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-position: top 20% right 50px, top center,
         left -20px bottom 40px, right -20px bottom 40px, bottom center;
       background-size: 150px, auto, 400px, 400px, auto;
@@ -483,7 +483,7 @@ $tabletMaxWidth: 1440px;
     top 60% right 30px, left -20px bottom 5px, right -80px bottom 5px,
     bottom center;
   background-size: 300px, 250px, 200px, 450px, 400px, auto;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     background-color: #0e0f20;
     background-image: url('../assets/themes/img_moon.svg'),
       url('../assets/themes/img_star.svg'),
@@ -499,7 +499,7 @@ $tabletMaxWidth: 1440px;
     background-position: top 20% left -10px, top 10% right -10px,
       top 60% right 30px, left 0px bottom 5px, right bottom, bottom center;
     background-size: 150px, 125px, 100px, auto 150px, 0px, auto;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-position: top 20% right 50px, top center, left 0px bottom 5px,
         right bottom, bottom center;
       background-size: 0, auto, auto 150px, 0px, auto;
@@ -510,7 +510,7 @@ $tabletMaxWidth: 1440px;
       top 60% right 30px, left -20px bottom 5px, right -80px bottom 3px,
       bottom center;
     background-size: 300px, 250px, 200px, 450px, 400px, auto;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-position: top 20% right 50px, top center, left -20px bottom 3px,
         right -80px bottom 5px, bottom center;
       background-size: 150px, auto, 450px, 400px, auto;
@@ -533,7 +533,7 @@ $tabletMaxWidth: 1440px;
     top 60% right 30px, left -20px bottom -10px, right -20px bottom -10px,
     bottom center;
   background-size: 300px, 250px, 200px, 380px, 350px, auto;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     background-color: #0e0f20;
     background-image: url('../assets/themes/img_moon.svg'),
       url('../assets/themes/img_star.svg'),
@@ -550,7 +550,7 @@ $tabletMaxWidth: 1440px;
       top 60% right 30px, left -120px bottom -5px, right -80px bottom,
       bottom center;
     background-size: 150px, 125px, 100px, auto 120px, auto 120px, auto;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-position: top 20% right, top center, left -120px bottom -5px,
         right -80px bottom, bottom center;
       background-size: 0, auto, auto 120px, auto 120px, auto;
@@ -561,7 +561,7 @@ $tabletMaxWidth: 1440px;
       top 60% right 30px, left -20px bottom -10px, right -20px bottom -10px,
       bottom center;
     background-size: 300px, 250px, 200px, 380px, 350px, auto;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-position: top 20% right 50px, top center,
         left -20px bottom -10px, right -20px bottom -10px, bottom center;
       background-size: 150px, auto, 380px, 350px, auto;

@@ -5,7 +5,7 @@
   padding: 10px 15px;
   animation-duration: 1s !important;
   position: fixed;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     color: rgba($color: #fff, $alpha: 0.4);
   }
 }
@@ -139,14 +139,14 @@
 .iconChevLeft {
   @include iconChevLeftRightSize;
   background-image: url('/src/assets/images/icons/icon_chev_left.svg');
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     background-image: url('/src/assets/images/icons/icon_chev_left_white.svg');
   }
 }
 .iconChevRight {
   @include iconChevLeftRightSize;
   background-image: url('/src/assets/images/icons/icon_chev_right.svg');
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     background-image: url('/src/assets/images/icons/icon_chev_right_white.svg');
   }
 }
@@ -176,7 +176,7 @@
     min-width: 400px;
     min-height: 320px;
     border-radius: 20px;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: rgba($color: #000000, $alpha: 0.3);
     }
     .wordImage {
@@ -212,13 +212,13 @@
         .recIcon {
           background-color: transparent;
           border: 1.8px dotted rgba($color: #ff0000, $alpha: 0.3);
-          @media (prefers-color-scheme: dark) {
+          @media (prefers-color-scheme: no-preference) {
             border: 1.8px solid #999;
           }
           &::after {
             opacity: 0.5;
             background-image: url('/src/assets/images/icons/icon_rec_red.svg') !important;
-            @media (prefers-color-scheme: dark) {
+            @media (prefers-color-scheme: no-preference) {
               background-image: url('/src/assets/images/icons/icon_rec.svg') !important;
             }
           }
@@ -235,7 +235,7 @@
     font-size: 1em;
     font-family: 'Rg-B', sans-serif;
     color: #000;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       color: #fff;
     }
     span {
@@ -253,7 +253,7 @@
         border-radius: 50%;
         transform: scale(1);
         transition: all 0.1s;
-        @media (prefers-color-scheme: dark) {
+        @media (prefers-color-scheme: no-preference) {
           background-color: rgba($color: #000000, $alpha: 0.8);
         }
         &:active {
@@ -277,7 +277,7 @@
         margin-left: auto;
         transform: scale(1);
         transition: all 0.1s;
-        @media (prefers-color-scheme: dark) {
+        @media (prefers-color-scheme: no-preference) {
           background-color: rgba($color: #000000, $alpha: 0.8);
         }
         &:active {
@@ -297,7 +297,7 @@
     border-radius: 15px;
     overflow: hidden;
     z-index: 1;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: #333;
       color: #fff;
     }
@@ -409,7 +409,7 @@
     padding: 15px;
     padding-bottom: 30px;
     border-radius: 20px;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: rgba($color: #000000, $alpha: 0.3);
     }
     .wordImage {
@@ -447,13 +447,13 @@
         .recIcon {
           background-color: transparent;
           border: 1.8px dotted rgba($color: #ff0000, $alpha: 0.3);
-          @media (prefers-color-scheme: dark) {
+          @media (prefers-color-scheme: no-preference) {
             border: 1.8px solid #999;
           }
           &::after {
             opacity: 0.5;
             background-image: url('/src/assets/images/icons/icon_rec_red.svg') !important;
-            @media (prefers-color-scheme: dark) {
+            @media (prefers-color-scheme: no-preference) {
               background-image: url('/src/assets/images/icons/icon_rec.svg') !important;
             }
           }
@@ -470,7 +470,7 @@
     font-size: 1em;
     font-family: 'Rg-B', sans-serif;
     color: #000;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       color: #fff;
     }
     span {
@@ -488,7 +488,7 @@
         border-radius: 50%;
         transform: scale(1);
         transition: all 0.1s;
-        @media (prefers-color-scheme: dark) {
+        @media (prefers-color-scheme: no-preference) {
           background-color: rgba($color: #000000, $alpha: 0.8);
         }
         &:active {
@@ -512,7 +512,7 @@
         border-radius: 50%;
         transform: scale(1);
         transition: all 0.1s;
-        @media (prefers-color-scheme: dark) {
+        @media (prefers-color-scheme: no-preference) {
           background-color: rgba($color: #000000, $alpha: 0.8);
         }
         &:active {
@@ -531,7 +531,7 @@
     border-radius: 15px;
     overflow: hidden;
     z-index: 1;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: #333;
       color: #fff;
     }
@@ -676,7 +676,7 @@
           top: 0;
           left: 0;
           z-index: 1;
-          @media (prefers-color-scheme: dark) {
+          @media (prefers-color-scheme: no-preference) {
             border: 2px solid rgba($color: #000000, $alpha: 0.3);
           }
           &.overLength {
@@ -723,7 +723,7 @@
             left: calc(50% - 12px);
             background-image: url('/src/assets/images/icons/icon_x_white.svg');
           }
-          @media (prefers-color-scheme: dark) {
+          @media (prefers-color-scheme: no-preference) {
             background-color: rgba($color: #fff, $alpha: 0.15);
           }
         }
@@ -807,7 +807,7 @@
     width: 400px;
     min-height: 320px;
     border-radius: 20px;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: rgba($color: #000000, $alpha: 0.3);
     }
     .wordText {
@@ -829,13 +829,13 @@
         .recIcon {
           background-color: transparent;
           border: 1.8px dotted rgba($color: #ff0000, $alpha: 0.3);
-          @media (prefers-color-scheme: dark) {
+          @media (prefers-color-scheme: no-preference) {
             border: 1.8px solid #999;
           }
           &::after {
             opacity: 0.5;
             background-image: url('/src/assets/images/icons/icon_rec_red.svg') !important;
-            @media (prefers-color-scheme: dark) {
+            @media (prefers-color-scheme: no-preference) {
               background-image: url('/src/assets/images/icons/icon_rec.svg') !important;
             }
           }
@@ -862,7 +862,7 @@
     font-size: 1em;
     font-family: 'Rg-B', sans-serif;
     color: #000;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       color: #fff;
     }
     span {
@@ -917,7 +917,7 @@
     border-radius: 15px;
     overflow: hidden;
     z-index: 1;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: #333;
       color: #fff;
     }
@@ -1015,7 +1015,7 @@
     &.active {
       color: #1a1a1a;
     }
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       color: rgba($color: #fff, $alpha: 0.3);
       &.active {
         color: #fff;
@@ -1046,7 +1046,7 @@
     top: 0;
     left: 0;
     z-index: 1;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       border: 2px solid rgba($color: #000000, $alpha: 0.3);
     }
     &.overLength {
@@ -1096,7 +1096,7 @@
       background-image: url('/src/assets/images/icons/icon_rec.svg');
       background-size: 14px 26px;
     }
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: rgba($color: #fff, $alpha: 0.15);
     }
   }
@@ -1114,7 +1114,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     background-color: rgba($color: #000, $alpha: 0.3);
   }
   .word {

@@ -5,7 +5,7 @@
   padding: 10px 15px;
   animation-duration: 1s !important;
   position: fixed;
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: no-preference) {
     color: rgba($color: #fff, $alpha: 0.4);
   }
 }
@@ -95,7 +95,7 @@
     background-color: #fff;
     box-shadow: #ddd 0 3px;
     padding: 5px;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       border: 2px solid rgba($color: #000, $alpha: 0.3);
       box-shadow: rgba($color: #000, $alpha: 0.3) 0 3px;
     }
@@ -140,7 +140,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: rgba($color: #000, $alpha: 0.3);
     }
     @media screen and (max-height: 740px) {
@@ -184,7 +184,7 @@
     -webkit-tap-highlight-color: transparent;
     background-color: #fff;
     box-shadow: #ddd 0 3px;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: rgba($color: #000000, $alpha: 0.3);
       border: 2px solid rgba($color: #000000, $alpha: 0.3);
       box-shadow: rgba($color: #000000, $alpha: 0.3) 0 3px;
@@ -258,7 +258,7 @@
     height: 30vh;
     overflow: hidden;
     padding: 15px;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: rgba($color: #000, $alpha: 0.3);
     }
     @media screen and (max-height: 740px) {
@@ -292,7 +292,7 @@
     -webkit-tap-highlight-color: transparent;
     background-color: #fff;
     box-shadow: #ddd 0 3px;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: rgba($color: #000, $alpha: 0.3);
       border: 2px solid rgba($color: #000, $alpha: 0.3);
       box-shadow: rgba($color: #000, $alpha: 0.3) 0 3px;
@@ -377,7 +377,7 @@
     -webkit-tap-highlight-color: transparent;
     background-color: #fff;
     box-shadow: #ddd 0 3px;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: rgba($color: #000000, $alpha: 0.3);
       border: 2px solid rgba($color: #000000, $alpha: 0.3);
       box-shadow: rgba($color: #000000, $alpha: 0.3) 0 3px;

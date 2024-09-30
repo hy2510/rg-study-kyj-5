@@ -17,7 +17,7 @@
     font-size: 1.2em;
     font-weight: 500;
     color: rgba($color: #000, $alpha: 0.4);
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       color: rgba($color: #fff, $alpha: 0.4);
     }
   }
@@ -38,7 +38,7 @@
     background-color: rgba($color: #000, $alpha: 0.03);
     border-radius: 15px;
     margin-bottom: 15px;
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: no-preference) {
       background-color: rgba($color: #fff, $alpha: 0.03);
     }
     .sentence {
