@@ -3,7 +3,9 @@ import { useEffect, useRef } from 'react'
 import vocabularyCSS from '@stylesheets/vocabulary-test.module.scss'
 import vocabularyCSSMobile from '@stylesheets/mobile/vocabulary-test.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { BottomPopupStateProps } from '@hooks/study/useBottomPopup'
 
@@ -15,10 +17,8 @@ type InputProps = {
   inputVal: string
   correctAnswer: string
   changeInputVal: (value: string) => void
-  checkAnswer: (isCorrect: boolean, selectedAnswer: string) => Promise<void>
+  checkAnswer: (selectedAnswer: string) => Promise<void>
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? vocabularyCSSMobile : vocabularyCSS
 
@@ -62,7 +62,7 @@ export default function Input({
     if (!isWorking) {
       e.preventDefault()
 
-      const regex = /^[ㄱ-ㅎa-zA-Z-' ]+(?:'){0,1}[a-zA-Z]?$/g
+      const regex = /^[ㄱ-ㅎa-zA-Z-'~ ]+(?:'){0,1}[a-zA-Z]?$/g
       let text: string = e.currentTarget.value
 
       if (!regex.test(text)) {
@@ -79,7 +79,7 @@ export default function Input({
    */
   const onKeyUpHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !isWorking && inputVal !== '') {
-      checkAnswer(inputVal === correctAnswer, inputVal)
+      checkAnswer(inputVal)
     }
   }
 

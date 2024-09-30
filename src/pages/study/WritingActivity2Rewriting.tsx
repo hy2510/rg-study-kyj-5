@@ -18,7 +18,10 @@ import useStepIntro from '@hooks/common/useStepIntro'
 import { useFetch } from '@hooks/study/useFetch'
 import { useQuiz } from '@hooks/study/useQuiz'
 import { useStudentAnswer } from '@hooks/study/useStudentAnswer'
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 // components - common
 import QuizHeader from '@components/study/common-study/QuizHeader'
@@ -34,8 +37,6 @@ import GoNextStepBoxRewriting from '@components/study/writing-activity-02/rewrit
 import RevisionReport from '@components/study/writing-activity-02/RevisionReport'
 
 const STEP_TYPE = 'Writing Activity'
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? writingActivityCSSMobile : writingActivityCSS
 
@@ -79,9 +80,6 @@ export default function WritingActivity2Rewriting(props: IStudyData) {
       try {
         // 저장 기록이 있는 경우
         if (recordedData.length > 0) {
-          console.log(quizData)
-          console.log(recordedData)
-
           const recordedWriting: string[] = []
           recordedData.map((record) => recordedWriting.push(record.TempText))
 
@@ -170,7 +168,6 @@ export default function WritingActivity2Rewriting(props: IStudyData) {
       }
 
       const res = await saveRewriting(userAnswer)
-      console.log(res)
       if (Number(res.result) === 0) {
         handler.finishStudy = {
           id: Number(res.result),

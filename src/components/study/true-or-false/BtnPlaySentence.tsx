@@ -1,7 +1,9 @@
 import trueOrFalseCSS from '@stylesheets/true-or-false.module.scss'
 import trueOrFalseCSSMobile from '@stylesheets/mobile/true-or-false.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { PlayState } from '@hooks/study/useStudyAudio'
 
@@ -11,8 +13,6 @@ type TrueSentenceProps = {
   playState: PlayState
   playTrueSentence: () => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? trueOrFalseCSSMobile : trueOrFalseCSS
 

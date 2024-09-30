@@ -11,6 +11,7 @@ type SpeakPageProps = {
   SoundPath: string
   DataPath: string
   MarginTop: number
+  MarginLeft: number
   Sentence: string
 }
 
@@ -47,8 +48,10 @@ interface ISpeakSaveResult {
 }
 
 interface IRecordResultData {
+  speech_detected: boolean
   best_answer: string
   phoneme_result: {
+    sentence_score: number
     words: {
       phonemes: {
         phoneme: string
@@ -82,6 +85,19 @@ interface IRecordResultData {
   total_score: number
 }
 
+interface IPhonemeResult {
+  average_phoneme_score: number
+  speech_detected: boolean
+  words: {
+    phonemes: {
+      phoneme: string
+      score: number
+    }[]
+
+    word: string
+  }[]
+}
+
 interface IResultPhoneme {
   alphabet: string
   index_start: number
@@ -105,6 +121,7 @@ export type {
   IRecordResultData,
   ISpeakUserAnswer,
   ISpeakSaveResult,
+  IPhonemeResult,
   SpeakPageProps,
   PageState,
   PageSequenceProps,

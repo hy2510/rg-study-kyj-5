@@ -9,14 +9,13 @@ type BtnRecordProps = {
 
 export default function BtnRecord({ startRecord }: BtnRecordProps) {
   const [isDelay, setIsDelay] = useState(false)
+  const micCheck = useMicrophonePermissionChecker()
 
   useEffect(() => {
     setTimeout(() => {
       !isDelay ? setIsDelay(true) : setIsDelay(false)
     }, 3000)
   }, [])
-
-  const micCheck = useMicrophonePermissionChecker()
 
   return (
     <button

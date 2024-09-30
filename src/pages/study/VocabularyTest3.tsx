@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 import { deletePenalty } from '@services/studyApi'
 import {
   getVocabularyTest3,
@@ -27,7 +28,10 @@ import useStudyAudio from '@hooks/study/useStudyAudio'
 import { useResult } from '@hooks/study/useResult'
 import { saveUserAnswer } from '@services/studyApi'
 import useBottomPopup from '@hooks/study/useBottomPopup'
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 // components - common
 import StepIntro from '@components/study/common-study/StepIntro'
@@ -46,11 +50,10 @@ import BtnHint from '@components/study/vocabulary-test-03/BtnHint'
 
 const STEP_TYPE = 'Vocabulary Test'
 
-const isMobile = useDeviceDetection()
-
 const style = isMobile ? vocabularyCSSMobile : vocabularyCSS
 
 export default function VocabularyTest3(props: IStudyData) {
+  const { t } = useTranslation()
   const { bookInfo, handler, studyInfo } = useContext(
     AppContext,
   ) as AppContextProps
@@ -58,7 +61,7 @@ export default function VocabularyTest3(props: IStudyData) {
 
   const timer = useQuizTimer(() => {
     // timer가 0에 도달하면 호출되는 콜백함수 구현
-    checkAnswer(false, '')
+    checkAnswer('')
   })
 
   // 인트로 및 결과창
@@ -107,7 +110,7 @@ export default function VocabularyTest3(props: IStudyData) {
     if (!isStepIntro && quizData && !isPenalty) {
       timer.setup(quizData.QuizTime, true)
 
-      if (studyInfo.mode === 'Review' && Number(bookInfo.Average) >= 70) {
+      if (studyInfo.mode === 'review' && Number(bookInfo.Average) >= 70) {
         setInputVal(quizData.Quiz[quizNo - 1].Question.Text)
       } else {
         setInputVal('')
@@ -162,7 +165,7 @@ export default function VocabularyTest3(props: IStudyData) {
   // 퀴즈 번호
   useEffect(() => {
     if (!isStepIntro && !isResultShow && quizData) {
-      if (studyInfo.mode === 'Review' && Number(bookInfo.Average) >= 70) {
+      if (studyInfo.mode === 'review' && Number(bookInfo.Average) >= 70) {
         setInputVal(quizData.Quiz[quizNo - 1].Question.Text)
       } else {
         setInputVal('')
@@ -224,10 +227,16 @@ export default function VocabularyTest3(props: IStudyData) {
   /**
    * 정답 체크
    */
-  const checkAnswer = async (isCorrect: boolean, selectedAnswer: string) => {
+  const checkAnswer = async (selectedAnswer: string) => {
     try {
       if (!isWorking.current) {
         isWorking.current = true
+
+        const isCorrect =
+          quizData.Quiz[quizNo - 1].Question.Text ===
+          selectedAnswer.trimStart().trimEnd()
+            ? true
+            : false
 
         if (isCorrect) {
           changeInputVal(selectedAnswer)
@@ -252,7 +261,7 @@ export default function VocabularyTest3(props: IStudyData) {
           quizNo: quizData.Quiz[quizNo - 1].QuizNo,
           currentQuizNo: quizNo,
           correct: quizData.Quiz[quizNo - 1].Question.Text,
-          selectedAnswer: selectedAnswer,
+          selectedAnswer: selectedAnswer.trimStart().trimEnd(),
           tryCount: tryCount + 1,
           maxQuizCount: quizData.QuizAnswerCount,
           quizLength: quizData.Quiz.length,
@@ -302,6 +311,8 @@ export default function VocabularyTest3(props: IStudyData) {
       if (isCorrect) {
         if (quizNo + 1 > quizData.Quiz.length) {
           playAudio(quizData.Quiz[quizNo - 1].Question.Sound, () => {
+            stopAudio()
+
             changeBottomPopupState({
               isActive: false,
               isCorrect: false,
@@ -311,6 +322,8 @@ export default function VocabularyTest3(props: IStudyData) {
           })
         } else {
           playAudio(quizData.Quiz[quizNo - 1].Question.Sound, () => {
+            stopAudio()
+
             changeBottomPopupState({
               isActive: false,
               isCorrect: false,
@@ -409,6 +422,7 @@ export default function VocabularyTest3(props: IStudyData) {
     stopAudio()
 
     const cbAfterPlayPenalty = () => {
+      stopAudio()
       cb()
     }
 
@@ -436,7 +450,7 @@ export default function VocabularyTest3(props: IStudyData) {
           <StepIntro
             step={STEP}
             quizType={STEP_TYPE}
-            comment={'뜻을 보고 올바른 단어를 입력하세요.'}
+            comment={t('study.뜻을 보고 올바른 단어를 입력하세요.')}
             onStepIntroClozeHandler={() => {
               setIntroAnim('animate__bounceOutLeft')
             }}

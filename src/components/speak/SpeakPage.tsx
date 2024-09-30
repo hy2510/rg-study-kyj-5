@@ -20,6 +20,8 @@ export default function SpeakPage({
   speakData,
   clickSentence,
 }: PageProps) {
+  const { bookInfo } = useContext(AppContext) as AppContextProps
+
   const [css, setCss] = useState<string>('')
   const [sentencesData, setSentenceData] = useState<SpeakPageProps[]>()
   const [image, setImage] = useState<string>()
@@ -75,7 +77,9 @@ export default function SpeakPage({
       style={{
         backgroundImage: `url(${image})`,
       }}
-      className={`${SpeakCSS.speakEbookPage} ${SpeakCSS.level1}`}
+      className={`${SpeakCSS.speakEbookPage} ${
+        bookInfo.Grade === 'K' ? SpeakCSS.levelK : SpeakCSS.level1
+      }`}
     >
       <div dangerouslySetInnerHTML={{ __html: css }}></div>
       {sentencesData &&
@@ -91,6 +95,7 @@ export default function SpeakPage({
                 sequence={data.Sequence}
                 sentence={data.Contents}
                 marginTop={data.MarginTop}
+                marginLeft={data.MarginLeft}
                 color={data.FontColor}
                 clickSentence={clickSentence}
               />
@@ -102,6 +107,7 @@ export default function SpeakPage({
                 sequence={data.Sequence}
                 sentence={data.Contents}
                 marginTop={data.MarginTop}
+                marginLeft={data.MarginLeft}
               />
             )
           }

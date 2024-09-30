@@ -1,8 +1,10 @@
 import stepIntroCSS from '@stylesheets/step-intro.module.scss'
 import stepIntroCSSMobile from '@stylesheets/mobile/step-intro.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
 import useCharacter from '@hooks/study/useCharacter'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 type StepIntroProps = {
   step: number | string
@@ -10,8 +12,6 @@ type StepIntroProps = {
   comment: string
   onStepIntroClozeHandler: () => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? stepIntroCSSMobile : stepIntroCSS
 

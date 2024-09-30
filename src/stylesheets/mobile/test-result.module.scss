@@ -176,7 +176,7 @@
     width: 300px;
     min-height: 200px;
     max-height: 42.5vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
@@ -190,9 +190,9 @@
     &.borderNone {
       border-bottom: none;
     }
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    // &::-webkit-scrollbar {
+    //   display: none;
+    // }
     .readingUnit {
       height: 200px;
       img {

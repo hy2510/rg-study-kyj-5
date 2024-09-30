@@ -1,5 +1,6 @@
-import { useEffect, useState, useContext, useRef, useMemo } from 'react'
+import { useEffect, useState, useContext, useRef } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 import { saveUserAnswer } from '@services/studyApi'
 import { getReadingComprehension4 } from '@services/quiz/RedaingComprehensionAPI'
 
@@ -26,7 +27,10 @@ import { useCurrentQuizNo } from '@hooks/study/useCurrentQuizNo'
 import { useStudentAnswer } from '@hooks/study/useStudentAnswer'
 import useBottomPopup from '@hooks/study/useBottomPopup'
 import { useResult } from '@hooks/study/useResult'
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 import useStudyAudio from '@hooks/study/useStudyAudio'
 
 // components - common
@@ -45,11 +49,10 @@ import BtnPlaySentence from '@components/study/reading-comprehension-04/BtnPlayS
 
 const STEP_TYPE = 'Reading Comprehension'
 
-const isMobile = useDeviceDetection()
-
 const style = isMobile ? readingComprehensionCSSMobile : readingComprehensionCSS
 
 export default function ReadingComprehension4(props: IStudyData) {
+  const { t } = useTranslation()
   const { bookInfo, handler, studyInfo } = useContext(
     AppContext,
   ) as AppContextProps
@@ -161,7 +164,7 @@ export default function ReadingComprehension4(props: IStudyData) {
       setTryCount(tryCnt)
       setIncorrectCount(tryCnt)
 
-      if (studyInfo.mode === 'Super') {
+      if (studyInfo.mode === 'staff') {
         setExamples(quizData.Quiz[currentQuizNo - 1].Examples)
       } else {
         setExamples(shuffle(quizData.Quiz[currentQuizNo - 1].Examples))
@@ -174,7 +177,7 @@ export default function ReadingComprehension4(props: IStudyData) {
 
   useEffect(() => {
     if (!isStepIntro && !isResultShow && quizData) {
-      if (studyInfo.mode === 'Super') {
+      if (studyInfo.mode === 'staff') {
         setExamples(quizData.Quiz[quizNo - 1].Examples)
       } else {
         setExamples(shuffle(quizData.Quiz[quizNo - 1].Examples))
@@ -290,7 +293,7 @@ export default function ReadingComprehension4(props: IStudyData) {
               AnswerCount: tryCount,
             }
 
-            if (studyInfo.mode === 'Quiz') {
+            if (studyInfo.mode === 'student') {
               setFailedExample([...failedExample, newFailAnswer])
             }
 
@@ -324,7 +327,7 @@ export default function ReadingComprehension4(props: IStudyData) {
                 AnswerCount: tryCount,
               }
 
-              if (studyInfo.mode === 'Quiz') {
+              if (studyInfo.mode === 'student') {
                 setFailedExample([...failedExample, newFailAnswer])
               }
 
@@ -367,7 +370,7 @@ export default function ReadingComprehension4(props: IStudyData) {
       }
 
       if (quizNo + 1 > Object.keys(quizData.Quiz).length) {
-        if (score < quizData.PassMark && studyInfo.mode === 'Quiz') {
+        if (score < quizData.PassMark && studyInfo.mode === 'student') {
           // 점수 미달인 경우 re-test
           // re-test를 했는데도 다시 미달인 경우 당일 학습 불가
           if (props.isReTestYn || isReTest || quizData.IsModeRetest) {
@@ -443,7 +446,7 @@ export default function ReadingComprehension4(props: IStudyData) {
           <StepIntro
             step={STEP}
             quizType={STEP_TYPE}
-            comment={'질문을 보고 알맞은 대답을 고르세요.'}
+            comment={t('study.질문을 보고 알맞은 대답을 고르세요.')}
             onStepIntroClozeHandler={() => {
               setIntroAnim('animate__bounceOutLeft')
             }}

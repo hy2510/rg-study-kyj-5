@@ -91,13 +91,18 @@ export default function SpeakMobile({
 
   useEffect(() => {
     if (sentenceScore) {
-      if (sentenceScore.total_score >= 40) {
+      const avgScore =
+        (sentenceScore.total_score +
+          sentenceScore.phoneme_result.sentence_score) /
+        2
+
+      if (avgScore >= 40) {
         // 점수가 통과하는 점수거나
-        saveResult(sentenceScore.total_score)
+        saveResult(avgScore)
       } else {
         if (tryCount + 1 >= 3) {
           // 기회를 모두 소진했을 경우
-          saveResult(sentenceScore.total_score)
+          saveResult(avgScore)
         } else {
           setRecordResult(true)
         }
@@ -135,7 +140,12 @@ export default function SpeakMobile({
           playSentence()
           setSentenceScore(undefined)
         } else {
-          if (sentenceScore.total_score >= 40) {
+          const avgScore =
+            (sentenceScore.total_score +
+              sentenceScore.phoneme_result.sentence_score) /
+            2
+
+          if (avgScore >= 40) {
             if (isLastQuiz) {
               setFinishSpeak(true)
             } else {

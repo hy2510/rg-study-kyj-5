@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 import { getClozeTest1 } from '@services/quiz/ClozeTestAPI'
 import { saveUserAnswer } from '@services/studyApi'
 
@@ -26,7 +27,10 @@ import { useStudentAnswer } from '@hooks/study/useStudentAnswer'
 import useStudyAudio from '@hooks/study/useStudyAudio'
 import useBottomPopup from '@hooks/study/useBottomPopup'
 import { useResult } from '@hooks/study/useResult'
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 // components - common
 import StepIntro from '@components/study/common-study/StepIntro'
@@ -46,11 +50,10 @@ import CorrectSentence from '@components/study/cloze-test-02/CorrectSentence'
 
 const STEP_TYPE = 'Cloze Test'
 
-const isMobile = useDeviceDetection()
-
 const style = isMobile ? clozeTestCSSMobile : clozeTestCSS
 
 export default function ClozeTest1(props: IStudyData) {
+  const { t } = useTranslation()
   const { bookInfo, handler, studyInfo } = useContext(
     AppContext,
   ) as AppContextProps
@@ -123,7 +126,7 @@ export default function ClozeTest1(props: IStudyData) {
       setTryCount(tryCnt)
       setIncorrectCount(tryCnt)
 
-      if (studyInfo.mode === 'Super') {
+      if (studyInfo.mode === 'staff') {
         setExampleData(quizData.Quiz[currentQuizNo - 1].Examples)
       } else {
         setExampleData(shuffle(quizData.Quiz[currentQuizNo - 1].Examples))
@@ -159,7 +162,7 @@ export default function ClozeTest1(props: IStudyData) {
       setIncorrectCount(0)
       setTryCount(0)
 
-      if (studyInfo.mode === 'Super') {
+      if (studyInfo.mode === 'staff') {
         setExampleData(quizData.Quiz[quizNo - 1].Examples)
       } else {
         setExampleData(shuffle(quizData.Quiz[quizNo - 1].Examples))
@@ -270,6 +273,11 @@ export default function ClozeTest1(props: IStudyData) {
         isActive: false,
         isCorrect: false,
       })
+
+      blankRef.current?.classList.remove(
+        style.correctAnswer,
+        style.incorrectAnswer,
+      )
 
       if (!bookInfo.BookLevel.includes('1')) {
         changeCorrectSentenceState(true)
@@ -409,7 +417,7 @@ export default function ClozeTest1(props: IStudyData) {
           <StepIntro
             step={STEP}
             quizType={STEP_TYPE}
-            comment={'문장을 읽고 빈칸에 들어갈 알맞은 답을 고르세요.'}
+            comment={t('study.문장을 읽고 빈칸에 들어갈 알맞은 답을 고르세요.')}
             onStepIntroClozeHandler={() => {
               setIntroAnim('animate__bounceOutLeft')
             }}

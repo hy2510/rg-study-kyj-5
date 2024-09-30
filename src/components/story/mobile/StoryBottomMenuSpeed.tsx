@@ -1,4 +1,5 @@
 import { StoryMenuSpeedItemProps } from '@interfaces/IStory'
+import { useTranslation } from 'react-i18next'
 
 import style from '@stylesheets/e-book.module.scss'
 
@@ -16,6 +17,7 @@ export default function StoryBottomMenuSpeed({
   changePlaySpeedList,
   changePlaySpeed,
 }: StoryBottomMenuSpeedProps) {
+  const { t } = useTranslation()
   const selectedType = speedList.find((speed) => {
     return speed.selected === 'on'
   })
@@ -35,7 +37,7 @@ export default function StoryBottomMenuSpeed({
 
   return (
     <>
-      <Label text={'읽기 속도'} />
+      <Label text={t('story.읽기 속도')} />
       <SelectBox>
         {speedList.map((speed, i) => {
           return (

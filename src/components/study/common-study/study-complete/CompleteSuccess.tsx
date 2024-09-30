@@ -1,19 +1,21 @@
 import '@stylesheets/character.scss'
 import testResultCSS from '@stylesheets/test-result.module.scss'
 import testResultCSSMobile from '@stylesheets/mobile/test-result.module.scss'
+import { useTranslation } from 'react-i18next'
 
 import useCharacter from '@hooks/study/useCharacter'
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 type CompleteSuccessProps = {
   average: number
 }
 
-const isMobile = useDeviceDetection()
-
 const style = isMobile ? testResultCSSMobile : testResultCSS
 
 export default function CompleteSuccess({ average }: CompleteSuccessProps) {
+  const { t } = useTranslation()
   const CHARACTER = useCharacter()
 
   return (
@@ -27,7 +29,9 @@ export default function CompleteSuccess({ average }: CompleteSuccessProps) {
         >
           <div className={`${style.imgUnit} pass_${CHARACTER}`}>
             <div className={style.imgPointCoin}>
-              <span className={style.txtAchivePoint}>획득 포인트</span>
+              <span className={style.txtAchivePoint}>
+                {t('study.획득 포인트')}
+              </span>
             </div>
           </div>
           <div className={style.imgGoodJobRibbon}></div>

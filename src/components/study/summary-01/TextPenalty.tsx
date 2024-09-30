@@ -3,7 +3,9 @@ import { useEffect, useRef, useState } from 'react'
 import summaryCSS from '@stylesheets/summary.module.scss'
 import summaryCSSMobile from '@stylesheets/mobile/summary.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 type TextPenaltyProps = {
   inputRefs: React.MutableRefObject<HTMLInputElement[]>
@@ -12,8 +14,6 @@ type TextPenaltyProps = {
   currentInputIndex: number
   changeInputIndex: (index: number) => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? summaryCSSMobile : summaryCSS
 

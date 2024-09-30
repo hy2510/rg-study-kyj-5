@@ -1,7 +1,9 @@
 import writingActivityCSS from '@stylesheets/writing-activity.module.scss'
 import writingActivityCSSMobile from '@stylesheets/mobile/writing-activity.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { SentenceState } from '@pages/study/WritingActivity1'
 
@@ -12,8 +14,6 @@ type WrapperSentenceBoxProps = {
   sentenceData: string[]
   removeWord: (word: string) => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? writingActivityCSSMobile : writingActivityCSS
 

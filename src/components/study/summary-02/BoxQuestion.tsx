@@ -1,20 +1,21 @@
+import { useEffect, useRef } from 'react'
+
 import summaryCSS from '@stylesheets/summary.module.scss'
 import summaryCSSMobile from '@stylesheets/mobile/summary.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
-
 import { WordDataProp } from '@pages/study/Summary2'
 
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
+
 import Answer from './Answer'
-import { useEffect, useRef } from 'react'
 
 type BoxQuestionProps = {
   isComplete: boolean
   sentenceData: WordDataProp[]
   questionNo: number
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? summaryCSSMobile : summaryCSS
 

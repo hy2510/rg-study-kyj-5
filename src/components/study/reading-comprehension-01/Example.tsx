@@ -4,7 +4,9 @@ import { AppContext, AppContextProps } from '@contexts/AppContext'
 import readingComprehensionCSS from '@stylesheets/reading-comprehension.module.scss'
 import readingComprehensionCSSMobile from '@stylesheets/mobile/reading-comprehension.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 type ExampleProps = {
   index: number
@@ -17,8 +19,6 @@ type ExampleProps = {
   ) => Promise<void>
   onAnimationEndHandler: (e: React.AnimationEvent<HTMLDivElement>) => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? readingComprehensionCSSMobile : readingComprehensionCSS
 
@@ -35,7 +35,7 @@ export default function Example({
   return (
     <div
       className={`${style.imageCard} ${
-        studyInfo.mode === 'Review' &&
+        studyInfo.mode === 'review' &&
         Number(bookInfo.Average) >= 70 &&
         correctText === text
           ? style.correct

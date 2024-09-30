@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 
 import { deletePenalty, saveUserAnswer } from '@services/studyApi'
 import { getSummary1, getSummaryHint } from '@services/quiz/SummaryApi'
@@ -29,7 +30,10 @@ import useStudyAudio, { PlayState } from '@hooks/study/useStudyAudio'
 import { useExample } from '@hooks/study/useExample'
 import useBottomPopup from '@hooks/study/useBottomPopup'
 import { useResult } from '@hooks/study/useResult'
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 // components - common
 import StepIntro from '@components/study/common-study/StepIntro'
@@ -51,11 +55,10 @@ import WrapperPenalty from '@components/study/summary-01/WrapperPenalty'
 
 const STEP_TYPE = 'Summary Test'
 
-const isMobile = useDeviceDetection()
-
 const style = isMobile ? summaryCSSMobile : summaryCSS
 
 export default function Summary1(props: IStudyData) {
+  const { t } = useTranslation()
   const { bookInfo, handler, studyInfo } = useContext(
     AppContext,
   ) as AppContextProps
@@ -147,7 +150,7 @@ export default function Summary1(props: IStudyData) {
   // 인트로
   useEffect(() => {
     if (!isStepIntro && quizData) {
-      if (studyInfo.mode === 'Review' && Number(bookInfo.Average) >= 70) {
+      if (studyInfo.mode === 'review' && Number(bookInfo.Average) >= 70) {
         setIsStepEnd(true)
       } else {
         if (penaltyData.penaltyState === 'none') {
@@ -181,7 +184,7 @@ export default function Summary1(props: IStudyData) {
         convertRecordToScoreBoard(recordedData, quizData.QuizAnswerCount),
       )
 
-      if (studyInfo.mode !== 'Review') {
+      if (studyInfo.mode !== 'review') {
         setExampleData(examples)
       }
 
@@ -194,7 +197,7 @@ export default function Summary1(props: IStudyData) {
         })
       }
 
-      if (recordedData.length > 0 && studyInfo.mode === 'Quiz') {
+      if (recordedData.length > 0 && studyInfo.mode === 'student') {
         if (
           quizData.IsEnablePenaltyReview &&
           recordedData[recordedData.length - 1].PenaltyWord !== ''
@@ -869,7 +872,7 @@ export default function Summary1(props: IStudyData) {
           <StepIntro
             step={STEP}
             quizType={STEP_TYPE}
-            comment={'나열된 문장을 보고 올바른 순서대로 고르세요.'}
+            comment={t('study.나열된 문장을 보고 올바른 순서대로 고르세요.')}
             onStepIntroClozeHandler={() => {
               setIntroAnim('animate__bounceOutLeft')
             }}

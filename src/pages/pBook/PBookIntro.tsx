@@ -1,9 +1,13 @@
 import { ReactElement, useContext, useState } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
+
 import QuizContainer from '../containers/QuizContainer'
 
 type ViewName = 'quiz' | 'wait'
 type RatingStatus = 'complete' | 'show'
+
+const { t } = useTranslation()
 
 const PBookIntro: React.FC<{}> = (s) => {
   const { studyInfo } = useContext(AppContext) as AppContextProps
@@ -11,7 +15,7 @@ const PBookIntro: React.FC<{}> = (s) => {
   // 당일 재학습 불가
   const onStartQuizFailed = () => {
     if (studyInfo.availableQuizStatus === 1) {
-      alert('ReTest 정책으로 당일 재학습 불가')
+      alert(t('common.ReTest 정책으로 당일 재학습 불가'))
       //TODO - 학습 종료
       try {
         window.onExitStudy()
@@ -19,7 +23,7 @@ const PBookIntro: React.FC<{}> = (s) => {
         location.replace('/')
       }
     } else if (studyInfo.availableQuizStatus === 2) {
-      alert('일일 획득 가능 포인트 초과')
+      alert(t('common.일일 획득 가능 포인트 초과'))
       //TODO - 학습 종료
       try {
         window.onExitStudy()
@@ -110,7 +114,7 @@ function RatingPopup({
 }) {
   return (
     <div>
-      Show 도서 별점 주기 팝업!{' '}
+      {t('story.Show 도서 별점 주기 팝업!')}
       <button
         onClick={() => {
           onUpdateBookPreference(20)

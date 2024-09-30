@@ -1,9 +1,9 @@
 import trueSentenceCSS from '@stylesheets/true-sentence.module.scss'
 import trueSentenceCSSMobile from '@stylesheets/mobile/true-sentence.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
-
-const isMobile = useDeviceDetection()
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 const style = isMobile ? trueSentenceCSSMobile : trueSentenceCSS
 

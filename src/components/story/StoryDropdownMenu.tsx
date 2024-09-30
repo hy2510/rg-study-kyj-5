@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 
 import EBCSS from '@stylesheets/e-book.module.scss'
 
@@ -16,6 +17,7 @@ export default function StoryDropdownMenu({
   menuItems,
   changeAutoNextPage,
 }: StoryDropDownMenuProps) {
+  const { t } = useTranslation()
   const { handler } = useContext(AppContext) as AppContextProps
 
   // 기능: 메뉴 팝업 띄우기 및 버튼 선택시 이벤트
@@ -31,7 +33,7 @@ export default function StoryDropdownMenu({
     if (handler.storyMode === 'Story') {
       isShow ? setIsShow(false) : setIsShow(true)
     } else {
-      alert('Listen & Repeat 모드에서는 지원하지 않는 기능입니다.')
+      alert(t('story.Listen & Repeat 모드에서는 지원하지 않는 기능입니다.'))
     }
   }
   return (
@@ -47,7 +49,9 @@ export default function StoryDropdownMenu({
             {menuList.map((menu, i) => {
               return (
                 <div
-                  className={`${EBCSS.menu_item} ${menu.selected}`}
+                  className={`${EBCSS.menu_item} ${
+                    menu.selected ? EBCSS.on : ''
+                  }`}
                   onClick={() => {
                     const newList = [...menuList]
 

@@ -4,7 +4,9 @@ import { AppContext, AppContextProps } from '@contexts/AppContext'
 import vocabularyCSS from '@stylesheets/vocabulary-test.module.scss'
 import vocabularyCSSMobile from '@stylesheets/mobile/vocabulary-test.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 type ExampleProps = {
   index: number
@@ -16,8 +18,6 @@ type ExampleProps = {
   ) => Promise<void>
   onAnimationEndHandler: (e: React.AnimationEvent<HTMLDivElement>) => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? vocabularyCSSMobile : vocabularyCSS
 
@@ -34,7 +34,7 @@ export default function Example({
     <div
       className={`${style.textCard} 
       ${
-        studyInfo.mode === 'Review' &&
+        studyInfo.mode === 'review' &&
         Number(bookInfo.Average) >= 70 &&
         text === correctText
           ? style.correct

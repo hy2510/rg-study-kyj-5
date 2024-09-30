@@ -1,7 +1,9 @@
 import summaryCSS from '@stylesheets/summary.module.scss'
 import summaryCSSMobile from '@stylesheets/mobile/summary.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { ISummary1Quiz } from '@interfaces/ISummary'
 import { IScoreBoardData } from '@interfaces/Common'
@@ -14,8 +16,6 @@ type WrapperSentenceTopProps = {
   selectedData: IScoreBoardData
   playSentence: (index: number) => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? summaryCSSMobile : summaryCSS
 

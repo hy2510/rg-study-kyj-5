@@ -1,7 +1,9 @@
 import listeningCSS from '@stylesheets/listening-activity.module.scss'
 import listeningCSSMobile from '@stylesheets/mobile/listening-activity.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { MultiPlayStateProps } from '@pages/study/ListeningActivity4'
 import { IListeningActivity4Example } from '@interfaces/IListeningActivity'
@@ -19,8 +21,6 @@ type WrapperExampleProps = {
 }
 
 import Example from './Example'
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? listeningCSSMobile : listeningCSS
 

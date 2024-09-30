@@ -3,7 +3,9 @@ import { useEffect, useRef, useState } from 'react'
 import summaryCSS from '@stylesheets/summary.module.scss'
 import summaryCSSMobile from '@stylesheets/mobile/summary.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { PenaltyState } from '@pages/study/Summary1'
 
@@ -15,8 +17,6 @@ type WrapperPenaltyProps = {
   correctSentence: string
   changePenaltyState: (state: PenaltyState) => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? summaryCSSMobile : summaryCSS
 

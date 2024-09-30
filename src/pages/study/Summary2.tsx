@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 import { saveUserAnswerPartial } from '@services/studyApi'
 import { getSummary2 } from '@services/quiz/SummaryApi'
 
@@ -37,7 +38,10 @@ import { useStudentAnswer } from '@hooks/study/useStudentAnswer'
 import useBottomPopup from '@hooks/study/useBottomPopup'
 import useStudyAudio from '@hooks/study/useStudyAudio'
 import { useResult } from '@hooks/study/useResult'
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 // components - common
 import StepIntro from '@components/study/common-study/StepIntro'
@@ -57,11 +61,10 @@ import BtnGoNext from '@components/study/summary-02/BtnGoNext'
 
 const STEP_TYPE = 'Summary Test'
 
-const isMobile = useDeviceDetection()
-
 const style = isMobile ? summaryCSSMobile : summaryCSS
 
 export default function Summary2(props: IStudyData) {
+  const { t } = useTranslation()
   const { bookInfo, handler, studyInfo } = useContext(
     AppContext,
   ) as AppContextProps
@@ -119,7 +122,7 @@ export default function Summary2(props: IStudyData) {
   // 인트로
   useEffect(() => {
     if (!isStepIntro && quizData) {
-      if (studyInfo.mode === 'Review' && Number(bookInfo.Average) >= 70) {
+      if (studyInfo.mode === 'review' && Number(bookInfo.Average) >= 70) {
         setComplete(true)
       } else {
         timer.setup(quizData.QuizTime, true)
@@ -169,7 +172,7 @@ export default function Summary2(props: IStudyData) {
         setBottomExample(shuffle(bottomExam))
       } else {
         // 기록이 없으면
-        if (studyInfo.mode === 'Super') {
+        if (studyInfo.mode === 'staff') {
           setBottomExample(examples)
         } else {
           setBottomExample(shuffle(examples))
@@ -756,7 +759,9 @@ export default function Summary2(props: IStudyData) {
           <StepIntro
             step={STEP}
             quizType={STEP_TYPE}
-            comment={'지문을 보고 빈칸에 들어갈 알맞은 답을 순서대로 고르세요.'}
+            comment={t(
+              'study.지문을 보고 빈칸에 들어갈 알맞은 답을 순서대로 고르세요.',
+            )}
             onStepIntroClozeHandler={() => {
               setIntroAnim('animate__bounceOutLeft')
             }}

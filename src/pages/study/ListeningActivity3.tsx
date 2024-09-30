@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 import { saveUserAnswer } from '@services/studyApi'
 import { getListeningActivity3 } from '@services/quiz/ListeningActivityApi'
 
@@ -26,7 +27,10 @@ import { useStudentAnswer } from '@hooks/study/useStudentAnswer'
 import useStudyAudio from '@hooks/study/useStudyAudio'
 import useBottomPopup from '@hooks/study/useBottomPopup'
 import { useResult } from '@hooks/study/useResult'
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 // components - common
 import StepIntro from '@components/study/common-study/StepIntro'
@@ -41,11 +45,10 @@ import WrapperExample from '@components/study/listening-activity-03/WrapperExamp
 
 const STEP_TYPE = 'Listening Activity'
 
-const isMobile = useDeviceDetection()
-
 const style = isMobile ? listeningCSSMobile : listeningCSS
 
 export default function ListeningActivity3(props: IStudyData) {
+  const { t } = useTranslation()
   const { handler, studyInfo } = useContext(AppContext) as AppContextProps
 
   const STEP = props.currentStep
@@ -112,7 +115,7 @@ export default function ListeningActivity3(props: IStudyData) {
 
         setStudentAnswers(recordedData, quizData.QuizAnswerCount) // 기존 데이터
 
-        if (studyInfo.mode === 'Super') {
+        if (studyInfo.mode === 'staff') {
           setExamples(quizData.Quiz[currentQuizNo - 1].Examples)
         } else {
           setExamples(shuffle(quizData.Quiz[currentQuizNo - 1].Examples))
@@ -129,7 +132,7 @@ export default function ListeningActivity3(props: IStudyData) {
   // quizNo가 바뀌면 문제가 바뀐 것으로 인식
   useEffect(() => {
     if (!isStepIntro && !isResultShow && quizData) {
-      if (studyInfo.mode === 'Super') {
+      if (studyInfo.mode === 'staff') {
         setExamples(quizData.Quiz[quizNo - 1].Examples)
       } else {
         setExamples(shuffle(quizData.Quiz[quizNo - 1].Examples))
@@ -295,7 +298,7 @@ export default function ListeningActivity3(props: IStudyData) {
           <StepIntro
             step={STEP}
             quizType={STEP_TYPE}
-            comment={'소리를 듣고 알맞은 카드를 고르세요.'}
+            comment={t('study.소리를 듣고 알맞은 카드를 고르세요.')}
             onStepIntroClozeHandler={() => {
               setIntroAnim('animate__bounceOutLeft')
             }}

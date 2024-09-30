@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import axios from 'axios'
 import { IRecordResultData } from '@interfaces/ISpeak'
@@ -10,6 +11,7 @@ const API_URL = 'https://api.readinggate.elasolution.com'
 const API_KEY = 'e874641aac784ff6b9d62c3483f7aaaa'
 
 export default function useRecorder() {
+  const { t } = useTranslation()
   const [userAudio, setUserAudio] = useState('')
 
   /**
@@ -130,7 +132,6 @@ export default function useRecorder() {
         },
       })
       .then((data) => {
-        console.log(data)
         switch (data.status) {
           case 200:
             // 정상적으로 완료된 경우
@@ -139,7 +140,11 @@ export default function useRecorder() {
 
           case 401:
             // 인증키가 잘못된 경우
-            alert('인증키가 잘못되었습니다. 리딩게이트로 전화주세요. 1599-0533')
+            alert(
+              t(
+                'study.인증키가 잘못되었습니다. 리딩게이트로 전화주세요. 1599-0533',
+              ),
+            )
             break
 
           case 403:

@@ -1,7 +1,9 @@
 import readingComprehensionCSS from '@stylesheets/reading-comprehension.module.scss'
 import readingComprehensionCSSMobile from '@stylesheets/mobile/reading-comprehension.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { PlayState } from '@hooks/study/useStudyAudio'
 import { IcoPlay, IcoStop } from '@components/common/Icons'
@@ -11,11 +13,7 @@ type BtnPlaySentenceProps = {
   playSentence: () => void
 }
 
-const isMobile = useDeviceDetection()
-
-const style = isMobile
-  ? readingComprehensionCSSMobile
-  : readingComprehensionCSSMobile
+const style = isMobile ? readingComprehensionCSSMobile : readingComprehensionCSS
 
 export default function BtnPlaySentence({
   playState,

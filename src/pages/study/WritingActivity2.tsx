@@ -19,7 +19,10 @@ import { useFetch } from '@hooks/study/useFetch'
 import { useQuiz } from '@hooks/study/useQuiz'
 import { useResult } from '@hooks/study/useResult'
 import { useStudentAnswer } from '@hooks/study/useStudentAnswer'
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 // components - common
 import QuizHeader from '@components/study/common-study/QuizHeader'
@@ -37,8 +40,6 @@ import GoNextStepBox from '@components/study/writing-activity-02/GoNextStepBox'
 import StepOutro from '@components/study/writing-activity-02/StepOutro'
 
 const STEP_TYPE = 'Writing Activity'
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? writingActivityCSSMobile : writingActivityCSS
 

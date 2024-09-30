@@ -1,13 +1,13 @@
 import listeningCSS from '@stylesheets/listening-activity.module.scss'
 import listeningCSSMobile from '@stylesheets/mobile/listening-activity.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 type ImgQuestionProps = {
   src: string
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? listeningCSSMobile : listeningCSS
 

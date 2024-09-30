@@ -11,14 +11,14 @@ const useExample = () => {
     getExamplesByQuizNo: <T>(
       quizzes: T[],
       quizNo: number,
-      mode: Mode | boolean = 'Quiz',
+      mode: Mode | boolean = 'student',
     ): T[] => {
       const quizData: T[] = filter(
         quizzes,
         (quiz, index) => index >= quizNo - 1,
       )
 
-      if (mode === 'Quiz') {
+      if (mode === 'student') {
         return shuffle(quizData)
       } else {
         return quizData
@@ -33,7 +33,7 @@ const useExample = () => {
     // getExampleByQuizNo: <T extends R, R>(
     //   quizzes: T[],
     //   quizNo: number,
-    //   mode: Mode = 'quiz',
+    //   mode: Mode = 'student',
     // ): R | Error => {
     //   const quizData: T[] = filter(
     //     quizzes,

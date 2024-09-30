@@ -1,7 +1,9 @@
 import summaryCSS from '@stylesheets/summary.module.scss'
 import summaryCSSMobile from '@stylesheets/mobile/summary.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { PlayState } from '@hooks/study/useStudyAudio'
 import { IcoPlay, IcoStop } from '@components/common/Icons'
@@ -10,8 +12,6 @@ type BtnPlaySentenceProps = {
   playState: PlayState
   playSentence: () => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? summaryCSSMobile : summaryCSS
 

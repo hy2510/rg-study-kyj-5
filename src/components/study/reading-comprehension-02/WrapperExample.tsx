@@ -1,7 +1,9 @@
 import readingComprehensionCSS from '@stylesheets/reading-comprehension.module.scss'
 import readingComprehensionCSSMobile from '@stylesheets/mobile/reading-comprehension.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { IReadingComprehension2Example } from '@interfaces/IReadingComprehension'
 import { MultiPlayStateProps } from '@pages/study/ReadingComprehension2'
@@ -22,8 +24,6 @@ type WrapperExampleProps = {
 }
 
 import Example from './Example'
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? readingComprehensionCSSMobile : readingComprehensionCSS
 

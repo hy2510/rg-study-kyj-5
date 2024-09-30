@@ -1,9 +1,9 @@
 import writingActivityCSS from '@stylesheets/writing-activity.module.scss'
 import writingActivityCSSMobile from '@stylesheets/mobile/writing-activity.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
-
-const isMobile = useDeviceDetection()
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 const style = isMobile ? writingActivityCSSMobile : writingActivityCSS
 

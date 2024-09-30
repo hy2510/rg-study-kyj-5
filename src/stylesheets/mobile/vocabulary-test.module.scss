@@ -199,6 +199,7 @@
     }
   }
   input {
+    width: 100%;
     background-color: transparent;
     border: none;
     font-family: 'Rg-B', sans-serif;
@@ -257,6 +258,9 @@
     @media (prefers-color-scheme: dark) {
       color: #fff;
     }
+  }
+  &.overLength {
+    font-size: 0.8em;
   }
 }
 

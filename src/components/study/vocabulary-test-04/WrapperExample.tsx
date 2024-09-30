@@ -1,7 +1,9 @@
 import vocabularyCSS from '@stylesheets/vocabulary-test.module.scss'
 import vocabularyCSSMobile from '@stylesheets/mobile/vocabulary-test.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { IVocabulary4Example } from '@interfaces/IVocabulary'
 type WrapperExampleProps = {
@@ -15,8 +17,6 @@ type WrapperExampleProps = {
 }
 
 import Example from './Example'
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? vocabularyCSSMobile : vocabularyCSS
 

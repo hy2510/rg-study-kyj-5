@@ -1,5 +1,6 @@
 import { useEffect, useContext } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 
 import MobileDetect from 'mobile-detect'
 
@@ -9,6 +10,7 @@ import { PageSequenceProps, PlayState } from '@interfaces/IStory'
 
 import StoryDropdownReadType from './StoryDropdownReadType'
 import StoryDropdownPlayrate from './StoryDropdownPlayrate'
+import StoryDropdownRepeat from './StoryDropdownRepeat'
 import StoryDropdownMenu from './StoryDropdownMenu'
 
 // 좌우 화살표 이미지
@@ -27,7 +29,6 @@ import icon_full_screen from '@assets/images/ebook/icon_full_screen.svg'
 import icon_full_screen_out from '@assets/images/ebook/icon_full_screen_out.svg'
 
 import icon_menu from '@assets/images/ebook/icon_menu.svg'
-import StoryDropdownRepeat from './StoryDropdownRepeat'
 
 // 디바이스 정보 (여기서는 태블릿을 구분하는 용도로 사용)
 const md = new MobileDetect(navigator.userAgent)
@@ -49,6 +50,7 @@ type StoryBottomMenuProps = {
   resumeAudio: () => void
   changeVocaOpen: (state: boolean) => void
   changeSideMenu: (state: boolean) => void
+  changeMaxReadCnt: (cnt: number) => void
 }
 
 export default function StoryBottomMenu({
@@ -68,7 +70,9 @@ export default function StoryBottomMenu({
   resumeAudio,
   changeVocaOpen,
   changeSideMenu,
+  changeMaxReadCnt,
 }: StoryBottomMenuProps) {
+  const { t } = useTranslation()
   const { handler } = useContext(AppContext) as AppContextProps
 
   useEffect(() => {}, [isFullScreen])
@@ -99,7 +103,7 @@ export default function StoryBottomMenu({
 
           {/* 페이지 넘기기 Dropdown 메뉴 */}
           <StoryDropdownMenu
-            menuName="페이지 넘기기"
+            menuName={t('story.페이지 넘기기')}
             menuItems={[
               { name: 'Auto', selected: 'on' },
               { name: 'Manually', selected: '' },
@@ -108,15 +112,15 @@ export default function StoryBottomMenu({
           />
 
           {/* 전체 반복 (3회) */}
-          <StoryDropdownRepeat
-            menuName="반복 읽기"
+          {/* <StoryDropdownRepeat
+            menuName={t('story.반복 읽기')}
             menuItems={[
-              { name: 'Repeat 1', selected: 'on' },
-              { name: 'Repeat 2', selected: '' },
+              { name: 'Repeat 1', selected: '' },
+              { name: 'Repeat 2', selected: 'on' },
               { name: 'Repeat 3', selected: '' },
             ]}
-            changeAutoNextPage={changeAutoNextPage}
-          />
+            changeMaxReadCnt={changeMaxReadCnt}
+          /> */}
         </div>
 
         {/* 플레이바 > 가운데 */}

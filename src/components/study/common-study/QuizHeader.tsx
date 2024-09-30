@@ -2,9 +2,11 @@ import { IcoHeart } from '@components/common/Icons'
 
 import quizTemplateCSS from '@stylesheets/quiz-template.module.scss'
 import quizTemplateMobileCSS from '@stylesheets/mobile/quiz-template.module.scss'
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
 
-const isMobile = useDeviceDetection()
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
+
 const style = isMobile ? quizTemplateMobileCSS : quizTemplateCSS
 
 interface QuizHeaderProps {

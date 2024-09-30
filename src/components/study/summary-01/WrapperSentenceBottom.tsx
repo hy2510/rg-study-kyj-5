@@ -1,7 +1,9 @@
 import summaryCSS from '@stylesheets/summary.module.scss'
 import summaryCSSMobile from '@stylesheets/mobile/summary.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { ISummary1Quiz } from '@interfaces/ISummary'
 import Example from './Example'
@@ -14,8 +16,6 @@ type WrapperSentenceBottomProps = {
   ) => Promise<void>
   onAnimationEnd: (target: EventTarget & HTMLDivElement) => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? summaryCSSMobile : summaryCSS
 

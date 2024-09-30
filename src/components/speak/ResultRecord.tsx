@@ -6,6 +6,7 @@ import { playSpeakNextSnd } from '@utils/common'
 
 import { IRecordResultData } from '@interfaces/ISpeak'
 import Visualizer from './Visualizer'
+import getBlobDuration from 'get-blob-duration'
 
 type ResultRecordProps = {
   isRetry: boolean
@@ -28,113 +29,168 @@ export default function ResultRecord({
   changeRecordResult,
   changeRetry,
 }: ResultRecordProps) {
-  const nativeAudioRef = useRef(new Audio(nativeAudio))
-  const userAudioRef = useRef(new Audio(userAudio))
-  const [nativeCur, setNativeCur] = useState(0)
+  const audioRef = useRef(new Audio())
+  const audio = audioRef.current
+  audio.autoplay = true
 
-  const nativeAud = nativeAudioRef.current
-  const userAud = userAudioRef.current
+  const intervalRef = useRef<string | number | NodeJS.Timeout | undefined>()
+  let audioInterval = intervalRef.current
+
+  const [audioController, setAudioController] = useState<{
+    src: string
+    type: '' | 'native' | 'user'
+  }>({
+    src: '',
+    type: '',
+  })
+
+  const [nativeCur, setNativeCur] = useState(0)
   const [userCur, setUserCur] = useState(0)
 
   const [togglePhonemes, setTogglePhonemes] = useState(false)
 
   useEffect(() => {
     playSpeakNextSnd()
-    let nativeIntervalId: string | number | NodeJS.Timeout | undefined
-    let userIntervalId: string | number | NodeJS.Timeout | undefined
-
-    const onPlayingHandlerNative = () => {
-      nativeIntervalId = setInterval(() => {
-        const per = nativeAud.currentTime / nativeAud.duration
-
-        if (per === 0) {
-          clearInterval(nativeIntervalId)
-        } else {
-          setNativeCur(per)
-        }
-      }, 25)
-    }
-    const onErrorHandlerNative = (e: any) => {
-      console.log(e.error)
-      alert(e.error)
-    }
-    const onPauseHanlderNative = () => {
-      nativeAud.currentTime = 0
-      clearInterval(nativeIntervalId)
-      setNativeCur(0)
-    }
-    const onEndedHandlerNative = () => {
-      clearInterval(nativeIntervalId)
-      setNativeCur(0)
-    }
-
-    const onPlayingHandlerUser = () => {
-      const additionSec = nativeAud.duration >= 5 ? 1.4 : 1.2
-      const recordDuration = nativeAud.duration * additionSec
-
-      userIntervalId = setInterval(() => {
-        const per =
-          userAud.currentTime /
-          (userAud.duration === Infinity ? recordDuration : userAud.duration)
-
-        if (per === 0) {
-          clearInterval(userIntervalId)
-        } else {
-          setUserCur(per)
-        }
-      }, 25)
-    }
-    const onErrorHandlerUser = (e: any) => {
-      console.log(e.error)
-      alert(e.error)
-    }
-    const onPauseHanlderUser = () => {
-      userAud.currentTime = 0
-      clearInterval(userIntervalId)
-      setUserCur(0)
-    }
-    const onEndedHandlerUser = () => {
-      clearInterval(userIntervalId)
-      setUserCur(0)
-    }
-
-    nativeAud.addEventListener('playing', onPlayingHandlerNative)
-    nativeAud.addEventListener('error', onErrorHandlerNative)
-    nativeAud.addEventListener('pause', onPauseHanlderNative)
-    nativeAud.addEventListener('ended', onEndedHandlerNative)
-
-    userAud.addEventListener('playing', onPlayingHandlerUser)
-    userAud.addEventListener('error', onErrorHandlerUser)
-    userAud.addEventListener('pause', onPauseHanlderUser)
-    userAud.addEventListener('ended', onEndedHandlerUser)
-
-    return () => {
-      nativeAud.removeEventListener('playing', onPlayingHandlerNative)
-      nativeAud.removeEventListener('error', onErrorHandlerNative)
-      nativeAud.removeEventListener('pause', onPauseHanlderNative)
-      nativeAud.removeEventListener('ended', onEndedHandlerNative)
-
-      userAud.removeEventListener('playing', onPlayingHandlerUser)
-      userAud.removeEventListener('error', onErrorHandlerUser)
-      userAud.removeEventListener('pause', onPauseHanlderUser)
-      userAud.removeEventListener('ended', onEndedHandlerUser)
-
-      nativeAud.pause()
-      userAud.pause()
-
-      clearInterval(nativeIntervalId)
-      clearInterval(userIntervalId)
-    }
   }, [])
 
+  useEffect(() => {
+    if (audioController.src !== '') {
+      audio.src = audioController.src
+
+      if (audioController.type === 'user') {
+        const onCanPlayThrough = () => {
+          audio.play()
+        }
+
+        const onPlayingHandler = async () => {
+          const duration = await getBlobDuration(audioController.src)
+
+          audioInterval = setInterval(() => {
+            const per = audio.currentTime / duration
+
+            if (per === 0) {
+              clearInterval(audioInterval)
+            } else {
+              setUserCur(per)
+            }
+          }, 25)
+
+          audio.play()
+        }
+
+        const onErrorHandler = (e: any) => {
+          console.log(e.error)
+          alert(e.error)
+        }
+        const onPauseHanlder = () => {
+          clearInterval(audioInterval)
+        }
+        const onEndedHandler = () => {
+          setUserCur(0)
+
+          clearInterval(audioInterval)
+        }
+
+        audio.addEventListener('canplaythrough', onCanPlayThrough)
+        audio.addEventListener('playing', onPlayingHandler)
+        audio.addEventListener('error', onErrorHandler)
+        audio.addEventListener('pause', onPauseHanlder)
+        audio.addEventListener('ended', onEndedHandler)
+
+        return () => {
+          audio.removeEventListener('canplaythrough', onCanPlayThrough)
+          audio.removeEventListener('playing', onPlayingHandler)
+          audio.removeEventListener('error', onErrorHandler)
+          audio.removeEventListener('pause', onPauseHanlder)
+          audio.removeEventListener('ended', onEndedHandler)
+
+          audio.pause()
+          audio.currentTime = 0
+          setNativeCur(0)
+          setUserCur(0)
+
+          clearInterval(audioInterval)
+        }
+      } else {
+        const onCanPlayThrough = () => {
+          audio.play()
+        }
+
+        const onPlayingHandler = () => {
+          audioInterval = setInterval(() => {
+            const per = audio.currentTime / audio.duration
+
+            if (per === 0) {
+              clearInterval(audioInterval)
+            } else {
+              setNativeCur(per)
+            }
+          }, 25)
+
+          audio.play()
+        }
+
+        const onErrorHandler = (e: any) => {
+          console.log(e.error)
+          alert(e.error)
+        }
+        const onPauseHanlder = () => {
+          clearInterval(audioInterval)
+        }
+        const onEndedHandler = () => {
+          setNativeCur(0)
+
+          clearInterval(audioInterval)
+        }
+
+        audio.addEventListener('canplaythrough', onCanPlayThrough)
+        audio.addEventListener('playing', onPlayingHandler)
+        audio.addEventListener('error', onErrorHandler)
+        audio.addEventListener('pause', onPauseHanlder)
+        audio.addEventListener('ended', onEndedHandler)
+
+        return () => {
+          audio.removeEventListener('canplaythrough', onCanPlayThrough)
+          audio.removeEventListener('playing', onPlayingHandler)
+          audio.removeEventListener('error', onErrorHandler)
+          audio.removeEventListener('pause', onPauseHanlder)
+          audio.removeEventListener('ended', onEndedHandler)
+
+          audio.pause()
+          audio.currentTime = 0
+          setNativeCur(0)
+          setUserCur(0)
+
+          clearInterval(audioInterval)
+        }
+      }
+    }
+  }, [audioController])
+
   const playNativeAudio = () => {
-    userAud.pause()
-    nativeAud.play()
+    audio.pause()
+
+    if (audioController.type === 'native') {
+      audio.play()
+    } else {
+      setAudioController({
+        src: nativeAudio,
+        type: 'native',
+      })
+    }
   }
 
   const playUserAudio = () => {
-    nativeAud.pause()
-    userAud.play()
+    audio.pause()
+
+    if (audioController.type === 'user') {
+      audio.play()
+    } else {
+      setAudioController({
+        src: userAudio,
+        type: 'user',
+      })
+    }
   }
 
   const closeResultRecord = () => {
@@ -161,7 +217,14 @@ export default function ResultRecord({
             <span className={SpeakCSS.iconSpeaker}></span>
           </div>
 
-          {(sentenceScore.total_score >= 40 || isRetry) && (
+          {((sentenceScore.speech_detected &&
+            sentenceScore.total_score >= 40 &&
+            sentenceScore.phoneme_result.sentence_score >= 40 &&
+            (sentenceScore.total_score +
+              sentenceScore.phoneme_result.sentence_score) /
+              2 >=
+              40) ||
+            isRetry) && (
             <>
               <div
                 className={`${SpeakCSS.btn} ${SpeakCSS.retry}`}
@@ -187,7 +250,17 @@ export default function ResultRecord({
             {/* 학생 그래프 */}
             <Visualizer
               src={userAudio}
-              color={sentenceScore.total_score > 40 ? '#3ab6ff' : '#ff2424'}
+              color={
+                sentenceScore.speech_detected &&
+                sentenceScore.total_score >= 40 &&
+                sentenceScore.phoneme_result.sentence_score >= 40 &&
+                (sentenceScore.total_score +
+                  sentenceScore.phoneme_result.sentence_score) /
+                  2 >=
+                  40
+                  ? '#3ab6ff'
+                  : '#ff2424'
+              }
             />
 
             <div className={SpeakCSS.wrapperProgress}>
@@ -200,7 +273,15 @@ export default function ResultRecord({
               <div
                 style={{ left: `${userCur * 100}%` }}
                 className={`${SpeakCSS.progressBar} ${SpeakCSS.student} ${
-                  sentenceScore.total_score > 40 ? SpeakCSS.passed : null
+                  sentenceScore.speech_detected &&
+                  sentenceScore.total_score >= 40 &&
+                  sentenceScore.phoneme_result.sentence_score >= 40 &&
+                  (sentenceScore.total_score +
+                    sentenceScore.phoneme_result.sentence_score) /
+                    2 >=
+                    40
+                    ? SpeakCSS.passed
+                    : null
                 }`}
               >
                 <div className={SpeakCSS.progressArrow}></div>
@@ -210,16 +291,15 @@ export default function ResultRecord({
 
           <div className={SpeakCSS.sentence}>
             {sentenceScore.phoneme_result.words.map((word, i) => {
-              const avg =
-                word.phonemes.reduce((cur, acc) => {
-                  return cur + acc.score
-                }, 0) / word.phonemes.length
-
               const sentenceWord = sentence.split(' ')
 
               return (
                 <div
-                  className={`${SpeakCSS.word} ${avg < 30 ? SpeakCSS.red : ''}`}
+                  className={`${SpeakCSS.word} ${
+                    sentenceScore.phoneme_result.sentence_score < 30
+                      ? SpeakCSS.red
+                      : ''
+                  }`}
                 >
                   {sentenceWord[i]}
                 </div>
@@ -282,7 +362,13 @@ export default function ResultRecord({
 
         <div
           className={`${SpeakCSS.row3} ${
-            sentenceScore.total_score >= 40
+            sentenceScore.speech_detected &&
+            sentenceScore.total_score >= 40 &&
+            sentenceScore.phoneme_result.sentence_score >= 40 &&
+            (sentenceScore.total_score +
+              sentenceScore.phoneme_result.sentence_score) /
+              2 >=
+              40
               ? SpeakCSS.goodJob
               : SpeakCSS.tryAgain
           }`}
@@ -294,7 +380,13 @@ export default function ResultRecord({
             }
           }}
         >
-          {sentenceScore.total_score >= 40 ? (
+          {sentenceScore.speech_detected &&
+          sentenceScore.total_score >= 40 &&
+          sentenceScore.phoneme_result.sentence_score >= 40 &&
+          (sentenceScore.total_score +
+            sentenceScore.phoneme_result.sentence_score) /
+            2 >=
+            40 ? (
             <div className={SpeakCSS.txt}>Good Job!</div>
           ) : (
             <>

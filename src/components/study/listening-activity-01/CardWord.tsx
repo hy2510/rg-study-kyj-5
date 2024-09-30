@@ -4,7 +4,9 @@ import { AppContext, AppContextProps } from '@contexts/AppContext'
 import listeningCSS from '@stylesheets/listening-activity.module.scss'
 import listeningCSSMobile from '@stylesheets/mobile/listening-activity.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 type CardWordProps = {
   imgSrc: string
@@ -25,8 +27,6 @@ type CardWordProps = {
   ) => Promise<void>
 }
 
-const isMobile = useDeviceDetection()
-
 const style = isMobile ? listeningCSSMobile : listeningCSS
 
 export default function CardWord({
@@ -40,7 +40,7 @@ export default function CardWord({
 }: CardWordProps) {
   const { studyInfo } = useContext(AppContext) as AppContextProps
   const [isShowWord, setShowWord] = useState<boolean>(false)
-  const [reviewState, setReviewState] = useState(studyInfo.mode === 'Review')
+  const [reviewState, setReviewState] = useState(studyInfo.mode === 'review')
 
   const selectExample = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if ((!isCorrected && !isShowWord) || reviewState) {

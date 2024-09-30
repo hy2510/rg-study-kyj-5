@@ -3,8 +3,7 @@ import { AppContext, AppContextProps } from '@contexts/AppContext'
 
 import readingComprehensionCSS from '@stylesheets/reading-comprehension.module.scss'
 import readingComprehensionCSSMobile from '@stylesheets/mobile/reading-comprehension.module.scss'
-
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+readingComprehensionCSS
 
 import { IReadingComprehension4Example } from '@interfaces/IReadingComprehension'
 
@@ -18,7 +17,9 @@ type ExampleProps = {
   ) => Promise<void>
 }
 
-const isMobile = useDeviceDetection()
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 const style = isMobile ? readingComprehensionCSSMobile : readingComprehensionCSS
 
@@ -33,7 +34,7 @@ export default function Example({
   return (
     <div
       className={`${style.textCard} ${
-        studyInfo.mode === 'Review' &&
+        studyInfo.mode === 'review' &&
         Number(bookInfo.Average) >= 70 &&
         exampleData.Text === correctText
           ? style.correct

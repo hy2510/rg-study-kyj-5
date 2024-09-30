@@ -3,7 +3,9 @@ import reactStringReplace from 'react-string-replace'
 import clozeTestCSS from '@stylesheets/cloze-test.module.scss'
 import clozeTestCSSMobile from '@stylesheets/mobile/cloze-test.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { IClozeTest2Quiz } from '@interfaces/IClozeTest'
 
@@ -28,8 +30,6 @@ type WrapperQuestionProps = {
   checkAnswer: () => void
   changePenaltyState: (state: 'none' | 'penalty' | 'success') => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? clozeTestCSSMobile : clozeTestCSS
 

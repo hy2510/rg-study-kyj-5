@@ -1,5 +1,6 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 
 import sideMenuCSS from '@stylesheets/side-menu.module.scss'
 
@@ -32,6 +33,7 @@ export default function StudySideMenu({
   changeSideMenu,
   changeStep,
 }: StudySideMenuProps) {
+  const { t } = useTranslation()
   const { bookInfo, handler } = useContext(AppContext) as AppContextProps
 
   const [sideAnim, setSideAnim] = useState<
@@ -92,7 +94,7 @@ export default function StudySideMenu({
                     }}
                   >
                     <img src={icon_repeat} alt="" />
-                    다시 읽기
+                    {t('story.다시 읽기')}
                     <div className="pyro">
                       <div className="before"></div>
                       <div className="after"></div>
@@ -123,7 +125,7 @@ export default function StudySideMenu({
                 }}
               >
                 <img src={icon_exit} alt="" />
-                <div className="txt">나가기</div>
+                <div className="txt">{t('common.나가기')}</div>
               </div>
             </div>
           </div>

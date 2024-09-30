@@ -2,7 +2,7 @@
 export type Mobile = '' | 'A' | 'B' | 'I' | 'J'
 
 // 학습 모드
-export type Mode = 'Super' | 'Review' | 'Quiz'
+export type Mode = 'student' | 'staff' | 'review'
 
 // 책 종류
 export type BookType = 'PB' | 'EB'

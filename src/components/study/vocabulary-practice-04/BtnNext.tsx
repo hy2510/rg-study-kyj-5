@@ -1,13 +1,13 @@
 import vocabularyCSS from '@stylesheets/vocabulary-practice.module.scss'
 import vocabularyCSSMobile from '@stylesheets/mobile/vocabulary-practice.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 type BtnNextProps = {
   goTest: () => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? vocabularyCSSMobile : vocabularyCSS
 

@@ -3,7 +3,9 @@ import { useEffect, useRef } from 'react'
 import vocabularyCSS from '@stylesheets/vocabulary-practice.module.scss'
 import vocabularyCSSMobile from '@stylesheets/mobile/vocabulary-practice.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { IVocabulary3Practice } from '@interfaces/IVocabulary'
 
@@ -18,8 +20,6 @@ type InputProps = {
   changeInputVal: (value: string) => void
   checkAnswer: (skipType?: string) => Promise<void>
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? vocabularyCSSMobile : vocabularyCSS
 
@@ -63,7 +63,7 @@ export default function Input({
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
 
-    const regex = /^[ㄱ-ㅎa-zA-Z-' ]+(?:'){0,1}[a-zA-Z]?$/g
+    const regex = /^[ㄱ-ㅎa-zA-Z-'~ ]+(?:'){0,1}[a-zA-Z]?$/g
     let text: string = e.currentTarget.value
 
     if (!regex.test(text)) {

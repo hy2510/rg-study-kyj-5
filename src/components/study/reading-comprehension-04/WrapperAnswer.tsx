@@ -1,7 +1,9 @@
 import readingComprehensionCSS from '@stylesheets/reading-comprehension.module.scss'
 import readingComprehensionCSSMobile from '@stylesheets/mobile/reading-comprehension.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { IReadingComprehension4Example } from '@interfaces/IReadingComprehension'
 
@@ -19,8 +21,6 @@ type WrapperAnswerProps = {
 import Gap from '../common-study/Gap'
 import TextQuestion from './TextQuestion'
 import WrapperExample from './WrapperExample'
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? readingComprehensionCSSMobile : readingComprehensionCSS
 

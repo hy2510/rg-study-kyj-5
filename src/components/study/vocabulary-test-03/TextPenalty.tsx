@@ -3,7 +3,9 @@ import { useState } from 'react'
 import vocabularyCSS from '@stylesheets/vocabulary-test.module.scss'
 import vocabularyCSSMobile from '@stylesheets/mobile/vocabulary-test.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 type TextPenaltyProps = {
   inputRefs: React.MutableRefObject<HTMLInputElement[]>
@@ -14,8 +16,6 @@ type TextPenaltyProps = {
   playPenalty: (cb: any) => void
   changeNextButton: () => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? vocabularyCSSMobile : vocabularyCSS
 
@@ -37,7 +37,7 @@ export default function TextPenalty({
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
 
-    const regex = /^[ㄱ-ㅎa-zA-Z-' ]+(?:'){0,1}[a-zA-Z]?$/g
+    const regex = /^[ㄱ-ㅎa-zA-Z-'~ ]+(?:'){0,1}[a-zA-Z]?$/g
     let text: string = e.currentTarget.value
 
     if (!regex.test(text)) {
@@ -67,12 +67,12 @@ export default function TextPenalty({
         <span
           className={`${style.reviewAnswer} ${
             inputIndex === currentInputIndex ? style.currentOrder : ''
-          }`}
+          } ${correctAnswer.length > 20 ? style.overLength : ''}`}
         >
           <span className={style.otherInput}>
             <input disabled />
           </span>
-          <div className={style.hintText}>{correctAnswer}</div>
+          <div className={`${style.hintText} `}>{correctAnswer}</div>
         </span>
       )}
 
@@ -81,7 +81,7 @@ export default function TextPenalty({
         <span
           className={`${style.reviewAnswer} ${
             inputIndex === currentInputIndex ? style.currentOrder : ''
-          }`}
+          }  ${correctAnswer.length > 20 ? style.overLength : ''}`}
         >
           <span className={style.currentInput}>
             <input
@@ -100,14 +100,16 @@ export default function TextPenalty({
               tabIndex={-1}
             />
           </span>
-          <div className={style.hintText}>{correctAnswer}</div>
+          <div className={`${style.hintText}`}>{correctAnswer}</div>
         </span>
       )}
 
       {/* input이 현재 input index보다 작으면 */}
       {inputIndex < currentInputIndex && (
         <span
-          className={`${style.reviewAnswer} ${style.correctAnswer} animate__animated animate__flipInX`}
+          className={`${style.reviewAnswer} ${style.correctAnswer} ${
+            correctAnswer.length > 20 ? style.overLength : ''
+          } animate__animated animate__flipInX`}
         >
           {correctAnswer}
         </span>

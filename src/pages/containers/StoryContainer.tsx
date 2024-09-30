@@ -15,8 +15,9 @@ import EBCSS from '@stylesheets/e-book.module.scss'
 import StoryPC from '@pages/story/StoryPC'
 import StoryMoblie from '@pages/story/StoryMobile'
 
-import PopupEBookRating from '@components/story/PopupEBookRating'
 import MovieBook from '@components/story/MovieBook'
+
+import PopupEBookRating from '@components/story/PopupEBookRating'
 import PopupEBookDecreasePoint from '@components/story/PopupEBookDecreasePoint'
 import PopupEBookNoPoint from '@components/story/PopupEBookNoPoint'
 
@@ -127,10 +128,7 @@ export default function EBook() {
 
       {/* rating */}
       {isRatingShow && bookInfo.PassCount === 0 && (
-        <PopupEBookRating
-          changeRatingShow={changeRatingShow}
-          studyCount={bookInfo.StudyMode}
-        />
+        <PopupEBookRating changeRatingShow={changeRatingShow} />
       )}
 
       {/* rating */}

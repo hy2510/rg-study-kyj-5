@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 
 import { saveBookMark } from '@services/storyApi'
 import { StoryMobileProps, PageState } from '@interfaces/IStory'
@@ -21,6 +22,7 @@ export default function StoryMoblie({
   changeRatingShow,
   toggleMovieShow,
 }: StoryMobileProps) {
+  const { t } = useTranslation()
   const { bookInfo, studyInfo, handler } = useContext(
     AppContext,
   ) as AppContextProps
@@ -90,7 +92,9 @@ export default function StoryMoblie({
       !handler.isReadingComplete &&
       Number(bookInfo.BookLevel.substring(0, 1)) > 1
     ) {
-      const isMarkedRead = confirm('마지막으로 읽은 곳부터 시작할까요?')
+      const isMarkedRead = confirm(
+        t('story.마지막으로 읽은 곳부터 시작할까요?'),
+      )
 
       if (isMarkedRead) {
         changePageNumber(
@@ -250,7 +254,7 @@ export default function StoryMoblie({
           location.replace('/')
         }
       } else {
-        alert('책갈피 저장에 실패했습니다.')
+        alert(t('story.책갈피 저장에 실패했습니다.'))
 
         try {
           window.onExitStudy()

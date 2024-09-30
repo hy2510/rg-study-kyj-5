@@ -1,15 +1,12 @@
 import vocabularyCSS from '@stylesheets/vocabulary-practice.module.scss'
 import vocabularyCSSMobile from '@stylesheets/mobile/vocabulary-practice.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
-
 import { IVocabulary3Practice } from '@interfaces/IVocabulary'
 import { PlayBarState } from '@pages/study/VocabularyPractice3'
 import { PlayState } from '@hooks/study/useStudyAudio'
-import { IRecordResultData } from '@interfaces/ISpeak'
+import { IPhonemeResult } from '@interfaces/ISpeak'
 
 import { LottieRecordAni } from '@components/common/LottieAnims'
-import ico_rec from '@assets/images/icons/icon_rec.svg'
 
 import Gap from '@components/study/common-study/Gap'
 import BtnPlayWord from './BtnPlayWord'
@@ -27,7 +24,7 @@ type WrapperCardProps = {
   playBarState: PlayBarState
   playState: PlayState
   isSpeakResult: boolean
-  sentenceScore: IRecordResultData | undefined
+  phonemeScore: IPhonemeResult | undefined
   playWord: () => void
   changeInputVal: (value: string) => void
   startRecord: () => void
@@ -35,11 +32,13 @@ type WrapperCardProps = {
   changePlayBarState: (state: PlayBarState) => void
 }
 
-const isMobile = useDeviceDetection()
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 const style = isMobile ? vocabularyCSSMobile : vocabularyCSS
 
-export default function WrapperCardSpeak({
+export default function WrapperCard({
   isSideOpen,
   inputVal,
   playBarState,
@@ -48,7 +47,7 @@ export default function WrapperCardSpeak({
   quizNo,
   tryCount,
   isSpeakResult,
-  sentenceScore,
+  phonemeScore,
   playWord,
   startRecord,
   checkAnswer,
@@ -84,9 +83,7 @@ export default function WrapperCardSpeak({
             {playBarState === 'recording' ? (
               <LottieRecordAni />
             ) : (
-              <div className={style.recIcon}>
-                {/* <img src={ico_rec} alt="" width={14} height={26} /> */}
-              </div>
+              <div className={style.recIcon}></div>
             )}
           </div>
         ) : (
@@ -113,8 +110,8 @@ export default function WrapperCardSpeak({
         <>
           {/* 스피크 결과 (단어뜻이 사라지고 결과가 나옴) */}
           <ResultSpeak
-            sentenceScore={sentenceScore}
-            tryCount={tryCount}
+            word={quizData.Quiz[quizNo - 1].Question.Text}
+            phonemeScore={phonemeScore}
             changePlayBarState={changePlayBarState}
           />
         </>

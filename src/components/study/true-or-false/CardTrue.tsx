@@ -4,14 +4,14 @@ import { AppContext, AppContextProps } from '@contexts/AppContext'
 import trueOrFalseCSS from '@stylesheets/true-or-false.module.scss'
 import trueOrFalseCSSMobile from '@stylesheets/mobile/true-or-false.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 type CardTrueProps = {
   isCorrect: boolean
   checkAnswer: (target: HTMLDivElement, selectedBtn: boolean) => Promise<void>
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? trueOrFalseCSSMobile : trueOrFalseCSS
 
@@ -21,7 +21,7 @@ export default function CardTrue({ isCorrect, checkAnswer }: CardTrueProps) {
   return (
     <div
       className={`${style.textCard} ${
-        studyInfo.mode === 'Review' &&
+        studyInfo.mode === 'review' &&
         Number(bookInfo.Average) >= 70 &&
         isCorrect
           ? trueOrFalseCSS.correct

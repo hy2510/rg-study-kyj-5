@@ -1,12 +1,12 @@
 import testResultCSS from '@stylesheets/test-result.module.scss'
 import testResultCSSMobile from '@stylesheets/mobile/test-result.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
 import useCharacter from '@hooks/study/useCharacter'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { IScoreBoardData } from '@interfaces/Common'
-
-import { LottieScrollDownAni } from '@components/common/LottieAnims'
 
 import Gap from '@components/study/common-study/Gap'
 import ScoreBoard from './test-result/ScoreBoard'
@@ -19,8 +19,6 @@ type TestResultProps = {
   passMark?: number
   onFinishActivity: () => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? testResultCSSMobile : testResultCSS
 

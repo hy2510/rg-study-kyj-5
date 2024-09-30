@@ -46,7 +46,7 @@ export default function PlayBar({
       const recordDuration = nativeAud.duration * 1000 * additionSec
 
       changeProgress = setInterval(() => {
-        per += 20
+        per += 25
 
         if (recordProgressRef.current) {
           if (per / recordDuration > 1) {

@@ -3,7 +3,9 @@ import { useEffect, useRef } from 'react'
 import summaryCSS from '@stylesheets/summary.module.scss'
 import summaryCSSMobile from '@stylesheets/mobile/summary.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { WordDataProp } from '@pages/study/Summary2'
 
@@ -12,8 +14,6 @@ type AnswerProps = {
   wordData: WordDataProp
   questionNo: number
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? summaryCSSMobile : summaryCSS
 

@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 import { saveUserAnswer } from '@services/studyApi'
 import { getListeningActivity2 } from '@services/quiz/ListeningActivityApi'
 
@@ -26,7 +27,10 @@ import { useAnimation } from '@hooks/study/useAnimation'
 import { useStudentAnswer } from '@hooks/study/useStudentAnswer'
 import useBottomPopup from '@hooks/study/useBottomPopup'
 import { useResult } from '@hooks/study/useResult'
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 // components - common
 import StepIntro from '@components/study/common-study/StepIntro'
@@ -44,11 +48,10 @@ import CardWord from '@components/study/listening-activity-02/CardWord'
 
 const STEP_TYPE = 'Listening Activity'
 
-const isMobile = useDeviceDetection()
-
 const style = isMobile ? listeningCSSMobile : listeningCSS
 
 export default function ListeningActivity2(props: IStudyData) {
+  const { t } = useTranslation()
   const { handler, studyInfo } = useContext(AppContext) as AppContextProps
   const STEP = props.currentStep
 
@@ -133,7 +136,7 @@ export default function ListeningActivity2(props: IStudyData) {
         setIncorrectCount(tryCnt)
         setStudentAnswers(recordedData, quizData.QuizAnswerCount) // 기존 데이터를 채점판에 넣어주기
 
-        if (studyInfo.mode === 'Super') {
+        if (studyInfo.mode === 'staff') {
           setExamples(tempExample)
         } else {
           setExamples(shuffle(tempExample))
@@ -301,6 +304,7 @@ export default function ListeningActivity2(props: IStudyData) {
             setQuizNo(quizNo + 1)
           }
         } else {
+          playWord()
           timer.setup(quizData.QuizTime, true)
           isWorking.current = false
         }
@@ -338,7 +342,7 @@ export default function ListeningActivity2(props: IStudyData) {
           <StepIntro
             step={STEP}
             quizType={STEP_TYPE}
-            comment={'소리를 듣고 알맞은 단어를 고르세요.'}
+            comment={t('study.소리를 듣고 알맞은 단어를 고르세요.')}
             onStepIntroClozeHandler={() => {
               setIntroAnim('animate__bounceOutLeft')
             }}

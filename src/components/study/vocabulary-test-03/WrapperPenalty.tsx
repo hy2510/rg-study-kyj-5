@@ -3,7 +3,9 @@ import { useEffect, useRef, useState } from 'react'
 import vocabularyCSS from '@stylesheets/vocabulary-test.module.scss'
 import vocabularyCSSMobile from '@stylesheets/mobile/vocabulary-test.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import TextPenalty from './TextPenalty'
 import Gap from '../common-study/Gap'
@@ -14,8 +16,6 @@ type WrapperPenaltyProps = {
   playPenalty: (cb: any) => void
   changePenaltyState: (state: boolean) => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? vocabularyCSSMobile : vocabularyCSS
 

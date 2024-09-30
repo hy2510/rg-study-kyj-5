@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 import { IStudyData } from '@interfaces/Common'
 import { getQuizData } from '@services/studyApi'
 import {
@@ -7,8 +5,6 @@ import {
   IWritingActivity1Quiz,
   IWritingActivity1Example,
   IWritingActivity2,
-  IWritingActivity2Writing,
-  IWritingActivity2ReWriting,
 } from '@interfaces/IWritingActivity'
 import { GET_QUIZ_DATA_PATH } from '@constants/constant'
 

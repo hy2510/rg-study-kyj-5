@@ -1,7 +1,9 @@
 import trueOrFalseCSS from '@stylesheets/true-or-false.module.scss'
 import trueOrFalseCSSMobile from '@stylesheets/mobile/true-or-false.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 type WrapperCardProps = {
   isCorrect: boolean
@@ -10,8 +12,6 @@ type WrapperCardProps = {
 
 import CardTrue from './CardTrue'
 import CardFalse from './CardFalse'
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? trueOrFalseCSSMobile : trueOrFalseCSS
 

@@ -1,5 +1,6 @@
 import { ReactNode, useContext, useEffect, useState } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 
 import MobileDetect from 'mobile-detect'
 
@@ -60,6 +61,7 @@ export interface QuizContainerChildProps {
 }
 
 const QuizContainer: React.FC<{}> = (props) => {
+  const { t } = useTranslation()
   const CHARACTER = useCharacter()
   const { studyInfo, bookInfo, handler } = useContext(
     AppContext,
@@ -67,7 +69,7 @@ const QuizContainer: React.FC<{}> = (props) => {
 
   useEffect(() => {
     if (studyInfo.availableQuizStatus === 1) {
-      alert('ReTest 정책으로 당일 재학습 불가')
+      alert(t('common.ReTest 정책으로 당일 재학습 불가'))
 
       //TODO - 학습 종료
       try {
@@ -76,7 +78,7 @@ const QuizContainer: React.FC<{}> = (props) => {
         location.replace('/')
       }
     } else if (studyInfo.availableQuizStatus === 2) {
-      alert('일일 획득 가능 포인트 초과')
+      alert(t('common.일일 획득 가능 포인트 초과'))
 
       //TODO - 학습 종료
       try {
@@ -91,8 +93,6 @@ const QuizContainer: React.FC<{}> = (props) => {
 
   if (bookInfo.RevisionStatusCode === '028010') {
     // 첨삭 대응
-    console.log(bookInfo.RevisionStatusCode)
-    console.log(studyInfo)
     const isOpenStep5 = studyInfo.openSteps.find((step) => step === 5)
 
     if (isOpenStep5) {
@@ -107,7 +107,7 @@ const QuizContainer: React.FC<{}> = (props) => {
   }, [currentStepId])
 
   const [isEnabledPractice, setEnabledPractice] = useState(
-    !studyInfo.isPassedVocabularyPractice || studyInfo.mode !== 'Quiz',
+    !studyInfo.isPassedVocabularyPractice || studyInfo.mode !== 'student',
   )
 
   const currentActivity = studyInfo.mappedStepActivity[currentStepId - 1]
@@ -127,7 +127,7 @@ const QuizContainer: React.FC<{}> = (props) => {
     if (nextStepId) {
       setCurrentStepId(nextStepId)
     } else {
-      if (studyInfo.mode === 'Quiz') {
+      if (studyInfo.mode === 'student') {
         handler.actionFinishStudy(handler.finishStudy, CHARACTER)
       } else {
         try {
@@ -199,7 +199,7 @@ const QuizContainer: React.FC<{}> = (props) => {
       ? '001006'
       : '001001') as StudyTypeCode,
     isEnabledPractice:
-      studyInfo.isPassedVocabularyPractice && studyInfo.mode === 'Quiz',
+      studyInfo.isPassedVocabularyPractice && studyInfo.mode === 'student',
     theme: theme as Theme,
     lastStep: studyInfo.openSteps[studyInfo.openSteps.length - 1],
     isReTestYn: studyInfo.isReTestYn,

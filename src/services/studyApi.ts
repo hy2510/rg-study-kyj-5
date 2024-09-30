@@ -1,5 +1,6 @@
 // 학습에 관련된 api
 import axios from 'axios'
+
 import {
   IResultType,
   IUserAnswer,
@@ -24,6 +25,15 @@ import {
   SAVE_WRITING_PATH,
 } from '@constants/constant'
 
+const REF = (window as any).REF
+const lang = REF.language || 'ko'
+
+const sessionMsgKor =
+  '앱이 장시간 실행된 상태여서 보안상의 이유로 자동 로그아웃되었습니다. 번거로우시겠지만, 재접속 후 다시 학습을 진행해 주세요.'
+const sessionMsgEng =
+  'For security reasons, you were automatically logged out due to prolonged app usage. Please reconnect to continue your study.'
+const sessionMsg = lang === 'ko' ? sessionMsgKor : sessionMsgEng
+
 /** 유저가 선택한 답안을 서버에 저장한 후 오류가 없다면 결과값을 반환한다.
  * @param userAnswer 유저의 답안 정보
  * */
@@ -36,10 +46,15 @@ const saveUserAnswer = async (
     resultMessage: '',
   }
 
-  if (mode === 'Quiz') {
+  if (mode === 'student') {
     result = await axios
       .post(`/${SAVE_STUDENT_ANSWER_PATH}`, userAnswerData)
       .then((res) => res.data)
+      .catch((e) => {
+        alert(sessionMsg)
+
+        window.onLogoutStudy()
+      })
   }
 
   return result
@@ -57,10 +72,15 @@ const saveUserAnswerPartial = async (
     resultMessage: '',
   }
 
-  if (mode === 'Quiz') {
+  if (mode === 'student') {
     result = await axios
       .post(`/${SAVE_STUDENT_PARTIAL_ANSWER_PATH}`, userAnswerData)
       .then((res) => res.data)
+      .catch((e) => {
+        alert(sessionMsg)
+
+        window.onLogoutStudy()
+      })
   }
 
   return result
@@ -95,10 +115,15 @@ const saveWritingActivity = async (
     resultMessage: '',
   }
 
-  if (mode === 'Quiz') {
+  if (mode === 'student') {
     result = await axios
       .post(`/${SAVE_WRITING_PATH}`, userAnswerData)
       .then((res) => res.data)
+      .catch((e) => {
+        alert(sessionMsg)
+
+        window.onLogoutStudy()
+      })
   }
 
   return result
@@ -115,6 +140,11 @@ const saveRewriting = async (
   const result = await axios
     .post(`/${SAVE_RE_WRITING_PATH}`, userAnswerData)
     .then((res) => res.data)
+    .catch((e) => {
+      alert(sessionMsg)
+
+      window.onLogoutStudy()
+    })
 
   return result
 }

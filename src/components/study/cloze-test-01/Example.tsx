@@ -4,7 +4,9 @@ import { AppContext, AppContextProps } from '@contexts/AppContext'
 import clozeTestCSS from '@stylesheets/cloze-test.module.scss'
 import clozeTestCSSMobile from '@stylesheets/mobile/cloze-test.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { IClozeTest1Example } from '@interfaces/IClozeTest'
 
@@ -17,8 +19,6 @@ type ExampleProps = {
     selectedWord?: string,
   ) => Promise<void>
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? clozeTestCSSMobile : clozeTestCSS
 
@@ -34,7 +34,7 @@ export default function Example({
     <div
       className={`${style.textCard} 
       ${
-        studyInfo.mode === 'Review' &&
+        studyInfo.mode === 'review' &&
         Number(bookInfo.Average) >= 70 &&
         example.Text === correctText
           ? style.correct

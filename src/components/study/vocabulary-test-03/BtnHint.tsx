@@ -1,7 +1,9 @@
 import vocabularyCSS from '@stylesheets/vocabulary-test.module.scss'
 import vocabularyCSSMobile from '@stylesheets/mobile/vocabulary-test.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { PlayState } from '@hooks/study/useStudyAudio'
 
@@ -15,8 +17,6 @@ type BtnHintProps = {
   toggleHint: () => void
   playHint: () => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? vocabularyCSSMobile : vocabularyCSS
 
@@ -35,14 +35,14 @@ export default function BtnHint({
           Hint{' '}
           {totalCount !== undefined && remainCount !== undefined
             ? totalCount - remainCount
-            : 0}{' '}
+            : 0}
           /{totalCount}
         </span>
       </div>
 
       {isHint && (
         <div
-          style={{ position: 'relative' }}
+          style={{ position: 'relative', zIndex: 3 }}
           className="animate__animated animate__fadeIn"
         >
           <div className={style.hintPopup}>

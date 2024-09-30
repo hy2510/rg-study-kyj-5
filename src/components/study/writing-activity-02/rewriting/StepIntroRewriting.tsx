@@ -1,15 +1,16 @@
 import stepIntroCSS from '@stylesheets/step-intro.module.scss'
 import stepIntroCSSMobile from '@stylesheets/mobile/step-intro.module.scss'
+import { useTranslation } from 'react-i18next'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 type StepIntroRewritingProps = {
   currentSubmitCount: number
   maxSubmitCount: number
   goWritingActivity: () => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? stepIntroCSSMobile : stepIntroCSS
 
@@ -18,6 +19,8 @@ export default function StepIntroRewriting({
   maxSubmitCount,
   goWritingActivity,
 }: StepIntroRewritingProps) {
+  const { t } = useTranslation()
+
   return (
     <div className={style.revisionFreeIntro}>
       <div
@@ -25,13 +28,13 @@ export default function StepIntroRewriting({
       >
         <div className={style.stepOrder}>Step5</div>
         <div className={style.quizType}>Writing Activity(R)</div>
-        <div className={style.comment}>글쓰기를 하시겠어요?</div>
+        <div className={style.comment}>{t('study.글쓰기를 하시겠어요?')}</div>
         <div className={style.revisionBoard}>
-          <div className={style.txtLabel}>남은 첨삭:</div>
+          <div className={style.txtLabel}>{t('study.남은 첨삭')}:</div>
           <div className={style.txtCount}>
             {maxSubmitCount - currentSubmitCount} / {maxSubmitCount}
           </div>
-          <div className={style.txtLabel}>첨삭 완료:</div>
+          <div className={style.txtLabel}>{t('study.첨삭 완료')}:</div>
           <div className={style.txtCount}>{currentSubmitCount}</div>
         </div>
         <div style={{ display: 'flex' }} className={style.selectBox}>

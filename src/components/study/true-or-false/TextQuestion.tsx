@@ -1,13 +1,13 @@
 import trueOrFalseCSS from '@stylesheets/true-or-false.module.scss'
 import trueOrFalseCSSMobile from '@stylesheets/mobile/true-or-false.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 type TextQuestionProps = {
   text: string
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? trueOrFalseCSSMobile : trueOrFalseCSS
 

@@ -5,14 +5,14 @@ import { IRecordAnswerType, IScoreBoardData } from '@interfaces/Common'
 import { IReadingComprehension4 } from '@interfaces/IReadingComprehension'
 
 import useCharacter from '@hooks/study/useCharacter'
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
 
 import ScoreBoard from '../common-study/test-result/ScoreBoard'
 import Gap from '@components/study/common-study/Gap'
 import WrapperWrongAnswer from './test-result/WrapperWrongAnswer'
-import { LottieScrollDownAni } from '@components/common/LottieAnims'
 
-const isMobile = useDeviceDetection()
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 const style = isMobile ? testResultCSSMobile : testResultCSS
 

@@ -25,7 +25,7 @@ export default function SideMenuScoreBoardStepInfo({
               currentStep === step ? sideMenuCSS.on : ''
             }`}
             onClick={() => {
-              if (studyInfo.mode !== 'Quiz') changeStep(step)
+              if (studyInfo.mode !== 'student') changeStep(step)
             }}
           >
             {currentStep === step ? 'Step' : ''}

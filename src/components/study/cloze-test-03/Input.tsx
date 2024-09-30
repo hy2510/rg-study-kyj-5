@@ -1,12 +1,9 @@
-import { useState } from 'react'
-
 import clozeTestCSS from '@stylesheets/cloze-test.module.scss'
 import clozeTestCSSMobile from '@stylesheets/mobile/cloze-test.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
-
-import TextHelper from './TextHelper'
-import CurrentTextHelper from './CurrentTextHelper'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 type InputValue = {
   text: string
@@ -24,8 +21,6 @@ type InputProps = {
   checkAnswer: () => void
   changeInputIndex: (index: number) => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? clozeTestCSSMobile : clozeTestCSS
 

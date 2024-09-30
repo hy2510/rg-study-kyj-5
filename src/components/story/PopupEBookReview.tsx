@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation, Trans } from 'react-i18next'
 import { submitPreference } from '@services/storyApi'
 
 import EBCSS from '@stylesheets/e-book.module.scss'
@@ -13,6 +14,7 @@ import ChooseRating from './ChooseRating'
 export default function PopupEBookReview({
   changeRatingShow,
 }: PopupEBookReviewProps) {
+  const { t } = useTranslation()
   const { bookInfo, studyInfo, handler } = useContext(
     AppContext,
   ) as AppContextProps
@@ -59,7 +61,7 @@ export default function PopupEBookReview({
                 changeRatingShow(false)
               }}
             >
-              다시읽기
+              {t('story.다시 읽기')}
             </button>
             <button
               className={`${EBCSS.btnConfirm} ${EBCSS.blue}`}
@@ -71,15 +73,17 @@ export default function PopupEBookReview({
                 }
               }}
             >
-              퀴즈 풀기
+              {t('story.퀴즈 풀기')}
             </button>
           </div>
         </div>
         <div className={EBCSS.groupComment}>
           <span className={EBCSS.icoExclamationMark}></span>
           <span className={EBCSS.txtComment}>
-            모든 학습을 완료하고 <b>평균 70점을 넘어야 포인트를 획득</b>할 수
-            있습니다.
+            <Trans
+              i18nKey="story.모든 학습을 완료하고 평균 70점을 넘어야 포인트를 획득 할 수 있습니다."
+              components={{ b: <b /> }}
+            />
           </span>
         </div>
       </div>

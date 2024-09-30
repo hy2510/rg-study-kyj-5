@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useContext } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 import { deletePenalty, saveUserAnswer } from '@services/studyApi'
 import { getClozeTest2 } from '@services/quiz/ClozeTestAPI'
 
@@ -35,7 +36,10 @@ import { useStudentAnswer } from '@hooks/study/useStudentAnswer'
 import useStudyAudio from '@hooks/study/useStudyAudio'
 import useBottomPopup from '@hooks/study/useBottomPopup'
 import { useResult } from '@hooks/study/useResult'
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 // components - common
 import StepIntro from '@components/study/common-study/StepIntro'
@@ -53,11 +57,10 @@ import WrapperQuestion from '@components/study/cloze-test-02/WrapperQuestion'
 
 const STEP_TYPE = 'Cloze Test'
 
-const isMobile = useDeviceDetection()
-
 const style = isMobile ? clozeTestCSSMobile : clozeTestCSS
 
 export default function ClozeTest2(props: IStudyData) {
+  const { t } = useTranslation()
   const { handler, studyInfo } = useContext(AppContext) as AppContextProps
   const STEP = props.currentStep
 
@@ -128,7 +131,7 @@ export default function ClozeTest2(props: IStudyData) {
 
       // 과거 기록 동기화
       if (recordedData.length > 0) {
-        if (studyInfo.mode === 'Quiz') {
+        if (studyInfo.mode === 'student') {
           // Quiz 모드인 경우
           if (
             quizData.IsEnablePenaltyReview &&
@@ -223,7 +226,7 @@ export default function ClozeTest2(props: IStudyData) {
       playSentence()
       setCurrentIndex(0)
 
-      if (studyInfo.mode !== 'Quiz') {
+      if (studyInfo.mode !== 'student') {
         // Teacher / Review 모드인 경우
         const example = quizData.Quiz[quizNo - 1].Examples
         let inputValArr: { text: string; isCorrected: boolean }[] = []
@@ -320,7 +323,7 @@ export default function ClozeTest2(props: IStudyData) {
         const [isBlank, answerDatas, correctAnswer, userAnswers] = checkInput()
 
         if (isBlank && !timeOut) {
-          alert('빈칸이 존재하지 않아야 합니다.')
+          alert(t('study.빈칸이 존재하지 않아야 합니다.'))
           isWorking.current = false
           timer.start()
         } else {
@@ -486,9 +489,9 @@ export default function ClozeTest2(props: IStudyData) {
 
   // input values 초기화
   const resetInputValues = () => {
-    if (quizData.Quiz[quizNo - 1]) {
+    if (quizData.Quiz[quizNo]) {
       setInputValues([
-        ...new Array(quizData.Quiz[quizNo - 1].Examples.length).fill({
+        ...new Array(quizData.Quiz[quizNo].Examples.length).fill({
           text: '',
           isCorrected: false,
         }),
@@ -605,7 +608,7 @@ export default function ClozeTest2(props: IStudyData) {
           <StepIntro
             step={STEP}
             quizType={STEP_TYPE}
-            comment={'문장을 읽고 빈칸에 들어갈 답을 입력하세요.'}
+            comment={t('study.문장을 읽고 빈칸에 들어갈 답을 입력하세요.')}
             onStepIntroClozeHandler={() => {
               setIntroAnim('animate__bounceOutLeft')
             }}

@@ -1,7 +1,9 @@
 import readingComprehensionCSS from '@stylesheets/reading-comprehension.module.scss'
 import readingComprehensionCSSMobile from '@stylesheets/mobile/reading-comprehension.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { MultiPlayStateProps } from '@pages/study/ReadingComprehension2'
 import { IcoPlay, IcoStop } from '@components/common/Icons'
@@ -12,8 +14,6 @@ type BtnPlaySentenceProps = {
   index: number
   playSentence: (index: number) => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? readingComprehensionCSSMobile : readingComprehensionCSS
 

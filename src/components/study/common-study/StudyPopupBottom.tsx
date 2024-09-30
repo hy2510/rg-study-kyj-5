@@ -1,16 +1,16 @@
 import popupCSS from '@stylesheets/study-popup-bottom.module.scss'
 import popupCSSMobile from '@stylesheets/mobile/study-popup-bottom.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
 import useCharacter from '@hooks/study/useCharacter'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { BottomPopupStateProps } from '@hooks/study/useBottomPopup'
 
 type StudyPopupBottomProp = {
   bottomPopupState: BottomPopupStateProps
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? popupCSSMobile : popupCSS
 
@@ -39,7 +39,11 @@ export default function StudyPopupBottom({
                   bottomPopupState.isCorrect ? '08' : '09'
                 }.png`}
                 alt=""
-                className={`animate__animated ${bottomPopupState.isCorrect ? 'animate__tada' : 'animate__pulse'}`}
+                className={`animate__animated ${
+                  bottomPopupState.isCorrect
+                    ? 'animate__tada'
+                    : 'animate__pulse'
+                }`}
               />
             </div>
           </div>

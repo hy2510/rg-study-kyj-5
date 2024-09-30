@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useContext } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 import { getVocabularyTest1 } from '@services/quiz/VocabularyAPI'
 
 import vocabularyCSS from '@stylesheets/vocabulary-test.module.scss'
@@ -26,7 +27,10 @@ import useStudyAudio from '@hooks/study/useStudyAudio'
 import useBottomPopup from '@hooks/study/useBottomPopup'
 import { useResult } from '@hooks/study/useResult'
 import { saveUserAnswer } from '@services/studyApi'
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 // components - common
 import StepIntro from '@components/study/common-study/StepIntro'
@@ -44,11 +48,10 @@ import WrapperExample from '@components/study/vocabulary-test-01/WrapperExample'
 
 const STEP_TYPE = 'Vocabulary Test'
 
-const isMobile = useDeviceDetection()
-
 const style = isMobile ? vocabularyCSSMobile : vocabularyCSS
 
 export default function VocabularyTest1(props: IStudyData) {
+  const { t } = useTranslation()
   const { handler, studyInfo } = useContext(AppContext) as AppContextProps
   const STEP = props.currentStep
 
@@ -127,7 +130,7 @@ export default function VocabularyTest1(props: IStudyData) {
         setTryCount(tryCnt)
         setIncorrectCount(tryCnt)
 
-        if (studyInfo.mode === 'Super') {
+        if (studyInfo.mode === 'staff') {
           setExamples(quizData.Quiz[currentQuizNo - 1].Examples)
         } else {
           setExamples(shuffle(quizData.Quiz[currentQuizNo - 1].Examples))
@@ -155,7 +158,7 @@ export default function VocabularyTest1(props: IStudyData) {
       setTryCount(0)
       setIncorrectCount(0)
 
-      if (studyInfo.mode === 'Super') {
+      if (studyInfo.mode === 'staff') {
         setExamples(quizData.Quiz[quizNo - 1].Examples)
       } else {
         setExamples(shuffle(quizData.Quiz[quizNo - 1].Examples))
@@ -407,7 +410,7 @@ export default function VocabularyTest1(props: IStudyData) {
           <StepIntro
             step={STEP}
             quizType={STEP_TYPE}
-            comment={'그림을 보고 알맞은 단어를 고르세요.'}
+            comment={t('study.그림을 보고 알맞은 단어를 고르세요.')}
             onStepIntroClozeHandler={() => {
               setIntroAnim('animate__bounceOutLeft')
             }}

@@ -4,7 +4,9 @@ import { AppContext, AppContextProps } from '@contexts/AppContext'
 import summaryCSS from '@stylesheets/summary.module.scss'
 import summaryCSSMobile from '@stylesheets/mobile/summary.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { ISummary1Quiz } from '@interfaces/ISummary'
 import { IScoreBoardData } from '@interfaces/Common'
@@ -21,8 +23,6 @@ type WrapperSentenceTopProps = {
   playSentence: (index: number) => void
 }
 
-const isMobile = useDeviceDetection()
-
 const style = isMobile ? summaryCSSMobile : summaryCSS
 
 export default function WrapperSentenceTop({
@@ -37,7 +37,7 @@ export default function WrapperSentenceTop({
   const wrapperRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (wrapperRef.current && studyInfo.mode === 'Quiz') {
+    if (wrapperRef.current && studyInfo.mode === 'student') {
       wrapperRef.current.scrollTo({
         top: wrapperRef.current.scrollHeight,
         behavior: 'smooth',

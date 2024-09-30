@@ -1,9 +1,9 @@
 import quizTemplateCSS from '@stylesheets/quiz-template.module.scss'
 import quizTemplateCSSMobile from '@stylesheets/mobile/quiz-template.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
-
-const isMobile = useDeviceDetection()
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 const style = isMobile ? quizTemplateCSSMobile : quizTemplateCSS
 

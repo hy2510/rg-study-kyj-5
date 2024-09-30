@@ -28,7 +28,7 @@ export default function VocaList2({
   })
 
   let word = vocaData.Examples[0]?.Text
-    ? vocaData.Examples[0].Text
+    ? vocaData.Question.Word
     : vocaData.Question.Text
   let mean = ''
 
@@ -61,7 +61,7 @@ export default function VocaList2({
           src={icon_speak}
           alt=""
           onClick={() => {
-            playAudio(vocaData.Question.Sound)
+            playAudio(vocaData.Question.WordSound)
           }}
         />
       </div>

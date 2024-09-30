@@ -10,7 +10,7 @@ const useCurrentQuizNo = (
   let currentQuizNo: number = 1
   let tryCnt: number = 0
 
-  if (studyMode === 'Quiz') {
+  if (studyMode === 'student') {
     // 기록된 데이터에 따라서 로직이 필요.
     if (recordedQuizData && recordedQuizData.length > 0) {
       // 마지막 기록 데이터
@@ -45,7 +45,7 @@ const useCurrentQuizNoSummary2 = (
   let lastQuizNo: number = 1
   let tryCnt: number = 0
 
-  if (studyMode === 'Quiz') {
+  if (studyMode === 'student') {
     // 기록된 데이터에 따라서 로직이 필요.
     if (recordedQuizData && recordedQuizData.length > 0) {
       // 마지막 기록 데이터
@@ -80,7 +80,7 @@ const useCurrentQuizNoClozeTest3 = (
   let currentQuizNo: number = 1
   let tryCnt: number = 0
 
-  if (studyMode === 'Quiz') {
+  if (studyMode === 'student') {
     // 기록된 데이터에 따라서 로직이 필요.
     if (recordedQuizData && recordedQuizData.length > 0) {
       // 마지막 기록 데이터
@@ -102,7 +102,7 @@ const useCurrentQuizNoClozeTest3 = (
         // 풀지 않은 경우
         const userAnswerLengthArr = userAnswers.map((answer) => answer.length)
 
-        currentQuizNo = lastRecordedData.CurrentQuizNo + 1
+        currentQuizNo = lastRecordedData.CurrentQuizNo
         tryCnt = Math.max(...userAnswerLengthArr)
       }
     }
@@ -119,7 +119,7 @@ const useCurrentQuizNoVocaPractice = (
   let currentQuizNo: number = 1
   let tryCnt: number = 0
 
-  if (studyMode === 'Quiz') {
+  if (studyMode === 'student') {
     // 기록된 데이터에 따라서 로직이 필요.
     if (recordedQuizData && recordedQuizData.length > 0) {
       // 마지막 기록 데이터

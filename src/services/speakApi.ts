@@ -42,6 +42,7 @@ async function getSpeakData(props: PropsType): Promise<SpeakPageProps[]> {
         Sequence: r.Sequence,
         SoundPath: r.SoundPath,
         MarginTop: Number(r.MarginTop),
+        MarginLeft: Number(r.MarginLeft),
         DataPath: r.DataPath,
         Sentence: r.Sentence,
       }

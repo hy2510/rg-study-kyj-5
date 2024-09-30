@@ -37,6 +37,7 @@ export default function useStoryAudioPC({
     sequnce: 0,
   })
 
+  const maxReadCntRef = useRef(2)
   const [readCnt, setReadCnt] = useState<number>(0)
 
   // 페이지가 바뀌면
@@ -160,6 +161,15 @@ export default function useStoryAudioPC({
         changeSideMenu(true)
         changePageNumber(1)
 
+        //     changeReadingComplete(studyId, studentHistoryId)
+        //   }
+        // } else if (readCnt === 3) {
+        //   if (storyMode === 'ListenAndRepeat') {
+        //     isFirst.current = true
+        //     changeStoryMode('Story')
+        //     changeSideMenu(true)
+        //     changePageNumber(1)
+
         changeReadingComplete(studyId, studentHistoryId)
       }
     }
@@ -223,8 +233,9 @@ export default function useStoryAudioPC({
    * 오디오 일시 정지 해제
    */
   const resumeAudio = () => {
-    setPlayState('play')
     player.play()
+
+    setPlayState('play')
   }
 
   /**
@@ -264,6 +275,10 @@ export default function useStoryAudioPC({
     isAutoRef.current = isAuto
   }
 
+  const changeMaxReadCnt = (cnt: number) => {
+    maxReadCntRef.current = cnt
+  }
+
   return {
     pageNumber,
     playState,
@@ -280,6 +295,7 @@ export default function useStoryAudioPC({
     changeVolume,
     changePageNumber,
     changeAutoNextPage,
+    changeMaxReadCnt,
   }
 }
 

@@ -1,14 +1,15 @@
 import stepIntroCSS from '@stylesheets/step-intro.module.scss'
 import stepIntroCSSMobile from '@stylesheets/mobile/step-intro.module.scss'
+import { useTranslation } from 'react-i18next'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 type ModalWritingRequireProps = {
   unit: string
   goWritingActivity: () => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? stepIntroCSSMobile : stepIntroCSS
 
@@ -16,6 +17,8 @@ export default function ModalWritingRequire({
   unit,
   goWritingActivity,
 }: ModalWritingRequireProps) {
+  const { t } = useTranslation()
+
   return (
     <div className={style.stepIntro}>
       <div
@@ -23,7 +26,9 @@ export default function ModalWritingRequire({
       >
         <div className={style.stepOrder}>Step5</div>
         <div className={style.quizType}>Writing Activity</div>
-        <div className={style.comment}>글쓰기 후 첨삭을 받으세요.</div>
+        <div className={style.comment}>
+          {t('study.글쓰기 후 첨삭을 받으세요.')}
+        </div>
 
         <div className={style.readingUnit}>
           <img

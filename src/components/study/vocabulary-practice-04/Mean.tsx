@@ -1,7 +1,9 @@
 import vocabularyCSS from '@stylesheets/vocabulary-practice.module.scss'
 import vocabularyCSSMobile from '@stylesheets/mobile/vocabulary-practice.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { IVocabulary4Quiz, MeanLanguage } from '@interfaces/IVocabulary'
 
@@ -22,8 +24,6 @@ type TlanslationProps = {
   meanData: IVocabulary4Quiz
   lang: MeanLanguage
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? vocabularyCSSMobile : vocabularyCSS
 

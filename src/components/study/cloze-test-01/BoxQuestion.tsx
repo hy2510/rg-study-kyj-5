@@ -3,7 +3,9 @@ import reactStringReplace from 'react-string-replace'
 import clozeTestCSS from '@stylesheets/cloze-test.module.scss'
 import clozeTestCSSMobile from '@stylesheets/mobile/cloze-test.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 type BoxQuestionProps = {
   blankRef: React.RefObject<HTMLSpanElement>
@@ -12,8 +14,6 @@ type BoxQuestionProps = {
 }
 
 import BoxBlank from './BoxBlank'
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? clozeTestCSSMobile : clozeTestCSS
 

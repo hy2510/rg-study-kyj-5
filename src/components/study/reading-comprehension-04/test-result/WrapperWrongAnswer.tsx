@@ -1,7 +1,9 @@
 import testResultCSS from '@stylesheets/test-result.module.scss'
 import testResultCSSMobile from '@stylesheets/mobile/test-result.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { IRecordAnswerType } from '@interfaces/Common'
 import { IReadingComprehension4 } from '@interfaces/IReadingComprehension'
@@ -12,8 +14,6 @@ type WrapperWrongAnswerProps = {
 }
 
 import CardWrongAnswer from './CardWrongAnswer'
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? testResultCSSMobile : testResultCSS
 

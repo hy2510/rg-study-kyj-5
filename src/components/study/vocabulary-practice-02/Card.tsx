@@ -1,34 +1,49 @@
 import vocabularyCSS from '@stylesheets/vocabulary-practice.module.scss'
 import vocabularyCSSMobile from '@stylesheets/mobile/vocabulary-practice.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
-
-import { IVocabulary2Quiz } from '@interfaces/IVocabulary'
-import { MultiPlayStateProps } from '@pages/study/VocabularyPractice2'
-
-import BtnPlayWord from './BtnPlayWord'
-import BtnPlaySentence from './BtnPlaySentence'
 import { LottieRecordAni } from '@components/common/LottieAnims'
 import { useMicrophonePermissionChecker } from '@hooks/speak/useMicrophonePermissionChecker'
 
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
+
+import { IVocabulary2Quiz } from '@interfaces/IVocabulary'
+import {
+  MultiPlayStateProps,
+  PlayBarState,
+} from '@pages/study/VocabularyPractice2'
+import { IPhonemeResult } from '@interfaces/ISpeak'
+
+import BtnPlayWord from './BtnPlayWord'
+import BtnPlaySentence from './BtnPlaySentence'
+import ResultSpeak from './ResultSpeak'
+
 type CardProps = {
+  isSpeakResult: boolean
+  playBarState: PlayBarState
   cardInfo: IVocabulary2Quiz
   multiPlayState: MultiPlayStateProps
+  phonemeScore: IPhonemeResult | undefined
   playWord: () => void
+  startRecord: () => void
   playSentence: () => void
+  changePlayBarState: (state: PlayBarState) => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? vocabularyCSSMobile : vocabularyCSS
 
 export default function Card({
+  isSpeakResult,
+  playBarState,
   cardInfo,
   multiPlayState,
+  phonemeScore,
   playWord,
+  startRecord,
   playSentence,
+  changePlayBarState,
 }: CardProps) {
-
   const micCheck = useMicrophonePermissionChecker()
 
   return (
@@ -39,9 +54,12 @@ export default function Card({
         <div className={style.wordImage}>
           <img src={cardInfo.Question.Image} width={'100%'} />
         </div>
+
         {/* 녹음중일 때 스크린 블록 실행 */}
-        {/* <div className={style.screenBlock}></div> */}
-        
+        {playBarState === 'recording' && !isSpeakResult && (
+          <div className={style.screenBlock}></div>
+        )}
+
         {/* 단어 */}
         <div className={`${style.wordText} ${style.word}`}>
           <BtnPlayWord
@@ -49,11 +67,21 @@ export default function Card({
             cardInfo={cardInfo}
             playWord={playWord}
           />
-          <div className={style.btnRec} onClick={() => {micCheck.micPermission === 'denied' && alert(micCheck.alertMessage)}}>
-            {/* 녹음 대기 */}
-            <div className={style.recIcon}></div>
-            {/* 녹음중 */}
-            {/* <LottieRecordAni /> */}
+          <div
+            className={style.btnRec}
+            onClick={() => {
+              if (micCheck.micPermission === 'denied') {
+                alert(micCheck.alertMessage)
+              } else {
+                startRecord()
+              }
+            }}
+          >
+            {playBarState === 'recording' ? (
+              <LottieRecordAni />
+            ) : (
+              <div className={style.recIcon}></div>
+            )}
           </div>
         </div>
 
@@ -66,57 +94,15 @@ export default function Card({
           />
         </div>
       </div>
-      {/* 스피크 결과 */}
-      {/* <SpeakResult
-        cardInfo={cardInfo}
-        multiPlayState={multiPlayState}
-        playWord={playWord}
-        playSentence={playSentence}
-      /> */}
-    </>
-  )
-}
 
-// 스피크 결과
-const SpeakResult = ({
-  cardInfo,
-  multiPlayState,
-  playWord,
-  playSentence,
-}: CardProps) => {
-  return (
-    <>
-      <div className={style.speakResultVoca2}>
-        <div className={style.container}>
-          {/* 단어 */}
-          <div className={style.wordText}>{cardInfo.Question.Word}</div>
-          {/* 음소 */}
-          <div className={style.phonemes}>
-            <div className={style.phonemeItem}>
-              <div className={`${style.phoneme} ${style.green}`}>P</div>
-              <div className={style.phonemeScore}>70%</div>
-            </div>
-            <div className={style.phonemeItem}>
-              <div className={`${style.phoneme} ${style.orange}`}>A</div>
-              <div className={style.phonemeScore}>69%</div>
-            </div>
-            <div className={style.phonemeItem}>
-              <div className={`${style.phoneme} ${style.red}`}>EE</div>
-              <div className={style.phonemeScore}>10%</div>
-            </div>
-          </div>
-        </div>
-        {/* Good Job */}
-        <div className={`${style.signBox} ${style.goodJob}`}>
-          <div className={style.txt}>Good Job</div>
-          <div className={style.iconArrow}></div>
-        </div>
-        {/* Try Again */}
-        {/* <div className={`${style.signBox} ${style.tryAgain}`}>
-          <div className={style.txt}>Try Again</div>
-          <div className={style.iconArrow}></div>
-        </div> */}
-      </div>
+      {/* 스피크 결과 */}
+      {isSpeakResult && (
+        <ResultSpeak
+          word={cardInfo.Question.Word}
+          phonemeScore={phonemeScore}
+          changePlayBarState={changePlayBarState}
+        />
+      )}
     </>
   )
 }

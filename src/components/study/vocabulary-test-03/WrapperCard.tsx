@@ -1,7 +1,9 @@
 import vocabularyCSS from '@stylesheets/vocabulary-test.module.scss'
 import vocabularyCSSMobile from '@stylesheets/mobile/vocabulary-test.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { IVocabulary3Test } from '@interfaces/IVocabulary'
 import { BottomPopupStateProps } from '@hooks/study/useBottomPopup'
@@ -14,7 +16,7 @@ type WrapperCardProps = {
   quizNo: number
   inputVal: string
   changeInputVal: (value: string) => void
-  checkAnswer: (isCorrect: boolean, selectedAnswer: string) => Promise<void>
+  checkAnswer: (selectedAnswer: string) => Promise<void>
 }
 
 import { IcoReturn } from '@components/common/Icons'
@@ -22,8 +24,6 @@ import { IcoReturn } from '@components/common/Icons'
 import Input from './Input'
 import Gap from '@components/study/common-study/Gap'
 import Mean from './Mean'
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? vocabularyCSSMobile : vocabularyCSS
 
@@ -64,10 +64,7 @@ export default function WrapperCard({
               className={style.enterButton}
               onClick={() => {
                 if (inputVal !== '') {
-                  checkAnswer(
-                    inputVal === quizData.Quiz[quizNo - 1].Question.Text,
-                    inputVal,
-                  )
+                  checkAnswer(inputVal)
                 }
               }}
             >

@@ -1,9 +1,11 @@
 import { useContext } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation, Trans } from 'react-i18next'
 
 import EBCSS from '@stylesheets/e-book.module.scss'
 
 export default function PopupEBookNoPoint() {
+  const { t } = useTranslation()
   const { bookInfo, handler } = useContext(AppContext) as AppContextProps
 
   return (
@@ -17,15 +19,16 @@ export default function PopupEBookNoPoint() {
         </div>
         <div className={EBCSS.groupComment}>
           <span className={EBCSS.txtComment}>
-            <div>이미 두 번 포인트를 획득한 학습입니다.</div>
+            <div>{t('story.이미 두 번 포인트를 획득한 학습입니다.')}</div>
 
             <div>
-              <b style={{ color: 'red' }}>
-                더 이상 포인트를 획득할 수 없습니다.
-              </b>
+              <Trans
+                i18nKey="story.더 이상 포인트를 획득할 수 없습니다."
+                components={{ b: <b /> }}
+              />
             </div>
 
-            <div>계속 학습하시겠습니까?</div>
+            <div>{t('story.계속 학습하시겠습니까?')}</div>
           </span>
         </div>
 
@@ -37,7 +40,7 @@ export default function PopupEBookNoPoint() {
                 handler.changeView('quiz')
               }}
             >
-              네
+              {t('common.네')}
             </button>
             <button
               className={`${EBCSS.btnConfirm} ${EBCSS.gray}`}
@@ -49,7 +52,7 @@ export default function PopupEBookNoPoint() {
                 }
               }}
             >
-              아니오
+              {t('common.아니오')}
             </button>
           </div>
         </div>

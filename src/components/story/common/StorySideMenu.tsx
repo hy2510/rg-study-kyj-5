@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 
 import sideMenuCSS from '@stylesheets/side-menu.module.scss'
 
@@ -26,6 +27,7 @@ export default function StorySideMenu({
   toggleMovieShow,
   submitBookMark,
 }: StorySideMenuProps) {
+  const { t } = useTranslation()
   const { studyInfo, bookInfo, handler } = useContext(
     AppContext,
   ) as AppContextProps
@@ -88,26 +90,40 @@ export default function StorySideMenu({
                           handler.isReadingComplete ||
                           handler.storyMode === 'Story'
                         ) {
-                          // 책을 끝까지 읽었거나 story모드인 경우
-                          changeSideMenu(false)
-                          changeRatingShow(true)
+                          if (
+                            bookInfo.FirstFullEasyCode === '093006' &&
+                            bookInfo.FullEasyCode === '093003'
+                          ) {
+                            // 처음에 easy모드 후 full 모드로 학습 진입시 팝업창 안띄움
+                            handler.changeView('quiz')
+                          } else {
+                            // 책을 끝까지 읽었거나 story모드인 경우
+                            changeSideMenu(false)
+                            changeRatingShow(true)
+                          }
                         } else {
                           // 책을 끝까지 읽지 않았으면
-                          alert('책을 완독한 후 학습을 진행할 수 있습니다.')
+                          alert(
+                            t(
+                              'story.책을 완독한 후 학습을 진행할 수 있습니다.',
+                            ),
+                          )
                         }
                       }
                     } else if (studyInfo.availableQuizStatus === 1) {
-                      alert('ReTest 정책으로 당일 재학습 불가')
+                      alert(t('stroy.ReTest 정책으로 당일 재학습 불가'))
                     }
                   }}
                 >
                   <img src={icon_quiz} alt="" />
-                  퀴즈 풀기
+                  {t('story.퀴즈 풀기')}
                 </div>
               </div>
               {(bookInfo.AnimationPath !== '' ||
                 studyInfo.isAvailableSpeaking) && (
-                <div className={sideMenuCSS.label}>보너스 학습</div>
+                <div className={sideMenuCSS.label}>
+                  {t('story.보너스 학습')}
+                </div>
               )}
 
               <div className={sideMenuCSS.ebook_more_activity}>
@@ -121,7 +137,7 @@ export default function StorySideMenu({
                       }}
                     >
                       <img src={icon_movie} alt="" />
-                      무비 시청
+                      {t('story.무비 시청')}
                     </div>
                   </>
                 )}
@@ -134,7 +150,7 @@ export default function StorySideMenu({
                       }}
                     >
                       <img src={icon_speak} alt="" />
-                      SPEAK (말하기 연습)
+                      SPEAK ({t('story.말하기 연습')})
                     </div>
                   </>
                 )}
@@ -146,7 +162,7 @@ export default function StorySideMenu({
                 onClick={() => submitBookMark()}
               >
                 <img src={icon_exit} alt="" />
-                <div className="txt">나가기</div>
+                <div className="txt">{t('common.나가기')}</div>
               </div>
             </div>
           </div>

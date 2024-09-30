@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 
 import { saveUserAnswer } from '@services/studyApi'
 import { getVocabularyPractice3 } from '@services/quiz/VocabularyAPI'
@@ -13,7 +14,7 @@ import {
   IScoreBoardData as IScoreBoard,
   IUserAnswer,
 } from '@interfaces/Common'
-import { IRecordResultData } from '@interfaces/ISpeak'
+import { IPhonemeResult } from '@interfaces/ISpeak'
 // ] Types
 
 // utils & hooks
@@ -23,7 +24,10 @@ import { useFetch } from '@hooks/study/useFetch'
 import { useCurrentQuizNoVocaPractice } from '@hooks/study/useCurrentQuizNo'
 import { useStudentAnswer } from '@hooks/study/useStudentAnswer'
 import useStudyAudio from '@hooks/study/useStudyAudio'
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 import { useResult } from '@hooks/study/useResult'
 
 // components - common
@@ -36,22 +40,21 @@ import Gap from '@components/study/common-study/Gap'
 
 // components - vocabulary practice 3
 import TestResultVP3 from '@components/study/vocabulary-practice-03/TestResultVP3'
-import useRecorderVoca3P from '@hooks/study/useRecorderVoca3P'
+import useRecorderVoca from '@hooks/study/useRecorderVoca'
 import WrapperCard from '@components/study/vocabulary-practice-03/WrapperCard'
 
 const STEP_TYPE = 'Vocabulary Practice'
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? vocabularyCSSMobile : vocabularyCSS
 
 export type PlayBarState = '' | 'reset' | 'recording'
 
 export default function VocabularyPractice3(props: IStudyData) {
+  const { t } = useTranslation()
   const { handler, studyInfo } = useContext(AppContext) as AppContextProps
   const STEP = props.currentStep
 
-  const { startRecording } = useRecorderVoca3P()
+  const { startRecording } = useRecorderVoca()
 
   const timer = useQuizTimer(() => {
     // timer가 0에 도달하면 호출되는 콜백함수 구현
@@ -96,7 +99,7 @@ export default function VocabularyPractice3(props: IStudyData) {
 
   // 스피킹모드
   const [playBarState, setPlayBarState] = useState<PlayBarState>('')
-  const [sentenceScore, setSentenceScore] = useState<IRecordResultData>()
+  const [phonemeScore, setPhonemeScore] = useState<IPhonemeResult>()
   const [isSpeakResult, setIsSpeakResult] = useState(false)
 
   // 인트로가 없어지면
@@ -162,22 +165,22 @@ export default function VocabularyPractice3(props: IStudyData) {
    * 문장 점수가 바뀌면 녹음이 된 것으로 판단
    */
   useEffect(() => {
-    if (sentenceScore) {
+    if (phonemeScore) {
       setIsSpeakResult(true)
     }
-  }, [sentenceScore])
+  }, [phonemeScore])
 
   /**
    * use effect - play bar state
    */
   useEffect(() => {
-    if (playBarState === '' && sentenceScore) {
+    if (playBarState === '' && phonemeScore) {
       isWorking.current = false
 
-      setSentenceScore(undefined)
+      setPhonemeScore(undefined)
       setIsSpeakResult(false)
 
-      if (sentenceScore.total_score >= 40) {
+      if (phonemeScore.average_phoneme_score >= 40) {
         checkAnswer('speaking correctly')
       }
     } else if (playBarState === 'reset') {
@@ -198,7 +201,12 @@ export default function VocabularyPractice3(props: IStudyData) {
 
         if (quizData.IsEnabledTyping) {
           // input이 활성화 된 경우
-          const isCorrect = quizData.Quiz[quizNo - 1].Question.Text === inputVal
+
+          let isCorrect = quizData.Quiz[quizNo - 1].Question.Text === inputVal
+
+          if (skipType === 'speaking correctly') {
+            isCorrect = true
+          }
 
           if (isCorrect) {
             let res
@@ -222,7 +230,7 @@ export default function VocabularyPractice3(props: IStudyData) {
               quizNo: quizData.Quiz[quizNo - 1].QuizNo,
               currentQuizNo: quizNo,
               correct: quizData.Quiz[quizNo - 1].Question.Text,
-              selectedAnswer: inputVal,
+              selectedAnswer: quizData.Quiz[quizNo - 1].Question.Text,
               tryCount: tryCount + 1,
               maxQuizCount: quizData.QuizAnswerCount,
               quizLength: quizData.Quiz.length,
@@ -506,7 +514,7 @@ export default function VocabularyPractice3(props: IStudyData) {
         quizData.Quiz[quizNo - 1].Question.Text,
         quizData.Quiz[quizNo - 1].Question.Sound,
         changePlayBarState,
-        changeSentenceScore,
+        changePhonemeScore,
       )
     }
   }
@@ -523,8 +531,8 @@ export default function VocabularyPractice3(props: IStudyData) {
    * 녹음 후 문장 점수 바꾸기 위한 함수
    * @param data
    */
-  const changeSentenceScore = (data: any) => {
-    setSentenceScore(data)
+  const changePhonemeScore = (data: any) => {
+    setPhonemeScore(data)
   }
 
   return (
@@ -541,7 +549,7 @@ export default function VocabularyPractice3(props: IStudyData) {
           <StepIntro
             step={STEP}
             quizType={STEP_TYPE}
-            comment={'단어를 보고 듣고 따라서 입력하세요.'}
+            comment={t('study.단어를 보고 듣고 따라서 입력하세요.')}
             onStepIntroClozeHandler={() => {
               setIntroAnim('animate__bounceOutLeft')
             }}
@@ -586,7 +594,7 @@ export default function VocabularyPractice3(props: IStudyData) {
                     playBarState={playBarState}
                     playState={playState}
                     isSpeakResult={isSpeakResult}
-                    sentenceScore={sentenceScore}
+                    phonemeScore={phonemeScore}
                     playWord={playWord}
                     changeInputVal={changeInputVal}
                     startRecord={startRecord}

@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 
 import EBCSS from '@stylesheets/e-book.module.scss'
 
@@ -10,6 +11,7 @@ type PopupReviewProps = {
 export default function PopupReview({
   onUpdateReviewInform,
 }: PopupReviewProps) {
+  const { t } = useTranslation()
   const { bookInfo } = useContext(AppContext) as AppContextProps
 
   return (
@@ -38,7 +40,9 @@ export default function PopupReview({
         <div className={EBCSS.groupComment}>
           <span className={EBCSS.icoExclamationMark}></span>
           <span className={EBCSS.txtComment}>
-            다시 보기 모드에서는 학습을 완료해도 포인트가 제공되지 않아요.
+            {t(
+              'story.다시 보기 모드에서는 학습을 완료해도 포인트가 제공되지 않아요.',
+            )}
           </span>
         </div>
       </div>

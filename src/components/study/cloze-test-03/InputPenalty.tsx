@@ -3,7 +3,9 @@ import { useEffect, useRef, useState } from 'react'
 import clozeTestCSS from '@stylesheets/cloze-test.module.scss'
 import clozeTestCSSMobile from '@stylesheets/mobile/cloze-test.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 type InputPenaltyProps = {
   inputRefs: React.MutableRefObject<HTMLInputElement[]>
@@ -14,8 +16,6 @@ type InputPenaltyProps = {
   changePenaltyState: (state: 'none' | 'penalty' | 'success') => void
   changeInputIndex: (index: number) => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? clozeTestCSSMobile : clozeTestCSS
 
@@ -57,7 +57,7 @@ export default function InputPenalty({
 
     // 유효성 검사
     // 영어랑 마침표만 허용 - 추가될 수 있음
-    const regex = /^[ㄱ-ㅎa-zA-Z-' ]+(?:'){0,1}[a-zA-Z]?$/g
+    const regex = /^[ㄱ-ㅎa-zA-Z-'~ ]+(?:'){0,1}[a-zA-Z]?$/g
     let text: string = e.currentTarget.value
 
     if (!regex.test(text)) {

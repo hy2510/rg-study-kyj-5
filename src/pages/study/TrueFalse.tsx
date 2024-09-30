@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 import { saveUserAnswer } from '@services/studyApi'
 import { getTrueOrFalse } from '@services/quiz/TrueOrFalseAPI'
 
@@ -24,7 +25,10 @@ import { useStudentAnswer } from '@hooks/study/useStudentAnswer'
 import useStudyAudio from '@hooks/study/useStudyAudio'
 import useBottomPopup from '@hooks/study/useBottomPopup'
 import { useResult } from '@hooks/study/useResult'
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 // components - common
 import StepIntro from '@components/study/common-study/StepIntro'
@@ -43,11 +47,10 @@ import TrueSentence from '@components/study/true-or-false/TrueSentence'
 
 const STEP_TYPE = 'True or False'
 
-const isMobile = useDeviceDetection()
-
 const style = isMobile ? trueOrFalseCSSMobile : trueOrFalseCSS
 
 export default function TrueFalse(props: IStudyData) {
+  const { t } = useTranslation()
   const { handler, studyInfo } = useContext(AppContext) as AppContextProps
   const STEP = props.currentStep
 
@@ -411,7 +414,7 @@ export default function TrueFalse(props: IStudyData) {
           <StepIntro
             step={STEP}
             quizType={STEP_TYPE}
-            comment={'문장을 읽고 맞으면 O, 틀리면 X를 누르세요.'}
+            comment={t('study.문장을 읽고 맞으면 O, 틀리면 X를 누르세요.')}
             onStepIntroClozeHandler={() => {
               setIntroAnim('animate__bounceOutLeft')
             }}

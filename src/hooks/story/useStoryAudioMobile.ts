@@ -91,7 +91,7 @@ export default function useStoryAudioMobile({
     // 오디오가 재생 중 end
 
     // 오디오가 일시 중지
-    const handlerPause = () => { }
+    const handlerPause = () => {}
 
     player.addEventListener('pause', handlerPause)
     // 오디오가 일시 중지 end

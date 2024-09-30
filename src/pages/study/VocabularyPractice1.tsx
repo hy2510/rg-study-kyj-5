@@ -1,14 +1,15 @@
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState, useContext, useRef } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 
 import vocabularyCSS from '@stylesheets/vocabulary-practice.module.scss'
 import vocabularyCSSMobile from '@stylesheets/mobile/vocabulary-practice.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
-
 // Types [
+export type PlayBarState = '' | 'reset' | 'recording'
 import { IStudyData } from '@interfaces/Common'
 import { getVocabularyPractice1 } from '@services/quiz/VocabularyAPI'
+import { IPhonemeResult } from '@interfaces/ISpeak'
 // ] Types
 
 // utils & hooks
@@ -17,6 +18,7 @@ import { useQuizTimer } from '@hooks/study/useQuizTimer'
 import { useFetch } from '@hooks/study/useFetch'
 import { useStudentAnswer } from '@hooks/study/useStudentAnswer'
 import useStudyAudio from '@hooks/study/useStudyAudio'
+import useRecorderVoca from '@hooks/study/useRecorderVoca'
 
 // components - common
 import StepIntro from '@components/study/common-study/StepIntro'
@@ -32,13 +34,18 @@ import BtnNext from '@components/study/vocabulary-practice-01/BtnNext'
 
 const STEP_TYPE = 'Vocabulary Practice'
 
-const isMobile = useDeviceDetection()
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 const style = isMobile ? vocabularyCSSMobile : vocabularyCSS
 
 export default function VocabularyPractice1(props: IStudyData) {
+  const { t } = useTranslation()
   const { studyInfo } = useContext(AppContext) as AppContextProps
   const STEP = props.currentStep
+
+  const { startRecording } = useRecorderVoca()
 
   const timer = useQuizTimer(() => {
     // timer가 0에 도달하면 호출되는 콜백함수 구현
@@ -53,6 +60,9 @@ export default function VocabularyPractice1(props: IStudyData) {
   const [isSideOpen, setSideOpen] = useState(false)
 
   // 퀴즈 데이터 세팅
+  const isWorking = useRef(true)
+
+  // 퀴즈 데이터 세팅
   const { scoreBoardData } = useStudentAnswer(studyInfo.mode)
   const [quizData, recordedData] = useFetch(getVocabularyPractice1, props, STEP) // 퀴즈 데이터 / 저장된 데이터
   const [quizNo, setQuizNo] = useState<number>(1) // 퀴즈 번호
@@ -63,11 +73,18 @@ export default function VocabularyPractice1(props: IStudyData) {
   // audio
   const { playState, playAudio, stopAudio } = useStudyAudio()
 
+  // 스피킹모드
+  const [playBarState, setPlayBarState] = useState<PlayBarState>('')
+  const [phonemeScore, setPhonemeScore] = useState<IPhonemeResult>()
+  const [isSpeakResult, setIsSpeakResult] = useState(false)
+
   // 인트로가 없어지면
   useEffect(() => {
     if (!isStepIntro && quizData) {
       timer.setup(quizData.QuizTime, true)
+
       playWord()
+      isWorking.current = false
     }
   }, [isStepIntro])
 
@@ -101,6 +118,36 @@ export default function VocabularyPractice1(props: IStudyData) {
     }
   }, [isLastPage])
 
+  /**
+   * use effect - sentence score
+   * 문장 점수가 바뀌면 녹음이 된 것으로 판단
+   */
+  useEffect(() => {
+    if (phonemeScore) {
+      setIsSpeakResult(true)
+    }
+  }, [phonemeScore])
+
+  /**
+   * use effect - play bar state
+   */
+  useEffect(() => {
+    if (playBarState === '' && phonemeScore && quizData) {
+      isWorking.current = false
+
+      setPhonemeScore(undefined)
+      setIsSpeakResult(false)
+
+      if (phonemeScore.average_phoneme_score >= 40) {
+        if (quizNo + 1 <= Object.keys(quizData.Quiz).length) {
+          changeQuizNo(quizNo + 1)
+        }
+      }
+    } else if (playBarState === 'reset') {
+      changePlayBarState('')
+    }
+  }, [playBarState])
+
   if (!quizData) return <div>Loading...</div>
 
   /**
@@ -123,7 +170,7 @@ export default function VocabularyPractice1(props: IStudyData) {
    * 단어 재생
    */
   const playWord = () => {
-    if (playState === '') {
+    if (playState === '' && playBarState === '') {
       playAudio(quizData.Quiz[quizNo - 1].Question.Sound)
     } else {
       stopAudio()
@@ -145,6 +192,39 @@ export default function VocabularyPractice1(props: IStudyData) {
     props.changeVocaState(false)
   }
 
+  /**
+   * 녹음 시작
+   */
+  const startRecord = () => {
+    if (!isWorking.current) {
+      isWorking.current = true
+      stopAudio()
+
+      startRecording(
+        quizData.Quiz[quizNo - 1].Question.Text,
+        quizData.Quiz[quizNo - 1].Question.Sound,
+        changePlayBarState,
+        changePhonemeScore,
+      )
+    }
+  }
+
+  /**
+   * 하단 play bar 상태 변경
+   * @param state
+   */
+  const changePlayBarState = (state: PlayBarState) => {
+    setPlayBarState(state)
+  }
+
+  /**
+   * 녹음 후 문장 점수 바꾸기 위한 함수
+   * @param data
+   */
+  const changePhonemeScore = (data: any) => {
+    setPhonemeScore(data)
+  }
+
   return (
     <>
       {isStepIntro ? (
@@ -159,7 +239,7 @@ export default function VocabularyPractice1(props: IStudyData) {
           <StepIntro
             step={STEP}
             quizType={STEP_TYPE}
-            comment={'카드를 넘기면서 단어를 학습하세요.'}
+            comment={t('study.카드를 넘기면서 단어를 학습하세요.')}
             onStepIntroClozeHandler={() => {
               setIntroAnim('animate__bounceOutLeft')
             }}
@@ -188,9 +268,14 @@ export default function VocabularyPractice1(props: IStudyData) {
               containerCSS={style.container}
             >
               <CardWord
+                isSpeakResult={isSpeakResult}
                 playState={playState}
+                playBarState={playBarState}
                 cardInfo={quizData.Quiz[quizNo - 1]}
+                phonemeScore={phonemeScore}
                 playWord={playWord}
+                startRecord={startRecord}
+                changePlayBarState={changePlayBarState}
               />
 
               <Indicator

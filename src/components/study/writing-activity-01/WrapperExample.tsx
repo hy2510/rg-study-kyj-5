@@ -1,7 +1,9 @@
 import writingActivityCSS from '@stylesheets/writing-activity.module.scss'
 import writingActivityCSSMobile from '@stylesheets/mobile/writing-activity.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { IWritingActivity1Example } from '@interfaces/IWritingActivity'
 
@@ -12,8 +14,6 @@ type WrapperExampleProps = {
   exampleData: IWritingActivity1Example[]
   selectWord: (index: number, selectedWord: string) => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? writingActivityCSSMobile : writingActivityCSS
 

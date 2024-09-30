@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import axios from 'axios'
 import { IRecordResultData } from '@interfaces/ISpeak'
@@ -9,7 +9,9 @@ import { PlayBarState } from '@pages/study/VocabularyPractice3'
 const API_URL = 'https://api.readinggate.elasolution.com'
 const API_KEY = 'e874641aac784ff6b9d62c3483f7aaaa'
 
-export default function useRecorderVoca3P() {
+export default function useRecorderVoca() {
+  const { t } = useTranslation()
+
   /**
    * 녹음 시작
    * @param text
@@ -19,7 +21,7 @@ export default function useRecorderVoca3P() {
     text: string,
     nativeAudio: string,
     changePlayBarState: (state: PlayBarState) => void,
-    changeSentenceScore: (data: IRecordResultData) => void,
+    changePhonemeScore: (data: IRecordResultData) => void,
   ) => {
     try {
       const audio = new Audio(nativeAudio)
@@ -53,7 +55,7 @@ export default function useRecorderVoca3P() {
                 type: 'audio/mp3',
               })
 
-              pron_v2(studentAudio, nativeAudio, text, changeSentenceScore)
+              pron_v2(studentAudio, text, changePhonemeScore)
             }
 
             recorder.onerror = (e) => {
@@ -104,38 +106,34 @@ export default function useRecorderVoca3P() {
    */
   const pron_v2 = async (
     studentAudio: File,
-    nativeAudio: string,
     text: string,
-    changeSentenceScore: (score: IRecordResultData) => void,
+    changePhonemeScore: (score: IRecordResultData) => void,
   ) => {
-    const nativeFile = await convertURLtoFile(nativeAudio)
-
     const formData = new FormData()
-    formData.append('student_audio', studentAudio)
+    formData.append('audio', studentAudio)
     formData.append('text', text)
-    // @ts-ignore
-    formData.append('get_phoneme_result', true)
-    // @ts-ignore
-    formData.append('native_audio', nativeFile)
 
     axios
-      .post(`${API_URL}/pron_v2/`, formData, {
+      .post(`${API_URL}/pron_v2/phoneme`, formData, {
         headers: {
           'X-API-Key': API_KEY,
           'Content-Type': 'multipart/form-data',
         },
       })
       .then((data) => {
-        console.log(data)
         switch (data.status) {
           case 200:
             // 정상적으로 완료된 경우
-            changeSentenceScore(data.data)
+            changePhonemeScore(data.data)
             break
 
           case 401:
             // 인증키가 잘못된 경우
-            alert('인증키가 잘못되었습니다. 리딩게이트로 전화주세요. 1599-0533')
+            alert(
+              t(
+                'study.인증키가 잘못되었습니다. 리딩게이트로 전화주세요. 1599-0533',
+              ),
+            )
             break
 
           case 403:
@@ -168,4 +166,4 @@ export const convertURLtoFile = async (url: string) => {
   return new File([data], filename!, metadata)
 }
 
-export { useRecorderVoca3P }
+export { useRecorderVoca }

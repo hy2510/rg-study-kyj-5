@@ -10,6 +10,7 @@ const audSoundNext = new Audio(sndSpeakNext)
  * */
 const playAudio = (src: string) => {
   currentAud = new Audio(src)
+  currentAud.volume = 0.7
 
   const playAudio = () => {
     currentAud.play()

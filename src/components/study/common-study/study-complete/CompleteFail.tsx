@@ -3,13 +3,13 @@ import testResultCSS from '@stylesheets/test-result.module.scss'
 import testResultCSSMobile from '@stylesheets/mobile/test-result.module.scss'
 
 import useCharacter from '@hooks/study/useCharacter'
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 type CompleteFailProps = {
   average: number
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? testResultCSSMobile : testResultCSS
 

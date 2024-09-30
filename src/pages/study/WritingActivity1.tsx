@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useContext } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 import { saveUserAnswer } from '@services/studyApi'
 
 import writingActivityCSS from '@stylesheets/writing-activity.module.scss'
@@ -26,7 +27,10 @@ import { useStudentAnswer } from '@hooks/study/useStudentAnswer'
 import useStudyAudio from '@hooks/study/useStudyAudio'
 import useBottomPopup from '@hooks/study/useBottomPopup'
 import { useResult } from '@hooks/study/useResult'
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 // components - common
 import StepIntro from '@components/study/common-study/StepIntro'
@@ -47,11 +51,10 @@ import BtnGoNext from '@components/study/writing-activity-01/BtnGoNext'
 
 const STEP_TYPE = 'Writing Activity'
 
-const isMobile = useDeviceDetection()
-
 const style = isMobile ? writingActivityCSSMobile : writingActivityCSS
 
 export default function WrtingActivity1(props: IStudyData) {
+  const { t } = useTranslation()
   const { bookInfo, handler, studyInfo } = useContext(
     AppContext,
   ) as AppContextProps
@@ -129,7 +132,7 @@ export default function WrtingActivity1(props: IStudyData) {
         setTryCount(tryCnt)
         setIncorrectCount(tryCnt)
 
-        if (studyInfo.mode === 'Quiz') {
+        if (studyInfo.mode === 'student') {
           setExamples(shuffle(quizData.Quiz[currentQuizNo - 1].Examples))
         } else {
           setExamples(quizData.Quiz[currentQuizNo - 1].Examples)
@@ -155,7 +158,7 @@ export default function WrtingActivity1(props: IStudyData) {
   // quizNo가 바뀌면 문제가 바뀐 것으로 인식
   useEffect(() => {
     if (!isStepIntro && !isResultShow && quizData) {
-      if (studyInfo.mode === 'Quiz') {
+      if (studyInfo.mode === 'student') {
         setExamples(shuffle(quizData.Quiz[quizNo - 1].Examples))
       } else {
         setExamples(quizData.Quiz[quizNo - 1].Examples)
@@ -431,7 +434,9 @@ export default function WrtingActivity1(props: IStudyData) {
           <StepIntro
             step={STEP}
             quizType={STEP_TYPE}
-            comment={'카드를 순서대로 나열하여 올바른 문장을 완성하세요.'}
+            comment={t(
+              'study.카드를 순서대로 나열하여 올바른 문장을 완성하세요.',
+            )}
             onStepIntroClozeHandler={() => {
               setIntroAnim('animate__bounceOutLeft')
             }}

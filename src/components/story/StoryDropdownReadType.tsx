@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 
 import EBCSS from '@stylesheets/e-book.module.scss'
 
@@ -18,16 +19,25 @@ export default function StoryDropdownReadType({
   changeMuteAudio,
   changeHighlight,
 }: StoryDropdownMenuReadTypeProps) {
-  const { handler } = useContext(AppContext) as AppContextProps
+  const { t } = useTranslation()
+  const { handler, bookInfo } = useContext(AppContext) as AppContextProps
 
   // 기능: 메뉴 팝업 띄우기 및 버튼 선택시 이벤트
   const [isShow, setIsShow] = useState(false)
-  const [readTypeList, setReadTypeList] = useState<StoryMenuItemProps[]>([
-    { name: 'Basic', selected: 'on' },
-    { name: 'No Text', selected: '' },
-    { name: 'No Audio', selected: '' },
-    { name: 'No Highlight', selected: '' },
-  ])
+  const menuItems: StoryMenuItemProps[] = bookInfo.HighlightDataYn
+    ? [
+        { name: 'Basic', selected: 'on' },
+        { name: 'No Text', selected: '' },
+        { name: 'No Audio', selected: '' },
+        { name: 'No Highlight', selected: '' },
+      ]
+    : [
+        { name: 'Basic', selected: 'on' },
+        { name: 'No Audio', selected: '' },
+      ]
+
+  const [readTypeList, setReadTypeList] =
+    useState<StoryMenuItemProps[]>(menuItems)
 
   const selectedType = readTypeList.find((readType) => {
     return readType.selected === 'on'
@@ -37,7 +47,7 @@ export default function StoryDropdownReadType({
     if (handler.storyMode === 'Story') {
       isShow ? setIsShow(false) : setIsShow(true)
     } else {
-      alert('Listen & Repeat 모드에서는 지원하지 않는 기능입니다.')
+      alert(t('story.Listen & Repeat 모드에서는 지원하지 않는 기능입니다.'))
     }
   }
 
@@ -50,34 +60,52 @@ export default function StoryDropdownReadType({
 
     newList[readTypeIndex].selected = 'on'
 
-    switch (readTypeIndex) {
-      case 0:
-        // basic
-        changeTextShow(true)
-        changeMuteAudio(false)
-        changeHighlight(true)
-        break
+    if (bookInfo.HighlightDataYn) {
+      switch (readTypeIndex) {
+        case 0:
+          // basic
+          changeTextShow(true)
+          changeMuteAudio(false)
+          changeHighlight(true)
+          break
 
-      case 1:
-        // no text
-        changeTextShow(false)
-        changeMuteAudio(false)
-        changeHighlight(true)
-        break
+        case 1:
+          // no text
+          changeTextShow(false)
+          changeMuteAudio(false)
+          changeHighlight(true)
+          break
 
-      case 2:
-        // no audio
-        changeTextShow(true)
-        changeMuteAudio(true)
-        changeHighlight(false)
-        break
+        case 2:
+          // no audio
+          changeTextShow(true)
+          changeMuteAudio(true)
+          changeHighlight(false)
+          break
 
-      case 3:
-        // no highlight
-        changeTextShow(true)
-        changeMuteAudio(false)
-        changeHighlight(false)
-        break
+        case 3:
+          // no highlight
+          changeTextShow(true)
+          changeMuteAudio(false)
+          changeHighlight(false)
+          break
+      }
+    } else {
+      switch (readTypeIndex) {
+        case 0:
+          // basic
+          changeTextShow(true)
+          changeMuteAudio(false)
+          changeHighlight(true)
+          break
+
+        case 1:
+          // no audio
+          changeTextShow(true)
+          changeMuteAudio(true)
+          changeHighlight(false)
+          break
+      }
     }
 
     setReadTypeList(newList)

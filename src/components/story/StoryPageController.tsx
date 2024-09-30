@@ -16,7 +16,10 @@ export default function StoryPageController({
     <div className={EBCSS.ebook_page_arrows}>
       <div className={EBCSS.left_arrow}>
         <button
-          onClick={() => {
+          tabIndex={-1}
+          contentEditable={false}
+          onClick={(e) => {
+            e.currentTarget.blur()
             turnPageLeft()
           }}
         >
@@ -25,7 +28,10 @@ export default function StoryPageController({
       </div>
       <div className={EBCSS.right_arrow}>
         <button
-          onClick={() => {
+          tabIndex={-1}
+          contentEditable={false}
+          onClick={(e) => {
+            e.currentTarget.blur()
             turnPageRight()
           }}
         >

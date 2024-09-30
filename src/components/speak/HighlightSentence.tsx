@@ -3,6 +3,7 @@ type HLSentenceProps = {
   sentence: string
   sequence: number
   marginTop: number
+  marginLeft: number
   color: string
   clickSentence: (page: number, sequence: number) => void
 }
@@ -11,6 +12,7 @@ export default function HighlightSentence({
   pageNumber,
   sentence,
   marginTop,
+  marginLeft,
   sequence,
   color,
   clickSentence,
@@ -20,7 +22,7 @@ export default function HighlightSentence({
 
     const convertedSentence = sentence.replace(
       sentenceIDReg,
-      `style='margin-top: ${marginTop}px; background-color:${color}; cursor:pointer;' id="t_${pageNumber}_`,
+      `style='margin-top: ${marginTop}px; margin-left: ${marginLeft}px; background-color:${color}; cursor:pointer;' id="t_${pageNumber}_`,
     )
 
     return convertedSentence

@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 import { saveUserAnswer } from '@services/studyApi'
 import { getReadingComprehension3 } from '@services/quiz/RedaingComprehensionAPI'
 
@@ -31,7 +32,10 @@ import { useStudentAnswer } from '@hooks/study/useStudentAnswer'
 import useStudyAudio, { PlayState } from '@hooks/study/useStudyAudio'
 import { useResult } from '@hooks/study/useResult'
 import useBottomPopup from '@hooks/study/useBottomPopup'
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 // components - common
 import StepIntro from '@components/study/common-study/StepIntro'
@@ -49,11 +53,10 @@ import WrapperSectionRight from '@components/study/reading-comprehension-03/Wrap
 
 const STEP_TYPE = 'Reading Comprehension'
 
-const isMobile = useDeviceDetection()
-
 const style = isMobile ? readingComprehensionCSSMobile : readingComprehensionCSS
 
 export default function ReadingComprehension3(props: IStudyData) {
+  const { t } = useTranslation()
   const { handler, studyInfo } = useContext(AppContext) as AppContextProps
   const STEP = props.currentStep
 
@@ -157,7 +160,7 @@ export default function ReadingComprehension3(props: IStudyData) {
       setTryCount(tryCnt)
       setIncorrectCount(tryCnt)
 
-      if (studyInfo.mode === 'Super') {
+      if (studyInfo.mode === 'staff') {
         setExamples(quizData.Quiz[currentQuizNo - 1].Examples)
       } else {
         setExamples(shuffle(quizData.Quiz[currentQuizNo - 1].Examples))
@@ -177,7 +180,7 @@ export default function ReadingComprehension3(props: IStudyData) {
       setTryCount(0)
       setIncorrectCount(0)
 
-      if (studyInfo.mode === 'Super') {
+      if (studyInfo.mode === 'staff') {
         setExamples(quizData.Quiz[quizNo - 1].Examples)
       } else {
         setExamples(shuffle(quizData.Quiz[quizNo - 1].Examples))
@@ -382,7 +385,7 @@ export default function ReadingComprehension3(props: IStudyData) {
           <StepIntro
             step={STEP}
             quizType={STEP_TYPE}
-            comment={'그림과 질문을 보고 알맞은 대답을 고르세요.'}
+            comment={t('study.그림과 질문을 보고 알맞은 대답을 고르세요.')}
             onStepIntroClozeHandler={() => {
               setIntroAnim('animate__bounceOutLeft')
             }}

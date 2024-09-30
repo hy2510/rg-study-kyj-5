@@ -80,8 +80,7 @@ export default function AppContextProvider({
           // 스피킹 화면을 먼저 보여주는 상황이 아닌 경우
           if (
             response.studyInfo.isSubmitPreference &&
-            !response.studyInfo.isReview &&
-            response.studyInfo.availableQuizStatus === 0
+            !response.studyInfo.isReview
           ) {
             // 별점을 이미 줬으면 퀴즈로
             setViewStudy('quiz')
@@ -203,6 +202,7 @@ function initialize(): Promise<AppContextDataProps> {
       const levelRoundId = REF.LevelRoundId
       const token = REF.Token
       const isDev = REF.isDev === undefined ? false : true
+      const studyMode = REF.User
 
       appContextData(
         studyId,
@@ -212,6 +212,7 @@ function initialize(): Promise<AppContextDataProps> {
         levelRoundId,
         token,
         isDev,
+        studyMode,
       )
         .then((response) => resolve(response))
         .catch((error) => {
@@ -231,6 +232,7 @@ async function appContextData(
   levelRoundId: string,
   token: string,
   isDev: boolean,
+  mode: 'student' | 'staff',
 ): Promise<AppContextDataProps> {
   try {
     const responseStudyInfo = await requestStudyInfo(
@@ -254,7 +256,7 @@ async function appContextData(
         responseStudyInfo.isPassedVocabularyPractice
       const availableQuizStatus = responseStudyInfo.availableQuizStatus
       const isReTestYn = responseStudyInfo.isReTestYn
-      const studyMode: Mode = isReview ? 'Review' : isSuper ? 'Super' : 'Quiz'
+      const studyMode: Mode = isReview ? 'review' : mode
       const bookmarkPage = responseStudyInfo.bookmarkPage
 
       const studyInfo = {

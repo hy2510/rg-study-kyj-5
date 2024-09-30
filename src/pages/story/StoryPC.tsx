@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
+import { useTranslation } from 'react-i18next'
 
 import { StoryProps, PageState } from '@interfaces/IStory'
 
@@ -22,6 +23,7 @@ export default function StoryPC({
   changeRatingShow,
   toggleMovieShow,
 }: StoryProps) {
+  const { t } = useTranslation()
   const { bookInfo, studyInfo, handler } = useContext(
     AppContext,
   ) as AppContextProps
@@ -49,6 +51,7 @@ export default function StoryPC({
     changeVolume,
     changePageNumber,
     changeAutoNextPage,
+    changeMaxReadCnt,
   } = useStoryAudioPC({
     studyId: studyInfo.studyId,
     studentHistoryId: studyInfo.studentHistoryId,
@@ -126,8 +129,66 @@ export default function StoryPC({
           }
           break
       }
+
+      // 페이지 이동하는 함수
+      const onKeyboardHandler = (e: any) => {
+        switch (e.key) {
+          case 'ArrowRight':
+            turnPageRight()
+            break
+
+          case 'ArrowLeft':
+            turnPageLeft()
+            break
+
+          case ' ':
+          case 'SpaceBar':
+            if (playState === 'play') {
+              pauseAudio()
+            } else if (playState === 'pause') {
+              resumeAudio()
+            }
+            break
+        }
+      }
+
+      window.addEventListener('keyup', onKeyboardHandler)
+
+      return () => {
+        window.removeEventListener('keyup', onKeyboardHandler)
+      }
     }
   }, [pageState])
+
+  useEffect(() => {
+    // 페이지 이동하는 함수
+    const onKeyboardHandler = (e: any) => {
+      switch (e.key) {
+        case 'ArrowRight':
+          turnPageRight()
+          break
+
+        case 'ArrowLeft':
+          turnPageLeft()
+          break
+
+        case ' ':
+        case 'SpaceBar':
+          if (playState === 'play') {
+            pauseAudio()
+          } else if (playState === 'pause') {
+            resumeAudio()
+          }
+          break
+      }
+    }
+
+    window.addEventListener('keyup', onKeyboardHandler)
+
+    return () => {
+      window.removeEventListener('keyup', onKeyboardHandler)
+    }
+  }, [playState])
 
   // 오디오 음소거
   useEffect(() => {
@@ -219,7 +280,7 @@ export default function StoryPC({
           location.replace('/')
         }
       } else {
-        alert('책갈피 저장에 실패했습니다.')
+        alert(t('story.책갈피 저장에 실패했습니다.'))
 
         try {
           window.onExitStudy()
@@ -292,6 +353,7 @@ export default function StoryPC({
         resumeAudio={resumeAudio}
         changeVocaOpen={changeVocaOpen}
         changeSideMenu={changeSideMenu}
+        changeMaxReadCnt={changeMaxReadCnt}
       />
 
       {/* 사이드 메뉴 */}

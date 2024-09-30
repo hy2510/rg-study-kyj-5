@@ -3,6 +3,7 @@ type SentenceProps = {
   sentence: string
   sequence: number
   marginTop: number
+  marginLeft: number
 }
 
 export default function Sentence({
@@ -10,6 +11,7 @@ export default function Sentence({
   sentence,
   sequence,
   marginTop,
+  marginLeft,
 }: SentenceProps) {
   const convertSentence = (sentence: string) => {
     const sentenceIDReg = /id=\"t/g
@@ -23,7 +25,14 @@ export default function Sentence({
       const clickStr = / id=\"t/g
       convertedSentence = convertedSentence.replace(
         clickStr,
-        ` style='margin-top: ${marginTop}px;' id="t`,
+        ` style='margin-top: ${marginTop}px; margin-left: ${marginLeft}px;' id="t`,
+      )
+    } else if (sequence === 999) {
+      const seqStr = / id=\"t/g
+
+      convertedSentence = convertedSentence.replace(
+        seqStr,
+        ` style='margin-top: ${marginTop}px; margin-left: ${marginLeft}px;' id="t`,
       )
     }
 

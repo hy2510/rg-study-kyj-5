@@ -97,7 +97,7 @@ const useStudentAnswer = (mode: Mode, type: string = 'normal') => {
    * @param recordData
    */
   const addStudentAnswer = (recordData: IScoreBoardData) => {
-    if (mode === 'Quiz') {
+    if (mode === 'student') {
       let newRecordData: IScoreBoardData[] = []
 
       // 스코어 보드 기록이 있으면
@@ -142,7 +142,7 @@ const useStudentAnswer = (mode: Mode, type: string = 'normal') => {
    * @param recordData
    */
   const addStudentAnswers = (recordDatas: IScoreBoardData[]) => {
-    if (mode === 'Quiz') {
+    if (mode === 'student') {
       let newRecordData: IScoreBoardData[] = []
 
       // 스코어 보드 기록이 있으면

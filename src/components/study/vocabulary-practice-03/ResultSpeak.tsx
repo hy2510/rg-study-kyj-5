@@ -1,34 +1,36 @@
 import vocabularyCSS from '@stylesheets/vocabulary-practice.module.scss'
 import vocabularyCSSMobile from '@stylesheets/mobile/vocabulary-practice.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
-import { IRecordResultData } from '@interfaces/ISpeak'
+import { IPhonemeResult } from '@interfaces/ISpeak'
 import { PlayBarState } from '@pages/study/VocabularyPractice3'
 
-const isMobile = useDeviceDetection()
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
+
 const style = isMobile ? vocabularyCSSMobile : vocabularyCSS
 
 type ResultSpeakProps = {
-  sentenceScore: IRecordResultData | undefined
-  tryCount: number
+  word: string
+  phonemeScore: IPhonemeResult | undefined
   changePlayBarState: (state: PlayBarState) => void
 }
 
 export default function ResultSpeak({
-  sentenceScore,
-  tryCount,
+  word,
+  phonemeScore,
   changePlayBarState,
 }: ResultSpeakProps) {
   return (
     <>
       <div className={style.speakResult}>
-        {sentenceScore && (
+        {phonemeScore && (
           <>
             {/* 단어 */}
-            <div className={style.word}>{sentenceScore.best_answer}</div>
+            <div className={style.word}>{word}</div>
 
             <div className={style.phonemes}>
-              {sentenceScore.phoneme_result.words.map((word) => {
+              {phonemeScore.words.map((word) => {
                 return (
                   <>
                     {word.phonemes.map((phoneme) => {
@@ -39,10 +41,10 @@ export default function ResultSpeak({
                         ${phoneme.score < 30 && style.red}
                         ${
                           phoneme.score >= 30 &&
-                          phoneme.score < 70 &&
+                          phoneme.score < 60 &&
                           style.orange
                         }  
-                        ${phoneme.score >= 70 && style.green}  
+                        ${phoneme.score >= 60 && style.green}  
                         `}
                           >
                             {phoneme.phoneme}
@@ -65,7 +67,7 @@ export default function ResultSpeak({
         className={style.speakResultSign}
         onClick={() => changePlayBarState('')}
       >
-        {sentenceScore && sentenceScore.total_score >= 40 ? (
+        {phonemeScore && phonemeScore.average_phoneme_score >= 40 ? (
           <div className={`${style.signBox} ${style.goodJob}`}>
             <div className={style.txt}>Good Job</div>
             <div className={style.iconArrow}></div>

@@ -1,7 +1,9 @@
 import writingActivityCSS from '@stylesheets/writing-activity.module.scss'
 import writingActivityCSSMobile from '@stylesheets/mobile/writing-activity.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { PlayState } from '@hooks/study/useStudyAudio'
 import { IcoPlay, IcoStop } from '@components/common/Icons'
@@ -10,8 +12,6 @@ type BtnPlayWordProps = {
   playState: PlayState
   onPlay: () => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? writingActivityCSSMobile : writingActivityCSS
 

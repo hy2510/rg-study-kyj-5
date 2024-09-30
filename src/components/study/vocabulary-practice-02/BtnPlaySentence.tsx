@@ -3,7 +3,9 @@ import reactStringReplace from 'react-string-replace'
 import vocabularyCSS from '@stylesheets/vocabulary-practice.module.scss'
 import vocabularyCSSMobile from '@stylesheets/mobile/vocabulary-practice.module.scss'
 
-import useDeviceDetection from '@hooks/common/useDeviceDetection'
+import MobileDetect from 'mobile-detect'
+const md = new MobileDetect(navigator.userAgent)
+const isMobile = md.phone()
 
 import { IVocabulary2Quiz } from '@interfaces/IVocabulary'
 import { MultiPlayStateProps } from '@pages/study/VocabularyPractice2'
@@ -15,8 +17,6 @@ type BtnPlayWordProps = {
   cardInfo: IVocabulary2Quiz
   playSentence: () => void
 }
-
-const isMobile = useDeviceDetection()
 
 const style = isMobile ? vocabularyCSSMobile : vocabularyCSS
 
