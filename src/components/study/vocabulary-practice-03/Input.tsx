@@ -94,7 +94,7 @@ export default function Input({
       <input
         ref={inputRef}
         className={`${style.inputField} ${
-          quizData.Quiz[quizNo - 1].Question.Text.length > 20
+          quizData.Quiz[quizNo - 1].Question.Text.length > 15
             ? style.overLength
             : ''
         }`}
@@ -114,7 +114,7 @@ export default function Input({
       />
       <div
         className={`${style.wordText} ${
-          quizData.Quiz[quizNo - 1].Question.Text.length > 20
+          quizData.Quiz[quizNo - 1].Question.Text.length > 15
             ? style.overLength
             : ''
         }`}
