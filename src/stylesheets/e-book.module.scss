@@ -254,12 +254,15 @@
       gap: 8px;
       padding: 20px;
       padding-bottom: calc(20px + env(safe-area-inset-bottom));
+      margin: auto;
       background-color: #fff;
       position: absolute;
       width: calc(100% - 40px);
-      height: 70%;
+      max-width: 400px;
+      height: calc(100% - 150px);
       border-radius: 20px 20px 0 0;
       left: 0;
+      right: 0;
       bottom: 0;
       z-index: 2;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -395,6 +398,10 @@
     .read_mode_button {
       left: 10px;
       bottom: 10px;
+      @media (pointer: coarse) {
+        background-color: rgba($color: #000000, $alpha: 0.3);
+        border-radius: 10px;
+      }
     }
     .backward {
       top: calc(50% - 20px);
@@ -412,11 +419,19 @@
     }
     .word_button {
       right: 10px;
-      top: 50px;
+      top: 60px;
+      @media (pointer: coarse) {
+        background-color: rgba($color: #000000, $alpha: 0.3);
+        border-radius: 10px;
+      }
     }
     .menu_button {
       top: 10px;
       right: 10px;
+      @media (pointer: coarse) {
+        background-color: rgba($color: #000000, $alpha: 0.3);
+        border-radius: 10px;
+      }
     }
   }
   &.mobile {
@@ -519,7 +534,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  overflow: hidden;
+  // overflow: hidden;
   @media only screen and (orientation: landscape) {
     height: calc(
       100dvh - env(safe-area-inset-bottom) - env(safe-area-inset-top)

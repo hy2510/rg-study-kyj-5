@@ -271,6 +271,29 @@ export default function StoryMoblie({
     }
   }
 
+  // 아이패드나 PC로 인식되는 태블릿의 경우 회전 감지
+  const [orientation, setOrientation] = useState('portrait');
+
+  const handleOrientationChange = () => {
+    if (window.matchMedia("(orientation: portrait)").matches) {
+      setOrientation('portrait');
+    } else if (window.matchMedia("(orientation: landscape)").matches) {
+      setOrientation('landscape');
+    }
+  };
+
+  useEffect(() => {
+    handleOrientationChange();
+
+    window.addEventListener('orientationchange', handleOrientationChange);
+    window.addEventListener('resize', handleOrientationChange);
+
+    return () => {
+      window.removeEventListener('orientationchange', handleOrientationChange);
+      window.removeEventListener('resize', handleOrientationChange);
+    };
+  }, []);
+
   return (
     <>
       <StoryBodyMobile
@@ -278,7 +301,8 @@ export default function StoryMoblie({
         onTouchEndHandler={onTouchEndHandler}
       >
         <>
-          {isLandscape && !isIOS ? (
+          {/* {isLandscape && !isIOS ? ( */}
+          {orientation === 'landscape' ? (
             <>
               <StoryPage
                 isTextShow={isTextShow}

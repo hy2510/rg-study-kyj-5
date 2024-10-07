@@ -22,7 +22,7 @@ import PopupEBookDecreasePoint from '@components/story/PopupEBookDecreasePoint'
 import PopupEBookNoPoint from '@components/story/PopupEBookNoPoint'
 
 const md = new MobileDetect(navigator.userAgent)
-const isMobile = md.phone()
+const isMobile = md.phone() || md.tablet() || window.innerWidth < 1370
 
 export default function EBook() {
   const { bookInfo, studyInfo } = useContext(AppContext) as AppContextProps
