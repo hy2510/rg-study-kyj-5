@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
 
 import style from '@stylesheets/e-book.module.scss'
@@ -74,6 +74,24 @@ export default function StoryBottomMenuMobile({
 
   const isLandscape = window.matchMedia('(orientation: landscape)').matches
 
+  const [isFullScreen, setFullScreen] = useState<boolean>(false)
+
+  useEffect(() => {
+    const onFullscreenHandler = () => {
+      if (document.fullscreenElement) {
+        setFullScreen(true)
+      } else {
+        setFullScreen(false)
+      }
+    }
+
+    document.body.addEventListener('fullscreenchange', onFullscreenHandler)
+
+    return () => {
+      document.body.removeEventListener('fullscreenchange', onFullscreenHandler)
+    }
+  }, [document.fullscreenElement])
+
   return (
     <>
       {/* 프로그레스바 */}
@@ -140,6 +158,7 @@ export default function StoryBottomMenuMobile({
                   resumeAudio()
                   break
               }
+              !isFullScreen && document.body.requestFullscreen()
             }}
           >
             {playState !== 'play' ? (
