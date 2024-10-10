@@ -160,6 +160,15 @@ $quizHeaderHeight: 60px;
   align-items: center;
   justify-content: center;
   position: relative;
+  &.activeKeyboard {
+    position:absolute;
+    top: 0;
+    left: 50%;
+    right: 50%;
+    transform: translate(-50%);
+    height: 100dvh;
+    overflow-y: auto;
+  }
   .container {
     width: 100%;
     min-height: 450px;
@@ -170,6 +179,10 @@ $quizHeaderHeight: 60px;
     padding: 15px;
     border-radius: 20px;
     overflow-y: scroll;
+    &.activeKeyboard {
+      position: absolute;
+      top: 0;
+    }
     &::-webkit-scrollbar {
       display: none;
     }

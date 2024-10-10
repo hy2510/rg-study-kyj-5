@@ -286,6 +286,15 @@
   background-color: #555;
   position: relative;
   z-index: 4;
+  @media (pointer: coarse) {
+    @media (orientation: landscape) {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(100% - 4px);
+      z-index: 999;
+    }
+  }
   .progress {
     height: 4px;
     background-color: #2877ff;
@@ -396,6 +405,7 @@
       z-index: -1;
     }
     .read_mode_button {
+      cursor: pointer;
       left: 10px;
       bottom: 10px;
       @media (pointer: coarse) {

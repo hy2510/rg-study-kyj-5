@@ -3,6 +3,7 @@ import stepIntroCSSMobile from '@stylesheets/mobile/step-intro.module.scss'
 
 import useCharacter from '@hooks/study/useCharacter'
 import MobileDetect from 'mobile-detect'
+import { useEffect, useState } from 'react'
 const md = new MobileDetect(navigator.userAgent)
 const isMobile = md.phone()
 
@@ -39,7 +40,11 @@ export default function StepIntro({
             alt=""
           />
         </div>
-        <div className={style.startButton} onClick={onStepIntroClozeHandler}>
+        <div className={style.startButton} onClick={() => {
+            onStepIntroClozeHandler()
+            document.exitFullscreen()
+          }
+        }>
           Start
         </div>
       </div>
