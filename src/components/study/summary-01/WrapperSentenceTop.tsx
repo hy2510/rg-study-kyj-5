@@ -46,7 +46,7 @@ export default function WrapperSentenceTop({
   }, [selectedData])
 
   return (
-    <div ref={wrapperRef} className={style.correctOrders}>
+    <div ref={wrapperRef} className={`${style.correctOrders} ${isStepEnd && style.stepEnd}`}>
       {sentenceData.map((sentence, i) => {
         return selectedData[i] ? (
           <SelectedSentence
@@ -62,7 +62,7 @@ export default function WrapperSentenceTop({
         )
       })}
 
-      {!isStepEnd && <SentenceHelp />}
+      {!selectedData[0] && <SentenceHelp />}
     </div>
   )
 }
