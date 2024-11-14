@@ -325,6 +325,7 @@
       gap: 3px;
     }
     .read_mode_button {
+      cursor: pointer;
       width: 40px;
       height: 40px;
       display: flex;
@@ -405,7 +406,6 @@
       z-index: -1;
     }
     .read_mode_button {
-      cursor: pointer;
       left: 10px;
       bottom: 10px;
       @media (pointer: coarse) {

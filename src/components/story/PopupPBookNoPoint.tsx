@@ -6,7 +6,9 @@ import EBCSS from '@stylesheets/e-book.module.scss'
 
 export default function PopupPBookNoPoint() {
   const { t } = useTranslation()
-  const { bookInfo, handler } = useContext(AppContext) as AppContextProps
+  const { bookInfo, handler, studyInfo } = useContext(
+    AppContext,
+  ) as AppContextProps
 
   return (
     <div className={`${EBCSS.ebookRating}`}>
@@ -17,6 +19,21 @@ export default function PopupPBookNoPoint() {
             src={`${bookInfo.SurfaceImage}`}
           />
         </div>
+
+        {studyInfo.pbookStorySoundPath !== '' &&
+          studyInfo.pbookStorySoundPath !== undefined && (
+            <>
+              {' '}
+              <div className={EBCSS.wrapperSound}>
+                <audio
+                  src={studyInfo.pbookStorySoundPath}
+                  controls
+                  controlsList={'nodownload'}
+                ></audio>
+              </div>
+            </>
+          )}
+
         <div className={EBCSS.groupComment}>
           <span className={EBCSS.txtComment}>
             <div>{t('story.이미 두 번 포인트를 획득한 학습입니다.')}</div>

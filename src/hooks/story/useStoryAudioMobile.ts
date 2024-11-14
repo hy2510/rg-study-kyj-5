@@ -280,6 +280,9 @@ export default function useStoryAudioMobile({
    * @param volume
    */
   const changeVolume = (volume: number) => {
+    const isMute = volume === 0
+
+    player.muted = isMute
     player.volume = volume
   }
 

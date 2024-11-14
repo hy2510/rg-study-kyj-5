@@ -8,6 +8,12 @@ const isMobile = md.phone()
 import { IPhonemeResult } from '@interfaces/ISpeak'
 import { PlayBarState } from '@pages/study/VocabularyPractice1'
 
+import {
+  SCORE_SPEAK_PASS,
+  SCORE_SPEAK_ORANGE,
+  SCORE_SPEAK_GREEN,
+} from '@constants/constant'
+
 type ResultSpeakProps = {
   word: string
   phonemeScore: IPhonemeResult | undefined
@@ -39,13 +45,13 @@ export default function ResultSpeak({
                           <div className={style.phonemeItem}>
                             <div
                               className={`${style.phoneme} 
-                        ${phoneme.score < 30 && style.red}
+                        ${phoneme.score < SCORE_SPEAK_ORANGE && style.red}
                         ${
-                          phoneme.score >= 30 &&
-                          phoneme.score < 60 &&
+                          phoneme.score >= SCORE_SPEAK_ORANGE &&
+                          phoneme.score < SCORE_SPEAK_GREEN &&
                           style.orange
                         }  
-                        ${phoneme.score >= 60 && style.green}  
+                        ${phoneme.score >= SCORE_SPEAK_GREEN && style.green}  
                         `}
                             >
                               {phoneme.phoneme}
@@ -64,7 +70,8 @@ export default function ResultSpeak({
           )}
         </div>
 
-        {phonemeScore && phonemeScore.average_phoneme_score >= 40 ? (
+        {phonemeScore &&
+        phonemeScore.average_phoneme_score >= SCORE_SPEAK_PASS ? (
           <div
             className={`${style.signBox} ${style.goodJob}`}
             onClick={() => changePlayBarState('')}

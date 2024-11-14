@@ -15,6 +15,7 @@ export type MultiPlayStateProps = {
   playType: '' | 'word' | 'sentence'
 }
 import { IPhonemeResult } from '@interfaces/ISpeak'
+import { SCORE_SPEAK_PASS } from '@constants/constant'
 // ] Types
 
 // utils & hooks
@@ -152,7 +153,7 @@ export default function VocabularyPractice2(props: IStudyData) {
       setPhonemeScore(undefined)
       setIsSpeakResult(false)
 
-      if (phonemeScore.average_phoneme_score >= 40) {
+      if (phonemeScore.average_phoneme_score >= SCORE_SPEAK_PASS) {
         if (quizNo + 1 <= Object.keys(quizData.Quiz).length) {
           changeQuizNo(quizNo + 1)
         }

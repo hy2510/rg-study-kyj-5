@@ -1,7 +1,8 @@
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { AppContext } from '@contexts/AppContext'
 
 import MobileDetect from 'mobile-detect'
+import { useOrientation } from '@hooks/story/useOrientation'
 
 import SpeakCSS from '@stylesheets/speak.module.scss'
 
@@ -25,8 +26,32 @@ export default function Content({
   speakData,
   clickSentence,
 }: ContentProps) {
+  // 가로, 세로 구분
+  const isLandscape = useOrientation()
+  // 아이패드나 PC로 인식되는 태블릿의 경우 회전 감지
+  const [orientation, setOrientation] = useState('portrait')
+
   const bookLevel =
     useContext(AppContext)?.bookInfo?.BookLevel?.substring(0, 1) || 'K'
+
+  useEffect(() => {
+    const handleOrientationChange = () => {
+      if (window.matchMedia('(orientation: portrait)').matches) {
+        setOrientation('portrait')
+      } else if (window.matchMedia('(orientation: landscape)').matches) {
+        setOrientation('landscape')
+      }
+    }
+    handleOrientationChange()
+
+    window.addEventListener('orientationchange', handleOrientationChange)
+    window.addEventListener('resize', handleOrientationChange)
+
+    return () => {
+      window.removeEventListener('orientationchange', handleOrientationChange)
+      window.removeEventListener('resize', handleOrientationChange)
+    }
+  }, [])
 
   let style
 
@@ -53,14 +78,7 @@ export default function Content({
   return (
     <div className={SpeakCSS.speakBody}>
       <div style={style} className={SpeakCSS.ebookViewer}>
-        {isMobile ? (
-          <SpeakPage
-            pageNumber={pageNumber}
-            pageSeq={pageSeq}
-            speakData={speakData}
-            clickSentence={clickSentence}
-          />
-        ) : (
+        {orientation === 'landscape' ? (
           <>
             <SpeakPage
               pageNumber={pageNumber % 2 === 0 ? pageNumber - 1 : pageNumber}
@@ -75,6 +93,13 @@ export default function Content({
               clickSentence={clickSentence}
             />
           </>
+        ) : (
+          <SpeakPage
+            pageNumber={pageNumber}
+            pageSeq={pageSeq}
+            speakData={speakData}
+            clickSentence={clickSentence}
+          />
         )}
       </div>
     </div>

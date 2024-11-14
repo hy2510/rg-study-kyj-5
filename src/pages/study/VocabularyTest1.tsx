@@ -57,7 +57,17 @@ export default function VocabularyTest1(props: IStudyData) {
 
   const timer = useQuizTimer(() => {
     // timer가 0에 도달하면 호출되는 콜백함수 구현
-    checkAnswer(undefined)
+    const isKeepGoing = confirm(
+      t(
+        'study.문제를 풀 수 있는 시간이 초과되었습니다. 계속 진행하시겠습니까?',
+      ),
+    )
+
+    if (isKeepGoing) {
+      checkAnswer(undefined)
+    } else {
+      window.onLogoutStudy()
+    }
   })
 
   // 애니메이션 hook

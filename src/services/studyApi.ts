@@ -26,13 +26,17 @@ import {
 } from '@constants/constant'
 
 const REF = (window as any).REF
-const lang = REF.language || 'ko'
+const lang = REF?.language || 'ko'
 
 const sessionMsgKor =
   '앱이 장시간 실행된 상태여서 보안상의 이유로 자동 로그아웃되었습니다. 번거로우시겠지만, 재접속 후 다시 학습을 진행해 주세요.'
 const sessionMsgEng =
   'For security reasons, you were automatically logged out due to prolonged app usage. Please reconnect to continue your study.'
 const sessionMsg = lang === 'ko' ? sessionMsgKor : sessionMsgEng
+
+const manyTabMsgKor =
+  '비정상적인 접근으로 인하여 사용이 일시적으로 제한되었습니다.'
+const manyTabMsgEng = 'Access temporarily restricted due to unusual activity.'
 
 /** 유저가 선택한 답안을 서버에 저장한 후 오류가 없다면 결과값을 반환한다.
  * @param userAnswer 유저의 답안 정보
@@ -55,6 +59,17 @@ const saveUserAnswer = async (
 
         window.onLogoutStudy()
       })
+
+    try {
+      if (result.result === '1100') {
+        // 탭 여러개 띄우고 학습을 진행한 경우
+        throw new Error(result.resultMessage)
+      }
+    } catch (e: any) {
+      alert(lang === 'ko' ? manyTabMsgKor : manyTabMsgEng)
+
+      window.onExitStudy()
+    }
   }
 
   return result
@@ -81,6 +96,17 @@ const saveUserAnswerPartial = async (
 
         window.onLogoutStudy()
       })
+
+    try {
+      if (result.result === '1100') {
+        // 탭 여러개 띄우고 학습을 진행한 경우
+        throw new Error(result.resultMessage)
+      }
+    } catch (e: any) {
+      alert(lang === 'ko' ? manyTabMsgKor : manyTabMsgEng)
+
+      window.onExitStudy()
+    }
   }
 
   return result
@@ -124,6 +150,17 @@ const saveWritingActivity = async (
 
         window.onLogoutStudy()
       })
+
+    try {
+      if (result.result === '1100') {
+        // 탭 여러개 띄우고 학습을 진행한 경우
+        throw new Error(result.resultMessage)
+      }
+    } catch (e: any) {
+      alert(lang === 'ko' ? manyTabMsgKor : manyTabMsgEng)
+
+      window.onExitStudy()
+    }
   }
 
   return result

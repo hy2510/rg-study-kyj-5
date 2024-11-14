@@ -7,7 +7,6 @@ import { StoryMobileProps, PageState } from '@interfaces/IStory'
 
 import useStoryAudioMobile from '@hooks/story/useStoryAudioMobile'
 import { useOrientation } from '@hooks/story/useOrientation'
-import { isIOS } from 'react-device-detect'
 
 import StorySideMenu from '@components/story/common/StorySideMenu'
 import StoryBodyMobile from '@components/story/mobile/StoryBodyMobile'
@@ -81,6 +80,9 @@ export default function StoryMoblie({
   // 가로, 세로 구분
   const isLandscape = useOrientation()
 
+  // 아이패드나 PC로 인식되는 태블릿의 경우 회전 감지
+  const [orientation, setOrientation] = useState('portrait')
+
   const progressWidth =
     (pageSeq.playPage / storyData[storyData.length - 1].Page) * 100
 
@@ -103,6 +105,24 @@ export default function StoryMoblie({
             : studyInfo.bookmarkPage,
         )
       }
+    }
+
+    const handleOrientationChange = () => {
+      if (window.matchMedia('(orientation: portrait)').matches) {
+        setOrientation('portrait')
+      } else if (window.matchMedia('(orientation: landscape)').matches) {
+        setOrientation('landscape')
+      }
+    }
+
+    handleOrientationChange()
+
+    window.addEventListener('orientationchange', handleOrientationChange)
+    window.addEventListener('resize', handleOrientationChange)
+
+    return () => {
+      window.removeEventListener('orientationchange', handleOrientationChange)
+      window.removeEventListener('resize', handleOrientationChange)
     }
   }, [])
 
@@ -271,29 +291,6 @@ export default function StoryMoblie({
     }
   }
 
-  // 아이패드나 PC로 인식되는 태블릿의 경우 회전 감지
-  const [orientation, setOrientation] = useState('portrait');
-
-  const handleOrientationChange = () => {
-    if (window.matchMedia("(orientation: portrait)").matches) {
-      setOrientation('portrait');
-    } else if (window.matchMedia("(orientation: landscape)").matches) {
-      setOrientation('landscape');
-    }
-  };
-
-  useEffect(() => {
-    handleOrientationChange();
-
-    window.addEventListener('orientationchange', handleOrientationChange);
-    window.addEventListener('resize', handleOrientationChange);
-
-    return () => {
-      window.removeEventListener('orientationchange', handleOrientationChange);
-      window.removeEventListener('resize', handleOrientationChange);
-    };
-  }, []);
-
   return (
     <>
       <StoryBodyMobile
@@ -301,7 +298,6 @@ export default function StoryMoblie({
         onTouchEndHandler={onTouchEndHandler}
       >
         <>
-          {/* {isLandscape && !isIOS ? ( */}
           {orientation === 'landscape' ? (
             <>
               <StoryPage

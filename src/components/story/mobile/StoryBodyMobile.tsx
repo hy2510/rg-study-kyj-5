@@ -22,9 +22,15 @@ export default function StoryBodyMobile({
   const pageWidth = bookLevel === 'K' ? 480 : 525
   const pageHeight = 750
 
-  // const containerScale = window.innerWidth / pageWidth
-  const containerScale = window.innerWidth > 700 ? (bookLevel === 'K' ? window.innerHeight - 60 : window.innerHeight - 120) / pageHeight : window.innerWidth / pageWidth
-  const containerLandScape = (bookLevel === 'K' ? window.innerHeight - 20 : window.innerHeight - 40) / pageHeight
+  const containerScale =
+    window.innerWidth > 700
+      ? (bookLevel === 'K'
+          ? window.innerHeight - 60
+          : window.innerHeight - 120) / pageHeight
+      : window.innerWidth / pageWidth
+  const containerLandScape =
+    (bookLevel === 'K' ? window.innerHeight - 20 : window.innerHeight - 40) /
+    pageHeight
 
   return (
     <div

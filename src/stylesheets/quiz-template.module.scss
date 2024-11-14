@@ -106,6 +106,15 @@ $quizHeaderHeight: 60px;
     display: flex;
     align-items: center;
     justify-content: end;
+    // .reviewModeMark {
+    //   font-size: 0.9em;
+    //   font-family: 'Rg-B', sans-serif;
+    //   margin-right: 10px;
+    //   // margin-bottom: 3px;
+    //   color: #b73133;
+    //   text-align: center;
+    //   line-height: 16px;
+    // }
     .openMenuButton {
       cursor: pointer;
       width: 40px;
@@ -142,7 +151,7 @@ $quizHeaderHeight: 60px;
   justify-content: center;
   position: relative;
   &.activeKeyboard {
-    position:absolute;
+    position: absolute;
     top: 0;
     left: 50%;
     right: 50%;

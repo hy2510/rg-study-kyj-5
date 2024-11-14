@@ -111,7 +111,7 @@ export default function StoryBottomMenu({
             changeAutoNextPage={changeAutoNextPage}
           />
 
-          {/* 전체 반복 (3회) */}
+          {/* 책 반복 횟수 (3회) */}
           {/* <StoryDropdownRepeat
             menuName={t('story.반복 읽기')}
             menuItems={[
@@ -198,7 +198,9 @@ export default function StoryBottomMenu({
               if (!isFullScreen) {
                 document.body.requestFullscreen()
               } else {
-                document.exitFullscreen()
+                if (document.fullscreenElement) {
+                  document.exitFullscreen()
+                }
               }
             }}
           >

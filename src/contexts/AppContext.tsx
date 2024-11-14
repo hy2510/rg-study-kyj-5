@@ -258,6 +258,7 @@ async function appContextData(
       const isReTestYn = responseStudyInfo.isReTestYn
       const studyMode: Mode = isReview ? 'review' : mode
       const bookmarkPage = responseStudyInfo.bookmarkPage
+      const pbookStorySoundPath = responseStudyInfo.pbookStorySoundPath
 
       const studyInfo = {
         studyId,
@@ -281,6 +282,7 @@ async function appContextData(
         token,
         isDev,
         bookmarkPage,
+        pbookStorySoundPath,
       }
 
       const responseBookInfo = await requestBookInfo(

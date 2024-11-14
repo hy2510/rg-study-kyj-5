@@ -15,6 +15,7 @@ import {
   IUserAnswer,
 } from '@interfaces/Common'
 import { IPhonemeResult } from '@interfaces/ISpeak'
+import { SCORE_SPEAK_PASS } from '@constants/constant'
 // ] Types
 
 // utils & hooks
@@ -180,7 +181,7 @@ export default function VocabularyPractice3(props: IStudyData) {
       setPhonemeScore(undefined)
       setIsSpeakResult(false)
 
-      if (phonemeScore.average_phoneme_score >= 40) {
+      if (phonemeScore.average_phoneme_score >= SCORE_SPEAK_PASS) {
         checkAnswer('speaking correctly')
       }
     } else if (playBarState === 'reset') {

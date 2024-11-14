@@ -75,8 +75,8 @@ export default function useRecorder() {
 
           // user media 권한 얻기 실패
           const onFailGetUserMedia = (err: string) => {
-            changePlayBarState('reset')
             console.error('The following error occured: ' + err)
+            changePlayBarState('reset')
           }
 
           const constraints = { audio: true }
@@ -84,12 +84,15 @@ export default function useRecorder() {
             .getUserMedia(constraints)
             .then(onSuccGetUserMedia, onFailGetUserMedia)
             .catch((err) => {
-              console.log(err.name)
-              console.log(err.message)
+              alert(
+                '예기치 못한 오류가 발생했습니다. 리딩게이트로 연락주시길 바랍니다. 1599-0533',
+              )
+
+              window.onExitStudy()
             })
         } else {
-          changePlayBarState('reset')
           alert('MediaDevices.getUserMedia() not supported on your browser!')
+          changePlayBarState('reset')
         }
       }
 
@@ -123,6 +126,14 @@ export default function useRecorder() {
     formData.append('get_phoneme_result', true)
     // @ts-ignore
     formData.append('native_audio', nativeFile)
+
+    // 에듀템 평가가 너무 오래 걸릴 경우 얼럿창 띄워주기
+    const popupSpeakLouder = () => {
+      alert('Speak Louder!!!')
+    }
+
+    const lazyTimer = setTimeout(() => popupSpeakLouder(), 7000)
+    // 에듀템 평가가 너무 오래 걸릴 경우 얼럿창 띄워주기 end
 
     axios
       .post(`${API_URL}/pron_v2/`, formData, {
@@ -160,6 +171,9 @@ export default function useRecorder() {
       })
       .catch((err) => {
         console.error(err)
+      })
+      .finally(() => {
+        clearTimeout(lazyTimer)
       })
   }
 

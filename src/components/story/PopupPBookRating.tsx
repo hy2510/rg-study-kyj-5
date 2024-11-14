@@ -39,6 +39,21 @@ export default function PopupPBookRating() {
             src={`${bookInfo.SurfaceImage}`}
           />
         </div>
+
+        {studyInfo.pbookStorySoundPath !== '' &&
+          studyInfo.pbookStorySoundPath !== undefined && (
+            <>
+              {' '}
+              <div className={EBCSS.wrapperSound}>
+                <audio
+                  src={studyInfo.pbookStorySoundPath}
+                  controls
+                  controlsList={'nodownload'}
+                ></audio>
+              </div>
+            </>
+          )}
+
         <div className={EBCSS.groupChoose}>
           <div className={EBCSS.txtQuestion}>How do you like this book?</div>
           <div className={EBCSS.groupChooseRating}>

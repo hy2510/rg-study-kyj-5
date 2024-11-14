@@ -18,7 +18,7 @@ const resources = {
 }
 
 const REF = (window as any).REF
-const lang = REF.language || 'ko'
+const lang = REF?.language || 'ko'
 
 i18n.use(initReactI18next).init({
   fallbackLng: 'ko',

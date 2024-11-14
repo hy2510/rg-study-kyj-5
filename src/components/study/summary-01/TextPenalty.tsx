@@ -40,6 +40,17 @@ export default function TextPenalty({
     }
   })
 
+  useEffect(() => {
+    if (currentInputIndex === inputIndex) {
+      const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/
+      const firstChar = word.substring(0, 1)
+
+      if (reg.test(firstChar)) {
+        setInputVal(firstChar)
+      }
+    }
+  }, [currentInputIndex])
+
   /**
    * 키보드 타이핑 이벤트
    * @param e
@@ -48,12 +59,35 @@ export default function TextPenalty({
     e.preventDefault()
 
     let text: string = e.currentTarget.value
+    const isMatch =
+      word.substring(0, text.length) === text &&
+      word.substring(0, text.length).length < word.length
+        ? true
+        : false
 
     if (text === word) {
       setInputVal(text)
       changeInputIndex(currentInputIndex + 1)
     } else {
-      setInputVal(text)
+      const reg = /^[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]+/
+      const char = word.replace(text, '')
+
+      if (isMatch) {
+        if (reg.test(char) && text !== '') {
+          const addStr = char.match(reg)
+
+          if (text + addStr === word) {
+            setInputVal(word)
+            changeInputIndex(currentInputIndex + 1)
+          } else {
+            setInputVal(text + addStr)
+          }
+        } else {
+          setInputVal(text)
+        }
+      } else {
+        setInputVal(text)
+      }
     }
   }
 

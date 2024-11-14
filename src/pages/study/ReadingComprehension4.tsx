@@ -62,7 +62,18 @@ export default function ReadingComprehension4(props: IStudyData) {
   const animationManager = useAnimation()
 
   const timer = useQuizTimer(() => {
-    checkAnswer('')
+    // timer가 0에 도달하면 호출되는 콜백함수 구현
+    const isKeepGoing = confirm(
+      t(
+        'study.문제를 풀 수 있는 시간이 초과되었습니다. 계속 진행하시겠습니까?',
+      ),
+    )
+
+    if (isKeepGoing) {
+      checkAnswer('')
+    } else {
+      window.onLogoutStudy()
+    }
   })
 
   // 인트로 및 결과창

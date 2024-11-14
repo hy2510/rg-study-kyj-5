@@ -72,7 +72,17 @@ export default function Summary2(props: IStudyData) {
 
   const timer = useQuizTimer(() => {
     // timer가 0에 도달하면 호출되는 콜백함수 구현
-    checkAnswerTimeOut()
+    const isKeepGoing = confirm(
+      t(
+        'study.문제를 풀 수 있는 시간이 초과되었습니다. 계속 진행하시겠습니까?',
+      ),
+    )
+
+    if (isKeepGoing) {
+      checkAnswerTimeOut()
+    } else {
+      window.onLogoutStudy()
+    }
   })
 
   const animationManager = useAnimation()

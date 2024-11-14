@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import { AppContext, AppContextProps } from '@contexts/AppContext'
 
 import MobileDetect from 'mobile-detect'
+import { SCORE_SPEAK_PASS } from '@constants/constant'
 
 // utils & hooks
 import PlayBar from '@components/speak/PlayBar'
@@ -91,12 +92,18 @@ export default function SpeakMobile({
 
   useEffect(() => {
     if (sentenceScore) {
+      const isPass =
+        sentenceScore.total_score >= SCORE_SPEAK_PASS &&
+        sentenceScore.phoneme_result.sentence_score >= SCORE_SPEAK_PASS
+          ? true
+          : false
+
       const avgScore =
         (sentenceScore.total_score +
           sentenceScore.phoneme_result.sentence_score) /
         2
 
-      if (avgScore >= 40) {
+      if (isPass) {
         // 점수가 통과하는 점수거나
         saveResult(avgScore)
       } else {
@@ -140,12 +147,18 @@ export default function SpeakMobile({
           playSentence()
           setSentenceScore(undefined)
         } else {
+          const isPass =
+            sentenceScore.total_score >= SCORE_SPEAK_PASS &&
+            sentenceScore.phoneme_result.sentence_score >= SCORE_SPEAK_PASS
+              ? true
+              : false
+
           const avgScore =
             (sentenceScore.total_score +
               sentenceScore.phoneme_result.sentence_score) /
             2
 
-          if (avgScore >= 40) {
+          if (isPass && avgScore >= SCORE_SPEAK_PASS) {
             if (isLastQuiz) {
               setFinishSpeak(true)
             } else {

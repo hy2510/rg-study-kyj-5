@@ -30,7 +30,7 @@ export default function BoxQuestion({
             <BoxBlank blankRef={blankRef} correctAnswer={correctAnswer} />
           ))
         } else {
-          return <span>{word}</span>
+          return <span dangerouslySetInnerHTML={{ __html: word }}></span>
         }
       })}
     </div>

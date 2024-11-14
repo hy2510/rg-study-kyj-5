@@ -66,20 +66,31 @@ export default function Summary1(props: IStudyData) {
   const STEP = props.currentStep
 
   const timer = useQuizTimer(() => {
-    // 2a 이상은 incorrect 그 외에는 로그아웃
-    if (bookInfo.BookCode.includes('EB')) {
-      if (
-        bookInfo.BookLevel.includes('1') ||
-        bookInfo.BookLevel.includes('K')
-      ) {
-        // do logout
-        window.onLogoutStudy()
-      } else {
-        // incorrect
+    // timer가 0에 도달하면 호출되는 콜백함수 구현
+    const isKeepGoing = confirm(
+      t(
+        'study.문제를 풀 수 있는 시간이 초과되었습니다. 계속 진행하시겠습니까?',
+      ),
+    )
+
+    if (isKeepGoing) {
+      // 2a 이상은 incorrect 그 외에는 로그아웃
+      if (bookInfo.BookCode.includes('EB')) {
+        if (
+          bookInfo.BookLevel.includes('1') ||
+          bookInfo.BookLevel.includes('K')
+        ) {
+          // do logout
+          window.onLogoutStudy()
+        } else {
+          // incorrect
+          checkAnswerTimeOut()
+        }
+      } else if (bookInfo.BookCode.includes('PB')) {
         checkAnswerTimeOut()
       }
-    } else if (bookInfo.BookCode.includes('PB')) {
-      checkAnswerTimeOut()
+    } else {
+      window.onLogoutStudy()
     }
   })
 

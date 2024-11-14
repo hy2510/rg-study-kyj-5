@@ -4,6 +4,12 @@ import vocabularyCSSMobile from '@stylesheets/mobile/vocabulary-practice.module.
 import { IPhonemeResult } from '@interfaces/ISpeak'
 import { PlayBarState } from '@pages/study/VocabularyPractice3'
 
+import {
+  SCORE_SPEAK_PASS,
+  SCORE_SPEAK_ORANGE,
+  SCORE_SPEAK_GREEN,
+} from '@constants/constant'
+
 import MobileDetect from 'mobile-detect'
 const md = new MobileDetect(navigator.userAgent)
 const isMobile = md.phone()
@@ -38,13 +44,13 @@ export default function ResultSpeak({
                         <div className={style.phonemeItem}>
                           <div
                             className={`${style.phoneme} 
-                        ${phoneme.score < 30 && style.red}
+                        ${phoneme.score < SCORE_SPEAK_ORANGE && style.red}
                         ${
-                          phoneme.score >= 30 &&
-                          phoneme.score < 60 &&
+                          phoneme.score >= SCORE_SPEAK_ORANGE &&
+                          phoneme.score < SCORE_SPEAK_GREEN &&
                           style.orange
                         }  
-                        ${phoneme.score >= 60 && style.green}  
+                        ${phoneme.score >= SCORE_SPEAK_GREEN && style.green}  
                         `}
                           >
                             {phoneme.phoneme}
@@ -67,7 +73,8 @@ export default function ResultSpeak({
         className={style.speakResultSign}
         onClick={() => changePlayBarState('')}
       >
-        {phonemeScore && phonemeScore.average_phoneme_score >= 40 ? (
+        {phonemeScore &&
+        phonemeScore.average_phoneme_score >= SCORE_SPEAK_PASS ? (
           <div className={`${style.signBox} ${style.goodJob}`}>
             <div className={style.txt}>Good Job</div>
             <div className={style.iconArrow}></div>

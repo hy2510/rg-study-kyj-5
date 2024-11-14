@@ -33,6 +33,7 @@
     "더 이상 포인트를 획득할 수 없습니다.": "<b>Bạn không thể nhận thêm điểm đọc sách khi làm bài tập nữa.</b>",
     "다시 보기 모드에서는 학습을 완료해도 포인트가 제공되지 않아요.": "Trong chế độ xem lại, bạn sẽ không nhận được điểm đọc sách ngay cả khi bạn hoàn thành bài tập.",
 
+    "책을 완독한 후 학습을 진행할 수 있습니다.": "Có thể tiếp tục làm bài tập sau khi đã đọc sách xong.",
     "Listen & Repeat 모드가 설정되어 있습니다. (학습 설정에서 변경 가능)": "Có thể tiếp tục làm bài tập sau khi đã đọc sách xong.",
     "마지막으로 읽은 곳부터 시작할까요?": "Bạn có muốn bắt đầu từ nơi đã đọc lần cuối không?",
     "책갈피 저장에 실패했습니다.": "Lưu bookmark không thành công.",
@@ -83,7 +84,9 @@
     "뜻을 보고 올바른 단어를 입력하세요.": "Look at the definition and type the correct word.",
     "뜻을 보고 올바른 단어를 고르세요.": "Look at the definition and choose the correct word.",
 
-    "빈칸이 존재하지 않아야 합니다.": "There should be no blank spaces."
+    "빈칸이 존재하지 않아야 합니다.": "There should be no blank spaces.",
+
+    "문제를 풀 수 있는 시간이 초과되었습니다. 계속 진행하시겠습니까?": "The time to complete the quiz has expired. Would you like to continue?"
   },
 
   "speak": {

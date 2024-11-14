@@ -57,8 +57,23 @@ export default function InputPenalty({
 
     // 유효성 검사
     // 영어랑 마침표만 허용 - 추가될 수 있음
-    const regex = /^[ㄱ-ㅎa-zA-Z-'~ ]+(?:'){0,1}[a-zA-Z]?$/g
+    const regex = /^[ㄱ-ㅎa-zA-Z-'’‘”~ ]+(?:'){0,1}[a-zA-Z]?$/g
     let text: string = e.currentTarget.value
+
+    // 아이폰 구두점 대응 코드
+    switch (text.slice(-1)) {
+      case `‘`:
+        text = text.replace(`‘`, `'`)
+        break
+
+      case `’`:
+        text = text.replace(`’`, `'`)
+        break
+
+      case `”`:
+        text = text.replace(`”`, `"`)
+        break
+    }
 
     if (!regex.test(text)) {
       text = text.slice(0, text.length - 1)

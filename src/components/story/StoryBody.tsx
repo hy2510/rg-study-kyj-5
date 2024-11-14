@@ -13,7 +13,7 @@ export default function StoryBody({ children }: StoryBodyProps) {
   const pageWidth = bookLevel === 'K' ? 480 : 525
   const isPortrait = window.matchMedia('(orientation: portrait)').matches
   const containerScale = (window.innerHeight - 100) / 750
-  const containerPortraitScale = (window.innerWidth) / (pageWidth * 2)
+  const containerPortraitScale = window.innerWidth / (pageWidth * 2)
 
   return (
     <div className={EBCSS.ebook_body_pc}>
@@ -22,7 +22,6 @@ export default function StoryBody({ children }: StoryBodyProps) {
           style={{
             transform: `scale(${
               isPortrait ? containerPortraitScale : containerScale
-              // containerScale
             })`,
           }}
           className={`${EBCSS.pages}`}

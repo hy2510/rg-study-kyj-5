@@ -187,7 +187,9 @@ export default function StoryBottomMenuMobile({
             onTouchEnd={() => {
               changeVocaOpen(true)
             }}
-            onClick={() => {changeVocaOpen(true)}}
+            onClick={() => {
+              changeVocaOpen(true)
+            }}
           >
             <img src={icon_word} width={28} height={28} alt="" />
           </div>

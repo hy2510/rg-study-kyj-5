@@ -33,6 +33,7 @@
     "더 이상 포인트를 획득할 수 없습니다.": "<b>You can no longer earn points.</b>",
     "다시 보기 모드에서는 학습을 완료해도 포인트가 제공되지 않아요.": "In Review mode, you can’t earn points even if you complete the study.",
 
+    "책을 완독한 후 학습을 진행할 수 있습니다.": "You can start the study after reading the book.",
     "Listen & Repeat 모드가 설정되어 있습니다. (학습 설정에서 변경 가능)": "You can start the study after reading the book.",
     "마지막으로 읽은 곳부터 시작할까요?": "Would you like to resume from the last page you read?",
     "책갈피 저장에 실패했습니다.": "Failed to save the bookmark.",
@@ -83,7 +84,9 @@
     "뜻을 보고 올바른 단어를 입력하세요.": "Look at the definition and type the correct word.",
     "뜻을 보고 올바른 단어를 고르세요.": "Look at the definition and choose the correct word.",
 
-    "빈칸이 존재하지 않아야 합니다.": "There should be no blank spaces."
+    "빈칸이 존재하지 않아야 합니다.": "There should be no blank spaces.",
+
+    "문제를 풀 수 있는 시간이 초과되었습니다. 계속 진행하시겠습니까?": "The time to complete the quiz has expired. Would you like to continue?"
   },
 
   "speak": {

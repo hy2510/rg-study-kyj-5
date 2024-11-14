@@ -54,6 +54,7 @@ export default function QuizHeader({
         </div>
       </div>
       <div className={style.quizHeaderCol3}>
+        {/* <span className={style.reviewModeMark}>Review Mode</span> */}
         <div
           className={style.openMenuButton}
           onClick={() => changeSideMenu(true)}

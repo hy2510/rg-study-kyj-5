@@ -260,6 +260,9 @@ export default function useStoryAudioPC({
    * @param volume
    */
   const changeVolume = (volume: number) => {
+    const isMute = volume === 0
+
+    player.muted = isMute
     player.volume = volume
   }
 

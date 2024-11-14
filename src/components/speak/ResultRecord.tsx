@@ -7,6 +7,11 @@ import { playSpeakNextSnd } from '@utils/common'
 import { IRecordResultData } from '@interfaces/ISpeak'
 import Visualizer from './Visualizer'
 import getBlobDuration from 'get-blob-duration'
+import {
+  SCORE_SPEAK_PASS,
+  SCORE_SPEAK_ORANGE,
+  SCORE_SPEAK_GREEN,
+} from '@constants/constant'
 
 type ResultRecordProps = {
   isRetry: boolean
@@ -110,6 +115,8 @@ export default function ResultRecord({
           setUserCur(0)
 
           clearInterval(audioInterval)
+
+          audio.remove()
         }
       } else {
         const onCanPlayThrough = () => {
@@ -162,6 +169,8 @@ export default function ResultRecord({
           setUserCur(0)
 
           clearInterval(audioInterval)
+
+          audio.remove()
         }
       }
     }
@@ -218,12 +227,8 @@ export default function ResultRecord({
           </div>
 
           {((sentenceScore.speech_detected &&
-            sentenceScore.total_score >= 40 &&
-            sentenceScore.phoneme_result.sentence_score >= 40 &&
-            (sentenceScore.total_score +
-              sentenceScore.phoneme_result.sentence_score) /
-              2 >=
-              40) ||
+            sentenceScore.total_score >= SCORE_SPEAK_PASS &&
+            sentenceScore.phoneme_result.sentence_score >= SCORE_SPEAK_PASS) ||
             isRetry) && (
             <>
               <div
@@ -252,12 +257,8 @@ export default function ResultRecord({
               src={userAudio}
               color={
                 sentenceScore.speech_detected &&
-                sentenceScore.total_score >= 40 &&
-                sentenceScore.phoneme_result.sentence_score >= 40 &&
-                (sentenceScore.total_score +
-                  sentenceScore.phoneme_result.sentence_score) /
-                  2 >=
-                  40
+                sentenceScore.total_score >= SCORE_SPEAK_PASS &&
+                sentenceScore.phoneme_result.sentence_score >= SCORE_SPEAK_PASS
                   ? '#3ab6ff'
                   : '#ff2424'
               }
@@ -274,12 +275,9 @@ export default function ResultRecord({
                 style={{ left: `${userCur * 100}%` }}
                 className={`${SpeakCSS.progressBar} ${SpeakCSS.student} ${
                   sentenceScore.speech_detected &&
-                  sentenceScore.total_score >= 40 &&
-                  sentenceScore.phoneme_result.sentence_score >= 40 &&
-                  (sentenceScore.total_score +
-                    sentenceScore.phoneme_result.sentence_score) /
-                    2 >=
-                    40
+                  sentenceScore.total_score >= SCORE_SPEAK_PASS &&
+                  sentenceScore.phoneme_result.sentence_score >=
+                    SCORE_SPEAK_PASS
                     ? SpeakCSS.passed
                     : null
                 }`}
@@ -296,7 +294,8 @@ export default function ResultRecord({
               return (
                 <div
                   className={`${SpeakCSS.word} ${
-                    sentenceScore.phoneme_result.sentence_score < 30
+                    sentenceScore.phoneme_result.sentence_score <
+                    SCORE_SPEAK_PASS
                       ? SpeakCSS.red
                       : ''
                   }`}
@@ -321,13 +320,18 @@ export default function ResultRecord({
                         <div className={SpeakCSS.phonemeResult}>
                           <div
                             className={`${SpeakCSS.phoneme} 
-                            ${phoneme.score < 30 && SpeakCSS.red}
                             ${
-                              phoneme.score >= 30 &&
-                              phoneme.score < 70 &&
+                              phoneme.score < SCORE_SPEAK_ORANGE && SpeakCSS.red
+                            }
+                            ${
+                              phoneme.score >= SCORE_SPEAK_ORANGE &&
+                              phoneme.score < SCORE_SPEAK_GREEN &&
                               SpeakCSS.orange
                             }  
-                            ${phoneme.score >= 70 && SpeakCSS.green}  
+                            ${
+                              phoneme.score >= SCORE_SPEAK_GREEN &&
+                              SpeakCSS.green
+                            }  
                             `}
                           >
                             {phoneme.phoneme}
@@ -363,12 +367,8 @@ export default function ResultRecord({
         <div
           className={`${SpeakCSS.row3} ${
             sentenceScore.speech_detected &&
-            sentenceScore.total_score >= 40 &&
-            sentenceScore.phoneme_result.sentence_score >= 40 &&
-            (sentenceScore.total_score +
-              sentenceScore.phoneme_result.sentence_score) /
-              2 >=
-              40
+            sentenceScore.total_score >= SCORE_SPEAK_PASS &&
+            sentenceScore.phoneme_result.sentence_score >= SCORE_SPEAK_PASS
               ? SpeakCSS.goodJob
               : SpeakCSS.tryAgain
           }`}
@@ -381,12 +381,8 @@ export default function ResultRecord({
           }}
         >
           {sentenceScore.speech_detected &&
-          sentenceScore.total_score >= 40 &&
-          sentenceScore.phoneme_result.sentence_score >= 40 &&
-          (sentenceScore.total_score +
-            sentenceScore.phoneme_result.sentence_score) /
-            2 >=
-            40 ? (
+          sentenceScore.total_score >= SCORE_SPEAK_PASS &&
+          sentenceScore.phoneme_result.sentence_score >= SCORE_SPEAK_PASS ? (
             <div className={SpeakCSS.txt}>Good Job!</div>
           ) : (
             <>

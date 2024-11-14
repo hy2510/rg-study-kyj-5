@@ -1,5 +1,9 @@
 export const DEFAULT_STUDY_TIME = 1200
 
+export const SCORE_SPEAK_PASS = 30
+export const SCORE_SPEAK_ORANGE = 10
+export const SCORE_SPEAK_GREEN = 30
+
 export const ACTIVITY = {
   LISTENING_1: 'ListeningActivity1',
   LISTENING_2: 'ListeningActivity2',

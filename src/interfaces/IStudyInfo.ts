@@ -25,6 +25,7 @@ interface IStudyInfo {
   isDev: boolean
 
   bookmarkPage: number
+  pbookStorySoundPath: string | undefined
 }
 
 export type { IStudyInfo }
